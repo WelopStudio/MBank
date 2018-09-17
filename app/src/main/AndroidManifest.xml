@@ -26,9 +26,9 @@
             android:label="@string/title_activity_sign_in"
             android:theme="@style/AppTheme" />
         <activity android:name="com.welop.mbank.SignUpActivity" />
-        <activity android:name="com.welop.mbank.StartActivity" />
+        <activity android:name="com.welop.mbank.StartActivity"
+            android:exported="true"/>
         <activity android:name="com.welop.mbank.ForgotActivity" />
-        <activity android:name="com.welop.mbank.ExampleActivity"></activity>
     </application>
 
 </manifest>

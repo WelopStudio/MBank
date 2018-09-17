@@ -10,19 +10,27 @@ import com.welop.svlit.mbank.R;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    Button login;
+    private Button signUp;
+    private Button cancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        login = findViewById(R.id.signup_button_login);
-        login.setOnClickListener(new View.OnClickListener() {
+
+        signUp = findViewById(R.id.signup_button_signup);
+        signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SignUpActivity.this, LogInActivity.class);
-                startActivity(intent);
+
+            }
+        });
+
+        cancel = findViewById(R.id.signup_button_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
         });

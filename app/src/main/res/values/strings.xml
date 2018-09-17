@@ -13,4 +13,10 @@
     <string name="email">Email</string>
     <string name="forgot">Forgot?</string>
     <string name="please_enter_the_email_that_you_used_to_sign_in">Please enter the email that you used to sign in</string>
+    <string name="cancel">Cancel</string>
+    <string name="sign_up_to_continue">Sign up to continue</string>
+    <string name="sign_in_to_continue">Sign in to continue</string>
+    <string name="hello_there">Hello there!</string>
+    <string name="already_have_account">Already have account</string>
+    <string name="create_new_account">Create new account</string>
 </resources>
