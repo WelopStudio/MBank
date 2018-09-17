@@ -16,7 +16,7 @@
     <string name="cancel">Cancel</string>
     <string name="sign_up_to_continue">Sign up to continue</string>
     <string name="sign_in_to_continue">Sign in to continue</string>
-    <string name="hello_there">Hello there!</string>
+    <string name="name_subtitle">Monopoly online bank</string>
     <string name="already_have_account">Already have account</string>
     <string name="create_new_account">Create new account</string>
 </resources>

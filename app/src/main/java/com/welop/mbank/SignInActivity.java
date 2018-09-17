@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.welop.svlit.mbank.R;
 
-public class LogInActivity extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity {
 
     private Button cancel;
     private TextView forgot;
@@ -17,7 +17,7 @@ public class LogInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_log_in);
+        setContentView(R.layout.activity_sign_in);
 
         cancel = findViewById(R.id.login_button_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -31,7 +31,7 @@ public class LogInActivity extends AppCompatActivity {
         forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LogInActivity.this, ForgotActivity.class);
+                Intent intent = new Intent(SignInActivity.this, ForgotActivity.class);
                 startActivity(intent);
             }
         });

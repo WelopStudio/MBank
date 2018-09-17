@@ -21,7 +21,7 @@
             android:name="com.welop.mbank.CreateLobbyActivity"
             android:parentActivityName="com.welop.mbank.MainActivity" />
         <activity
-            android:name="com.welop.mbank.LogInActivity"
+            android:name="com.welop.mbank.SignInActivity"
             android:exported="true"
             android:label="@string/title_activity_sign_in"
             android:theme="@style/AppTheme" />
