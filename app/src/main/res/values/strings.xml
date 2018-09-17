@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">M-Bank</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="select_color">Select wallet color:</string>
+    <string name="title_activity_sign_in">SignInActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="log_in">Log in</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="email">Email</string>
+    <string name="forgot">Forgot?</string>
+    <string name="please_enter_the_email_that_you_used_to_sign_in">Please enter the email that you used to sign in</string>
+</resources>

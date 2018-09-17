@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "42954283552",
+    "firebase_url": "https://mbank-ad9c5.firebaseio.com",
+    "project_id": "mbank-ad9c5",
+    "storage_bucket": "mbank-ad9c5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:42954283552:android:5072af1b68396a95",
+        "android_client_info": {
+          "package_name": "com.welop.mbank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "42954283552-832vgp4l9mt495g3gd9rfu9jk082k993.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD99gpJ5di9CCmqt32eLMHemcBna5aM6f8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
