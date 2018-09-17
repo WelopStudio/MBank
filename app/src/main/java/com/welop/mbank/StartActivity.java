@@ -18,6 +18,7 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        
         logIn = findViewById(R.id.start_button_already_have_account);
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
