@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
@@ -30,6 +31,7 @@
         android:layout_marginStart="8dp"
         android:fontFamily="sans-serif"
         android:text="@string/sign_in_to_continue"
+        android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +76,8 @@
                     android:id="@+id/login_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/email" />
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -94,7 +97,8 @@
                     android:id="@+id/login_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/password" />
+                    android:hint="@string/password"
+                    android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
