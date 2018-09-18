@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.welop.mbank.adapters.CardPlayerLobbyRecyclerAdapter;
 import com.welop.svlit.mbank.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;

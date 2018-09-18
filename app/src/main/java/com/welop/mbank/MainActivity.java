@@ -19,6 +19,15 @@ public class MainActivity extends BaseActivity {
     private FirebaseAuth mAuth;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -32,15 +41,6 @@ public class MainActivity extends BaseActivity {
         navigation.setSelectedItemId(R.id.main_navigetion_lobbies);
 
         mAuth = FirebaseAuth.getInstance();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
     }
 
     private void updateUI(FirebaseUser user) {
