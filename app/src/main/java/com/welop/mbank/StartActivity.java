@@ -15,7 +15,7 @@ public class StartActivity extends BaseActivity {
     private Button logIn;
     private Button signUp;
 
-    //serget pidor
+    //serget pidorr
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
