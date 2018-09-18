@@ -14,6 +14,7 @@ public class StartActivity extends BaseActivity {
 
     private Button logIn;
     private Button signUp;
+    private Button test2;
 
     // Yuri pidor
 
