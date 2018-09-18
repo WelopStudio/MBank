@@ -14,7 +14,7 @@ public class StartActivity extends BaseActivity {
 
     private Button logIn;
     private Button signUp;
-    private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,28 +39,15 @@ public class StartActivity extends BaseActivity {
             }
         });
 
-        mAuth = FirebaseAuth.getInstance();
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+
     }
 
-    private void updateUI(FirebaseUser user) {
-        hideProgressDialog();
-        if (user != null) {
-            Intent intent = new Intent(StartActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finishAffinity();
-        } else {
-            //
-        }
-    }
 
     @Override
     protected void onStop() {

@@ -11,7 +11,11 @@
         android:theme="@style/AppTheme">
         <activity android:name="com.welop.mbank.LobbyActivity" />
         <activity android:name="com.welop.mbank.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.welop.mbank.CreateLobbyActivity"
@@ -24,11 +28,7 @@
         <activity android:name="com.welop.mbank.SignUpActivity" />
         <activity android:name="com.welop.mbank.StartActivity"
             android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="com.welop.mbank.ForgotActivity" />
         <activity android:name="com.welop.mbank.BaseActivity">
