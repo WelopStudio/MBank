@@ -57,6 +57,7 @@ public class AccountFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), StartActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                getActivity().finishAffinity();
                 break;
         }
 
