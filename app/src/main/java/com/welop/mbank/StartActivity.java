@@ -14,10 +14,10 @@ public class StartActivity extends BaseActivity {
 
     private Button logIn;
     private Button signUp;
-    private Button test2;
 
-    // Yuri pidorcdcdddd
-dfdw
+    private Button test2;
+    //serget pidorr
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
