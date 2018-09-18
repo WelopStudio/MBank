@@ -15,8 +15,8 @@ public class StartActivity extends BaseActivity {
     private Button logIn;
     private Button signUp;
 
-    private Button test2;
-    //serget pidorriiivvvvvvvпрврвар
+    private Button test3;
+    //sergey nervnyi pidor
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
