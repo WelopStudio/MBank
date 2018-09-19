@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.util.Log;
 import android.widget.Toast;
@@ -20,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.welop.svlit.mbank.R;
 
-public class SignUpActivity extends BaseActivity implements View.OnClickListener{
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
 
     public static final String TAG = "SignUp";
 
@@ -34,6 +35,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
     private String mHashPassword;
 
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         mEmail = findViewById(R.id.signup_email);
         mPassword =findViewById(R.id.signup_password);
         mPassword2 =findViewById(R.id.signup_password2);
+
+        progressBar = findViewById(R.id.signup_progress_bar);
 
         // Buttons
         mSignUp = findViewById(R.id.signup_button_signup);
@@ -63,7 +68,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             return;
         }
 
-        showProgressDialog();
+        progressBar.setVisibility(ProgressBar.VISIBLE);
 
         // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -87,7 +92,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                         }
 
                         // [START_EXCLUDE]
-                        hideProgressDialog();
+                        progressBar.setVisibility(ProgressBar.INVISIBLE);
                         // [END_EXCLUDE]
                     }
                 });
@@ -134,7 +139,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void updateUI(FirebaseUser user) {
-        hideProgressDialog();
         if (user != null) {
             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

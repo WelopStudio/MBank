@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.welop.svlit.mbank.R;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 
@@ -44,7 +44,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void updateUI(FirebaseUser user) {
-        hideProgressDialog();
         if (user != null) {
 
         } else {

@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.welop.svlit.mbank.R;
 
-public class StartActivity extends BaseActivity {
+public class StartActivity extends AppCompatActivity {
 
     private Button logIn;
     private Button signUp;
@@ -40,18 +40,5 @@ public class StartActivity extends BaseActivity {
 
 
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
 
 }
