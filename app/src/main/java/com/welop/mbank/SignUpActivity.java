@@ -1,8 +1,12 @@
 package com.welop.mbank;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -50,10 +54,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         mPassword2 =findViewById(R.id.signup_password2);
 
         progressBar = findViewById(R.id.signup_progress_bar);
+        progressBar.getIndeterminateDrawable()
+                .setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_IN);
 
         // Buttons
         mSignUp = findViewById(R.id.signup_button_signup);
         mSignUp.setOnClickListener(this);
+
         mCancel = findViewById(R.id.signup_button_cancel);
         mCancel.setOnClickListener(this);
 
@@ -97,6 +104,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
         // [END create_user_with_email]
+
 
     }
 
@@ -157,6 +165,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         } else if (i == R.id.signup_button_signup){
             //TODO hash
             mHashPassword = mPassword.getText().toString();
+            mSignUp.setEnabled(false);
+            mCancel.setEnabled(false);
             signUp(mEmail.getText().toString(),mHashPassword);
         }
     }

@@ -12,6 +12,8 @@ import com.welop.svlit.mbank.R;
 
 public class StartActivity extends AppCompatActivity {
 
+    //justTest push in dev branch
+
     private Button logIn;
     private Button signUp;
 
