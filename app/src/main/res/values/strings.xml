@@ -7,7 +7,7 @@
     <string name="select_color">Select wallet color:</string>
     <string name="title_activity_sign_in">SignInActivity</string>
     <string name="title_activity_main2">Main2Activity</string>
-    <string name="log_in">Log in</string>
+    <string name="sign_in">Sign in</string>
     <string name="password">Password</string>
     <string name="sign_up">Sign up</string>
     <string name="email">Email</string>

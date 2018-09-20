@@ -20,7 +20,7 @@
             android:layout_height="match_parent">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/circleImageView3"
+                android:id="@+id/account_image"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:layout_marginEnd="8dp"
@@ -32,20 +32,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/account_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:text="John Galt"
                 android:textAlignment="center"
                 android:textAppearance="@android:style/TextAppearance.Material.Large"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/circleImageView3" />
+                app:layout_constraintTop_toBottomOf="@+id/account_image" />
 
         </android.support.constraint.ConstraintLayout>
 

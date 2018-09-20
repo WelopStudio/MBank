@@ -133,7 +133,7 @@
                 android:textAppearance="@android:style/TextAppearance.Material.Large"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView6"
+                app:layout_constraintStart_toEndOf="@+id/account_name"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -150,7 +150,7 @@
                 android:textAppearance="@android:style/TextAppearance.Material.Small"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView6"
+                app:layout_constraintStart_toEndOf="@+id/account_name"
                 app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
