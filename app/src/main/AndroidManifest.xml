@@ -26,14 +26,15 @@
             android:label="@string/title_activity_sign_in"
             android:theme="@style/AppTheme" />
         <activity android:name="com.welop.mbank.SignUpActivity" />
-        <activity android:name="com.welop.mbank.StartActivity"
-            android:exported="true" >
-
-        </activity>
+        <activity
+            android:name="com.welop.mbank.StartActivity"
+            android:exported="true"></activity>
         <activity android:name="com.welop.mbank.ForgotActivity" />
-        <activity android:name="com.welop.mbank.BaseActivity">
-
-        </activity>
+        <activity android:name="com.welop.mbank.BaseActivity"></activity>
+        <activity
+            android:name="com.welop.mbank.CreateWalletActivity"
+            android:label="@string/title_activity_create_wallet"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
