@@ -17,14 +17,15 @@ public class CreateLobbyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_lobby);
+        setContentView(R.layout.tempory);
 
         toolbar = findViewById(R.id.create_lobby_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Create lobby");
+        getSupportActionBar().setTitle("Lobby settings");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
 
-        cancel = findViewById(R.id.create_lobby_cancel);
+        /*cancel = findViewById(R.id.create_lobby_cancel);
         start = findViewById(R.id.create_lobby_start);
 
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -32,6 +33,6 @@ public class CreateLobbyActivity extends AppCompatActivity {
             public void onClick(View view) {
                 finish();
         }
-        });
+        });*/
     }
 }

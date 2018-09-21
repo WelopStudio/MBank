@@ -10,7 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/create_lobby_cancel"
-        app:layout_constraintTop_toBottomOf="@+id/create_lobby_toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/create_lobby_toolbar"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="0dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
