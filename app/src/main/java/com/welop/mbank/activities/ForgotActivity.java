@@ -1,4 +1,4 @@
-package com.welop.mbank;
+package com.welop.mbank.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

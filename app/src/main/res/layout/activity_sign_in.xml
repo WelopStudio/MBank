@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="com.welop.mbank.SignInActivity">
+    tools:context="com.welop.mbank.activities.SignInActivity">
 
     <ImageView
         android:id="@+id/start_text_logo"

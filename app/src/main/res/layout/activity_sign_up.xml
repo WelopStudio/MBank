@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="com.welop.mbank.SignUpActivity">
+    tools:context="com.welop.mbank.activities.SignUpActivity">
 
     <android.support.v7.widget.CardView
         android:id="@+id/signup_cardview_login_password"

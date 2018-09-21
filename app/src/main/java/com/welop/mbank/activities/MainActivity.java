@@ -1,4 +1,4 @@
-package com.welop.mbank;
+package com.welop.mbank.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.welop.mbank.fragments.AccountFragment;
+import com.welop.mbank.fragments.FriendsFragment;
+import com.welop.mbank.fragments.LobbiesFragment;
 import com.welop.svlit.mbank.R;
 
 public class MainActivity extends AppCompatActivity {

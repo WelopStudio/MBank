@@ -1,4 +1,4 @@
-package com.welop.mbank;
+package com.welop.mbank.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
