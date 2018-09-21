@@ -11,30 +11,33 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.welop.svlit.mbank.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
 
     public static final String TAG = "SignUp";
 
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore mStorage;
+
     private Button mSignUp;
     private Button mCancel;
-    private FirebaseAuth mAuth;
-
     private TextView mEmail;
     private TextView mPassword;
-    private TextView mPassword2;
-
-    private String mHashPassword;
-
+    private TextView mName;
     private ProgressBar progressBar;
 
     @Override
@@ -42,62 +45,62 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-
-
-        //Views
-        mEmail = findViewById(R.id.signup_email);
-        mPassword =findViewById(R.id.signup_password);
-        mPassword2 =findViewById(R.id.signup_password2);
-
-        progressBar = findViewById(R.id.signup_progress_bar);
-
-        // Buttons
-        mSignUp = findViewById(R.id.signup_button_signup);
-        mSignUp.setOnClickListener(this);
-        mCancel = findViewById(R.id.signup_button_cancel);
-        mCancel.setOnClickListener(this);
-
         mAuth = FirebaseAuth.getInstance();
+        mStorage = FirebaseFirestore.getInstance();
+        mEmail = findViewById(R.id.signup_email);
+        mName = findViewById(R.id.signup_name);
+        mPassword =findViewById(R.id.signup_password);
+        progressBar = findViewById(R.id.signup_progress_bar);
+        mSignUp = findViewById(R.id.signup_button_signup);
+        mCancel = findViewById(R.id.signup_button_cancel);
+
+        mSignUp.setOnClickListener(this);
+        mCancel.setOnClickListener(this);
     }
 
     private void signUp(String email, String password){
         Log.d(TAG, "signUp: " + mEmail);
 
         if (!validateForm()) {
-
             return;
         }
 
         progressBar.setVisibility(ProgressBar.VISIBLE);
-
-        // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+                            storageAddAccount(mEmail.getText(), mName.getText());
                         } else {
-                            // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Snackbar.make(findViewById(R.id.signup_constrainLayout), "Authentication failed.", Snackbar.LENGTH_SHORT).show();
-
-                            /*Toast.makeText(SignUpActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();*/
-
                             updateUI(null);
                         }
-
-                        // [START_EXCLUDE]
                         progressBar.setVisibility(ProgressBar.INVISIBLE);
-                        // [END_EXCLUDE]
                     }
                 });
-        // [END create_user_with_email]
+    }
 
+    private boolean storageAddAccount(CharSequence email, CharSequence name) {
+        final boolean[] success = new boolean[1];
+        success[0] = true;
+        Map<String, Object> data = new HashMap<>();
+        data.put("name", name.toString());
+        data.put("email", email.toString());
+        //TODO add sex
+        data.put("sex", "male");
+        mStorage.collection("accounts").document(mAuth.getUid()).set(data)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        success[0] = false;
+                    }
+                });
+        return success[0];
     }
 
     private boolean validateForm(){
@@ -110,29 +113,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             mEmail.setError(null);
         }
-
-        String password = mPassword.getText().toString();
         if (TextUtils.isEmpty(email)) {
             mPassword.setError("Required.");
             valid = false;
         } else {
             mPassword.setError(null);
-        }
-
-        String password2 = mPassword2.getText().toString();
-        if (TextUtils.isEmpty(email)) {
-            mPassword2.setError("Required.");
-            valid = false;
-        } else {
-            mPassword2.setError(null);
-        }
-
-        if (!(password.equals(password2))) {
-            Snackbar.make(findViewById(R.id.signup_constrainLayout), "Passwords do not match.", Snackbar.LENGTH_SHORT).show();
-            mPassword.setError("Required.");
-            mPassword2.setError("Required.");
-            valid = false;
-
         }
 
         return valid;
@@ -145,19 +130,18 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             startActivity(intent);
             finishAffinity();
         } else {
-            //
+            //TODO что тут? Где еще используется этот метод => нужен ли он?
         }
     }
 
+    //TODO Хэш пароля, выясняется, не нужен. Убрать все в отделньые слушатели
     @Override
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.signup_button_cancel) {
             finish();
         } else if (i == R.id.signup_button_signup){
-            //TODO hash
-            mHashPassword = mPassword.getText().toString();
-            signUp(mEmail.getText().toString(),mHashPassword);
+            signUp(mEmail.getText().toString(), mPassword.getText().toString());
         }
     }
 }

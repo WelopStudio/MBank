@@ -1,8 +1,10 @@
 package com.welop.mbank;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -46,6 +48,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         mPassword =findViewById(R.id.login_password);
 
         progressBar = findViewById(R.id.signin_progress_bar);
+        progressBar.getIndeterminateDrawable()
+                .setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_IN);
 
 
         //Buttons

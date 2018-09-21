@@ -16,14 +16,12 @@ public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth auth;
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseUser currentUser = auth.getCurrentUser();
         updateUI(currentUser);
     }
 
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         navigation.setSelectedItemId(R.id.main_navigetion_lobbies);
 
-        mAuth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
     }
 
     private void updateUI(FirebaseUser user) {
