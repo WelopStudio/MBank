@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="com.welop.mbank.StartActivity">
+    tools:context="com.welop.mbank.activities.StartActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="0dp"

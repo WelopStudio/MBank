@@ -1,4 +1,4 @@
-package com.welop.mbank;
+package com.welop.mbank.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,9 +21,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.welop.mbank.MBank;
+import com.welop.mbank.activities.StartActivity;
 import com.welop.svlit.mbank.R;
-
-import static android.support.constraint.Constraints.TAG;
 
 public class AccountFragment extends Fragment {
 
@@ -58,9 +57,13 @@ public class AccountFragment extends Fragment {
         mProgressbar = v.findViewById(R.id.account_progressbar);
         mLoadingview = v.findViewById(R.id.account_loading_view);
 
+        loadAccount();
+        return v;
+    }
+
+    private void loadAccount() {
         mProgressbar.setVisibility(View.VISIBLE);
         mLoadingview.setVisibility(View.VISIBLE);
-
         DocumentReference docRef = mStorage.collection("accounts").document(mAuth.getUid().toString());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -70,29 +73,30 @@ public class AccountFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        mName.setText(document.getString("name"));
-                        mEmail.setText(document.getString("email"));
-                        switch (document.getString("sex")) {
-                            case "male":
-                                mSex.setText("Male");
-                                break;
-                            case "female":
-                                mSex.setText("Female");
-                                break;
-                            default:
-                                mSex.setText("Not stated");
-                                break;
-                        }
-                    } else {
-                        Log.d(TAG, "No such document");
+                        MBank.setAccount(document);
+                        updateInfo();
                     }
                 } else {
-                    Log.d(TAG, "get failed with ", task.getException());
+                    Snackbar.make(getActivity().findViewById(R.id.main_coordinatorLayout), "An error occured. Try to reload page.", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
-        return v;
+    }
+
+    private void updateInfo() {
+        mName.setText(MBank.getAccount().getName());
+        mEmail.setText(MBank.getAccount().getEmail());
+        switch (MBank.getAccount().getSex()) {
+            case "male":
+                mSex.setText("Male");
+                break;
+            case "female":
+                mSex.setText("Female");
+                break;
+            default:
+                mSex.setText("Not stated");
+                break;
+        }
     }
 
     @Override

@@ -10,8 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name="com.welop.mbank.MBank">
-        <activity android:name="com.welop.mbank.LobbyActivity" />
-        <activity android:name="com.welop.mbank.MainActivity">
+        <activity android:name="com.welop.mbank.activities.LobbyActivity" />
+        <activity android:name="com.welop.mbank.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,18 +19,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.welop.mbank.CreateLobbyActivity"
-            android:parentActivityName="com.welop.mbank.MainActivity" />
+            android:name="com.welop.mbank.activities.CreateLobbyActivity"
+            android:parentActivityName="com.welop.mbank.activities.MainActivity" />
         <activity
-            android:name="com.welop.mbank.SignInActivity"
+            android:name="com.welop.mbank.activities.SignInActivity"
             android:exported="true"
             android:label="@string/title_activity_sign_in"
             android:theme="@style/AppTheme" />
-        <activity android:name="com.welop.mbank.SignUpActivity" />
+        <activity android:name="com.welop.mbank.activities.SignUpActivity" />
         <activity
-            android:name="com.welop.mbank.StartActivity"
+            android:name="com.welop.mbank.activities.StartActivity"
             android:exported="true" />
-        <activity android:name="com.welop.mbank.ForgotActivity" />
+        <activity android:name="com.welop.mbank.activities.ForgotActivity" />
     </application>
 
 </manifest>

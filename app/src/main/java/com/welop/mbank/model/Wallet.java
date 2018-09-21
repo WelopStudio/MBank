@@ -1,7 +1,5 @@
 package com.welop.mbank.model;
 
-import java.awt.*;
-
 /**
  * Profile of an account for concrete lobby.
  */

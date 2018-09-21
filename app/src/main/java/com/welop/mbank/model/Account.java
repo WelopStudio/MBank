@@ -10,9 +10,18 @@ import java.util.Map;
 public class Account {
     private String name;
     private String email;
+    private String sex;
     private int passwordHashcode;
     private Map<Lobby, Wallet> wallets;
     private HashSet<Account> friends;
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
     /**
      * Returns account's name.
@@ -34,7 +43,7 @@ public class Account {
      * Returns account's email.
      * @return Account's email.
      */
-    String getEmail() {
+    public String getEmail() {
         return email;
     }
 
@@ -75,6 +84,8 @@ public class Account {
         this.wallets = new HashMap<>();
         this.friends = new HashSet<>();
     }
+
+    public Account() {}
 
     /**
      * Creates new room and sets its administrator equals to this account.

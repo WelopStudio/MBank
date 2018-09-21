@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.welop.mbank.LobbyActivity;
+import com.welop.mbank.activities.LobbyActivity;
 import com.welop.svlit.mbank.R;
 
 import java.util.Random;

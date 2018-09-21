@@ -1,4 +1,4 @@
-package com.welop.mbank;
+package com.welop.mbank.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.welop.mbank.activities.CreateLobbyActivity;
 import com.welop.mbank.adapters.CardLobbyRecyclerAdapter;
 import com.welop.svlit.mbank.R;
 
