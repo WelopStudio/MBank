@@ -15,4 +15,6 @@ public class MBank extends Application {
                 .build();
         FirebaseFirestore.getInstance().setFirestoreSettings(settings);
     }
+
+
 }
