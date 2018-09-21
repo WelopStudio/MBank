@@ -9,39 +9,33 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.welop.svlit.mbank.R;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class SignUpActivity extends BaseActivity implements View.OnClickListener{
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
 
     public static final String TAG = "SignUp";
 
     private Button mSignUp;
     private Button mCancel;
     private FirebaseAuth mAuth;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private TextView mEmail;
     private TextView mPassword;
     private TextView mPassword2;
-    private TextView mName;
 
     private String mHashPassword;
+
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +49,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         mPassword =findViewById(R.id.signup_password);
         mPassword2 =findViewById(R.id.signup_password2);
 
+        progressBar = findViewById(R.id.signup_progress_bar);
+
         // Buttons
         mSignUp = findViewById(R.id.signup_button_signup);
         mSignUp.setOnClickListener(this);
@@ -64,7 +60,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         mAuth = FirebaseAuth.getInstance();
     }
 
-    private void signUp(final String email, String password){
+    private void signUp(String email, String password){
         Log.d(TAG, "signUp: " + mEmail);
 
         if (!validateForm()) {
@@ -72,7 +68,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             return;
         }
 
-        showProgressDialog();
+        progressBar.setVisibility(ProgressBar.VISIBLE);
 
         // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -83,22 +79,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Map<String, Object> userData = new HashMap<>();
-                            userData.put("name", "Test name");
-                            userData.put("email", email);
-                            db.collection("accounts").add(userData)
-                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                        @Override
-                                        public void onSuccess(DocumentReference documentReference) {
-                                            Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                        }
-                                    });
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -112,7 +92,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                         }
 
                         // [START_EXCLUDE]
-                        hideProgressDialog();
+                        progressBar.setVisibility(ProgressBar.INVISIBLE);
                         // [END_EXCLUDE]
                     }
                 });
@@ -159,7 +139,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void updateUI(FirebaseUser user) {
-        hideProgressDialog();
         if (user != null) {
             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
