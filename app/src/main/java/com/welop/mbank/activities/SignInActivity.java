@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.welop.svlit.mbank.R;
 
-public class SignInActivity extends AppCompatActivity implements View.OnClickListener{
+public class SignInActivity extends AppCompatActivity {
 
     public static final String TAG = "SignIn";
 
@@ -53,13 +53,33 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         //Buttons
         mLogin = findViewById(R.id.login_button_login);
-        mLogin.setOnClickListener(this);
         mCancel = findViewById(R.id.login_button_cancel);
-        mCancel.setOnClickListener(this);
         mForgot = findViewById(R.id.login_forgot_text);
-        mForgot.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
+
+        //onClick
+        mLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signIn(mEmail.getText().toString(),mPassword.getText().toString());
+            }
+        });
+
+        mCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        mForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignInActivity.this, RestoreActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void signIn(String email, String password){
@@ -139,18 +159,4 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         return valid;
     }
 
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == mLogin.getId()){
-            mHashPassword = mPassword.getText().toString();
-            signIn(mEmail.getText().toString(),mHashPassword);
-        } else if (i == mCancel.getId()) {
-            finish();
-        } else if (i == mForgot.getId()){
-            //TODO hash
-            Intent intent = new Intent(SignInActivity.this, ForgotActivity.class);
-            startActivity(intent);
-        }
-    }
 }

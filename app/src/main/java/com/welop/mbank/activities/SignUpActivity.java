@@ -24,7 +24,7 @@ import com.welop.svlit.mbank.R;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
+public class SignUpActivity extends AppCompatActivity {
 
     public static final String TAG = "SignUp";
 
@@ -52,8 +52,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         mSignUp = findViewById(R.id.signup_button_signup);
         mCancel = findViewById(R.id.signup_button_cancel);
 
-        mSignUp.setOnClickListener(this);
-        mCancel.setOnClickListener(this);
+        mSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO Наверно тут как-то надо перадать имя?
+                signUp(mEmail.getText().toString(), mPassword.getText().toString());
+            }
+        });
+        mCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void signUp(String email, String password){
@@ -104,14 +115,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private boolean validateForm(){
         boolean valid = true;
 
-        String email = mEmail.getText().toString();
-        if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(mEmail.getText().toString())) {
             mEmail.setError("Required.");
             valid = false;
         } else {
             mEmail.setError(null);
         }
-        if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(mName.getText().toString())) {
+            mName.setError("Required.");
+            valid = false;
+        } else {
+            mName.setError(null);
+        }
+        if (TextUtils.isEmpty(mPassword.getText().toString())) {
             mPassword.setError("Required.");
             valid = false;
         } else {
@@ -129,17 +145,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             finishAffinity();
         } else {
             //TODO что тут? Где еще используется этот метод => нужен ли он?
-        }
-    }
-
-    //TODO Хэш пароля, выясняется, не нужен. Убрать все в отделньые слушатели
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.signup_button_cancel) {
-            finish();
-        } else if (i == R.id.signup_button_signup){
-            signUp(mEmail.getText().toString(), mPassword.getText().toString());
         }
     }
 }
