@@ -10,7 +10,7 @@ import android.widget.Button;
 
 import com.welop.svlit.mbank.R;
 
-public class JoinActivity extends AppCompatActivity {
+public class JoinLobbyActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     private TextInputEditText mCodeOfLobby;
@@ -19,7 +19,7 @@ public class JoinActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_join);
+        setContentView(R.layout.activity_join_lobby);
 
         toolbar = findViewById(R.id.create_wallet_toolbar);
         setSupportActionBar(toolbar);
@@ -33,7 +33,7 @@ public class JoinActivity extends AppCompatActivity {
         mConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(JoinActivity.this, CreateWalletActivity.class);
+                Intent intent = new Intent(JoinLobbyActivity.this, CreateWalletActivity.class);
                 startActivity(intent);
             }
         });

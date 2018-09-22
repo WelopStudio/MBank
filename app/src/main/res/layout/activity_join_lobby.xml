@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".activities.JoinActivity">
 
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Enter the invite code given to you by the lobby creator"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/join_toolbar" />
+
     <include
         android:id="@+id/join_toolbar"
         layout="@layout/toolbar_layout"
@@ -18,10 +32,10 @@
         android:id="@+id/join_join_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:background="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimary"
         android:text="Connect to lobby"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,18 +44,21 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/join_toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/textView7">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/join_code_of_lobby"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Code of lobby" />
+            android:hint="Invite code" />
     </android.support.design.widget.TextInputLayout>
 </android.support.constraint.ConstraintLayout>

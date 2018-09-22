@@ -32,7 +32,7 @@
             android:exported="true" />
         <activity android:name="com.welop.mbank.activities.RestoreActivity" />
         <activity android:name="com.welop.mbank.activities.CreateWalletActivity"></activity>
-        <activity android:name="com.welop.mbank.activities.JoinActivity"></activity>
+        <activity android:name="com.welop.mbank.activities.JoinLobbyActivity"></activity>
     </application>
 
 </manifest>

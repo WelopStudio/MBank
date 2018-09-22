@@ -29,7 +29,7 @@ public class CreateLobbyActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.create_lobby_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Lobby settings");
+        getSupportActionBar().setTitle("Create lobby");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
 
