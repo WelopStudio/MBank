@@ -17,7 +17,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -44,7 +43,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_lobbies, container, false);
-        recieveAndShowLobbies(v);
+        receiveAndShowLobbies(v);
 
         mFabBackGround = v.findViewById(R.id.fab_background);
         mFab = v.findViewById(R.id.lobbies_fab);
@@ -88,7 +87,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
         return v;
     }
 
-    private void recieveAndShowLobbies(final View v) {
+    private void receiveAndShowLobbies(final View v) {
 
         CollectionReference ref = FirebaseFirestore.getInstance().collection("wallets");
         ref.whereEqualTo("owner_id", FirebaseAuth.getInstance().getUid().toString())
@@ -147,10 +146,6 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
         mFab.animate().rotationBy(45);
         mFabJoin.animate().translationY(0);
         mFabCreate.animate().translationY(0).setListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
 
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -158,6 +153,11 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
                     mFabCreate.setVisibility(View.GONE);
                     mFabJoin.setVisibility(View.GONE);
                 }
+            }
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+
             }
 
             @Override
