@@ -21,7 +21,7 @@ public class JoinLobbyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_lobby);
 
-        toolbar = findViewById(R.id.create_wallet_toolbar);
+        toolbar = findViewById(R.id.join_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Join");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -34,6 +34,7 @@ public class JoinLobbyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(JoinLobbyActivity.this, CreateWalletActivity.class);
+                intent.putExtra("ActivityName",JoinLobbyActivity.class.getSimpleName());
                 startActivity(intent);
             }
         });

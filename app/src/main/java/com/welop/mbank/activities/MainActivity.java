@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.welop.mbank.fragments.AccountFragment;
 import com.welop.mbank.fragments.FriendsFragment;
 import com.welop.mbank.fragments.LobbiesFragment;
+import com.welop.mbank.interfaces.OnBackPressedListener;
 import com.welop.svlit.mbank.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finishAffinity();
             //
+        }
+    }
+
+    @Override public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
+        if (!(fragment instanceof OnBackPressedListener) || !((OnBackPressedListener) fragment).onBackPressed()) {
+            super.onBackPressed();
         }
     }
 

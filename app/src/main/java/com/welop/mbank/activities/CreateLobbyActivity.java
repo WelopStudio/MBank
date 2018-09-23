@@ -47,6 +47,7 @@ public class CreateLobbyActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(CreateLobbyActivity.this, CreateWalletActivity.class);
+                intent.putExtra("ActivityName",CreateLobbyActivity.class.getSimpleName());
                 startActivity(intent);
 
             }

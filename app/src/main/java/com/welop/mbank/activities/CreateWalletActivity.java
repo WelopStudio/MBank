@@ -1,5 +1,7 @@
 package com.welop.mbank.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.welop.svlit.mbank.R;
 
@@ -80,7 +83,20 @@ public class CreateWalletActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        //Bundle extras = getIntent().getExtras();
+        Intent intent = this.getIntent();
+        //String activityName = extras.getString("ActivityName");
+        String activityName = intent.getExtras().getString("ActivityName");
+        /*Toast toast = Toast.makeText(getApplicationContext(),
+                activityName, Toast.LENGTH_SHORT);
+        toast.show();*/
+        if (activityName.equals(JoinLobbyActivity.class.getSimpleName())){
+            Intent intent1 = new Intent(CreateWalletActivity.this ,MainActivity.class);
+            startActivity(intent1);
+            finishAffinity();
+        } else if (activityName.equals(CreateLobbyActivity.class.getSimpleName())){
+            onBackPressed();
+        }
         return true;
     }
 
