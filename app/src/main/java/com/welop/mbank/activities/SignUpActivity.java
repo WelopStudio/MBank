@@ -79,13 +79,10 @@ public class SignUpActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "createUserWithEmail:success");
+                        if (task.isSuccessful() & storageAddAccount(mEmail.getText(), mName.getText())) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            storageAddAccount(mEmail.getText(), mName.getText());
                         } else {
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Snackbar.make(findViewById(R.id.signup_constrainLayout), "Authentication failed.", Snackbar.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -94,14 +91,20 @@ public class SignUpActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Создать документ аккаунта в Firestore
+     * @param email
+     * @param name
+     * @return Выполнено ли добавление успешно
+     */
     private boolean storageAddAccount(CharSequence email, CharSequence name) {
         final boolean[] success = new boolean[1];
         success[0] = true;
         Map<String, Object> data = new HashMap<>();
         data.put("name", name.toString());
         data.put("email", email.toString());
-        //TODO add sex
-        data.put("sex", "male");
+        data.put("sex", "not stated");
+        data.put("description", "To be filled");
         mStorage.collection("accounts").document(mAuth.getUid()).set(data)
                 .addOnFailureListener(new OnFailureListener() {
                     @Override

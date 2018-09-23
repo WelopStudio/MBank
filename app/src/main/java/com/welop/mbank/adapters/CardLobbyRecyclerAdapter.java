@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.welop.mbank.MBank;
 import com.welop.mbank.activities.LobbyActivity;
 import com.welop.svlit.mbank.R;
 
@@ -17,28 +18,6 @@ import java.util.Random;
 public class CardLobbyRecyclerAdapter extends RecyclerView.Adapter<CardLobbyRecyclerAdapter.ViewHolder> {
 
     private Random random = new Random();
-
-    private String[] titles = {
-            "One",
-            "Two",
-            "Three",
-            "Four",
-            "Five",
-            "Six",
-            "Seven",
-            "Eight"
-    };
-
-    private String[] subtitles = {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8"
-    };
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -52,7 +31,6 @@ public class CardLobbyRecyclerAdapter extends RecyclerView.Adapter<CardLobbyRecy
             super(itemView);
             walletName = itemView.findViewById(R.id.card_lobby_wallet_name);
             walletBalance = itemView.findViewById(R.id.card_lobby_wallet_balance);
-            accountAvatar = itemView.findViewById(R.id.card_lobby_account_avatar);
             walletColor = itemView.findViewById(R.id.card_lobby_wallet_color);
             lobbyName = itemView.findViewById(R.id.card_lobby_name);
 
@@ -75,16 +53,15 @@ public class CardLobbyRecyclerAdapter extends RecyclerView.Adapter<CardLobbyRecy
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.lobbyName.setText("Lobby #" + (position + 1));
-        holder.walletName.setText(subtitles[position]);
-        holder.walletBalance.setText(Integer.toString(position * 100));
-        holder.accountAvatar.setImageResource(position % 2 == 0 ? R.drawable.person1 : R.drawable.person2);
+        holder.lobbyName.setText(MBank.getWallets().get(position).get("lobby_name").toString());
+        holder.walletName.setText(MBank.getWallets().get(position).get("name").toString());
+        holder.walletBalance.setText(MBank.getWallets().get(position).get("balance").toString());
         int color = Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
         holder.walletColor.setColorFilter(color);
     }
 
     @Override
     public int getItemCount() {
-        return 8;
+        return MBank.getWallets().size();
     }
 }

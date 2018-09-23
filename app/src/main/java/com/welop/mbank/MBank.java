@@ -16,15 +16,18 @@ import com.welop.mbank.model.Account;
 import com.welop.mbank.model.Lobby;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static android.support.constraint.Constraints.TAG;
 
 public class MBank extends Application {
 
     static Account account;
+    static ArrayList<HashMap<String, Object>> wallets;
 
     static {
         account = new Account();
+        wallets = new ArrayList<>();
     }
 
     @Override
@@ -39,6 +42,10 @@ public class MBank extends Application {
 
     public static Account getAccount() {
         return account;
+    }
+
+    public static ArrayList<HashMap<String, Object>> getWallets() {
+        return wallets;
     }
 
     public static boolean setAccount(DocumentSnapshot document) {

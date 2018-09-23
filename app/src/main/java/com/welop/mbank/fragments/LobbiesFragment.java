@@ -3,6 +3,7 @@ package com.welop.mbank.fragments;
 import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -12,12 +13,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.welop.mbank.MBank;
 import com.welop.mbank.activities.CreateLobbyActivity;
-import com.welop.mbank.activities.CreateWalletActivity;
 import com.welop.mbank.activities.JoinLobbyActivity;
 import com.welop.mbank.adapters.CardLobbyRecyclerAdapter;
 import com.welop.mbank.interfaces.OnBackPressedListener;
 import com.welop.svlit.mbank.R;
+
+import java.util.HashMap;
 
 public class LobbiesFragment extends Fragment implements OnBackPressedListener {
 
@@ -33,13 +44,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_lobbies, container, false);
-
-        mRecyclerView = v.findViewById(R.id.lobbies_recycler);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mAdapter = new CardLobbyRecyclerAdapter();
-        mRecyclerView.setAdapter(mAdapter);
+        recieveAndShowLobbies(v);
 
         mFabBackGround = v.findViewById(R.id.fab_background);
         mFab = v.findViewById(R.id.lobbies_fab);
@@ -81,6 +86,44 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
         });
 
         return v;
+    }
+
+    private void recieveAndShowLobbies(final View v) {
+
+        CollectionReference ref = FirebaseFirestore.getInstance().collection("wallets");
+        ref.whereEqualTo("owner_id", FirebaseAuth.getInstance().getUid().toString())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot snapshot = task.getResult();
+                            MBank.getWallets().clear();
+                            for (DocumentSnapshot d : snapshot) {
+                                HashMap<String, Object> wallet = new HashMap<>();
+                                wallet.put("lobby_id", d.get("lobby_id"));
+                                wallet.put("name", d.get("name"));
+                                wallet.put("balance", d.get("balance"));
+                                wallet.put("lobby_name", d.get("lobby_name"));
+                                MBank.getWallets().add(wallet);
+                            }
+                            adapt(v);
+                        } else {
+                            // Не получилось
+                        }
+                    }
+                });
+
+    }
+
+    private void adapt(View v) {
+
+        mRecyclerView = v.findViewById(R.id.lobbies_recycler);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new CardLobbyRecyclerAdapter();
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
     }
 
     private void showFABMenu(){

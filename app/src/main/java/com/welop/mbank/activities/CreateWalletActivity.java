@@ -2,6 +2,8 @@ package com.welop.mbank.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,9 +13,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.welop.mbank.MBank;
 import com.welop.svlit.mbank.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
@@ -24,12 +37,18 @@ public class CreateWalletActivity extends AppCompatActivity {
     private Button mCreateWallet;
     private ImageView mCircleColorImage;
     private int mColor;
-    Toolbar toolbar;
+    private Toolbar toolbar;
+
+    private String lobbyId;
+    private String lobbyName;
+    private HashMap<String, Object> lobbySettings = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_wallet);
+        lobbyId = this.getIntent().getExtras().getString("lobbyId");
+        lobbyName = this.getIntent().getExtras().getString("lobbyName");
 
         toolbar = findViewById(R.id.create_wallet_toolbar);
         setSupportActionBar(toolbar);
@@ -51,6 +70,63 @@ public class CreateWalletActivity extends AppCompatActivity {
             }
         });
 
+        mCreateWallet = findViewById(R.id.create_wallet_btn);
+        mCreateWallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSettings();
+            }
+        });
+
+    }
+
+    private void getSettings() {
+        DocumentReference docRef = FirebaseFirestore.getInstance()
+                .collection("settings")
+                .document(lobbyId);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        lobbySettings.put("lobby_id", document.get("lobby_id")); // В перспективе надо убрать, ID настроек совпадает с ID комнаты
+                        lobbySettings.put("balance", document.get("balance"));
+                        lobbySettings.put("go", document.get("go"));
+                        lobbySettings.put("income", document.get("income"));
+                        lobbySettings.put("luxury", document.get("luxury"));
+                        storageAddWallet();
+                    }
+                } else {
+                    // Не получилось
+                }
+            }
+        });
+    }
+
+    private boolean storageAddWallet() {
+        if (lobbySettings.size() == 0)
+            return false;
+
+        final boolean[] success = new boolean[1];
+        success[0] = true;
+        Map<String, Object> data = new HashMap<>();
+        data.put("owner_id", FirebaseAuth.getInstance().getUid());
+        data.put("name", mWalletName.getText().toString());
+        data.put("balance", lobbySettings.get("balance"));
+        data.put("lobby_id", lobbySettings.get("lobby_id"));
+        data.put("lobby_name", lobbyName);
+        FirebaseFirestore.getInstance()
+                .collection("wallets")
+                .document(FirebaseAuth.getInstance().getUid() + "_" + lobbySettings.get("lobby_id"))
+                .set(data)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        success[0] = false;
+                    }
+                });
+        return success[0];
     }
 
     private void openColorPicker() {
