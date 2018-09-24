@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.welop.mbank.MBank;
 import com.welop.mbank.fragments.AccountFragment;
 import com.welop.mbank.fragments.FriendsFragment;
 import com.welop.mbank.fragments.LobbiesFragment;
@@ -21,17 +22,17 @@ public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 
-    private FirebaseAuth auth;
-
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser currentUser = auth.getCurrentUser();
-        updateUI(currentUser);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        updateUI(currentUser);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -40,10 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.main_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
         navigation.setSelectedItemId(R.id.main_navigetion_lobbies);
-
-        auth = FirebaseAuth.getInstance();
     }
 
     private void updateUI(FirebaseUser user) {

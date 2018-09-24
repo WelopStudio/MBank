@@ -21,7 +21,6 @@ public class LobbyActivity extends AppCompatActivity {
     RecyclerView.Adapter adapter;
 
     private Toolbar toolbar;
-    private CircleImageView accountStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +29,9 @@ public class LobbyActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.lobby_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Lobby Incredible");
+        getSupportActionBar().setTitle("Test Lobby Name");
 
-        accountStatus = findViewById(R.id.lobby_account_status);
-
-        recyclerView = (RecyclerView) findViewById(R.id.lobby_recycler);
+        recyclerView = findViewById(R.id.lobby_recycler);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -66,13 +63,12 @@ public class LobbyActivity extends AppCompatActivity {
             case R.id.lobby_menu_ready:
                 if (item.isChecked()) {
                     item.setChecked(false);
+                    // TODO: Этот код не работает
                     Snackbar.make(findViewById(R.id.lobby_coordinatorLayout), "Checked", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
-                    accountStatus.setImageResource(R.color.colorOffline);
                 }
                 else {
                     item.setChecked(true);
                     Snackbar.make(findViewById(R.id.lobby_coordinatorLayout), "Unchecked", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
-                    accountStatus.setImageResource(R.color.colorOnline);
                 }
                 break;
             case R.id.lobby_menu_leave:

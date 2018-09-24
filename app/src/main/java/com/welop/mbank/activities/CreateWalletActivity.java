@@ -28,14 +28,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import petrov.kristiyan.colorpicker.ColorPicker;
-
 public class CreateWalletActivity extends AppCompatActivity {
 
     private TextInputEditText mWalletName;
-    private Button mChooseColor;
     private Button mCreateWallet;
-    private ImageView mCircleColorImage;
     private int mColor;
     private Toolbar toolbar;
 
@@ -57,18 +53,7 @@ public class CreateWalletActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         mWalletName = findViewById(R.id.create_wallet_wallet_name);
-        mChooseColor = findViewById(R.id.create_wallet_pick_color_btn);
         mCreateWallet = findViewById(R.id.create_wallet_btn);
-        mCircleColorImage = findViewById(R.id.create_wallet_picked_color);
-
-        mCircleColorImage.setVisibility(View.INVISIBLE);
-
-        mChooseColor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openColorPicker();
-            }
-        });
 
         mCreateWallet = findViewById(R.id.create_wallet_btn);
         mCreateWallet.setOnClickListener(new View.OnClickListener() {
@@ -127,34 +112,6 @@ public class CreateWalletActivity extends AppCompatActivity {
                     }
                 });
         return success[0];
-    }
-
-    private void openColorPicker() {
-        final ColorPicker colorPicker = new ColorPicker(this);
-        ArrayList<String> colors = new ArrayList<>();
-        colors.add("#AC96B7");
-        colors.add("#CA9CA9");
-        colors.add("#94AC96");
-        colors.add("#7ABACA");
-        colors.add("#AE977C");
-        colors.add("#CAAD50");
-
-        colorPicker.setColors(colors)
-                .setRoundColorButton(true)
-                .setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
-                    @Override
-                    public void onChooseColor(int position, int color) {
-                        mCircleColorImage.setVisibility(View.VISIBLE);
-                        mCircleColorImage.setColorFilter(color);
-                        mColor = color;
-                        mChooseColor.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                }).show();
     }
 
     @Override

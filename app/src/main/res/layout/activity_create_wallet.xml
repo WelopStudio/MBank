@@ -33,33 +33,6 @@
             android:hint="Wallet name" />
     </android.support.design.widget.TextInputLayout>
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/create_wallet_picked_color"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"
-        android:src="@color/deep_orange"
-        app:layout_constraintBottom_toBottomOf="@+id/create_wallet_pick_color_btn"
-        app:layout_constraintStart_toEndOf="@+id/create_wallet_pick_color_btn"
-        app:layout_constraintTop_toTopOf="@+id/create_wallet_pick_color_btn" />
-
-    <Button
-        android:id="@+id/create_wallet_pick_color_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"
-        android:background="@android:color/transparent"
-        android:text="Choose color"
-        android:drawableRight="@drawable/ic_expand_more_black_18dp"
-        android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutWalletName" />
-
     <Button
         android:id="@+id/create_wallet_btn"
         android:layout_width="0dp"
@@ -87,18 +60,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/create_wallet_toolbar" />
-
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Generally, wallet name matches the game piece which you prefer to play with"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/create_wallet_pick_color_btn" />
 
 
 </android.support.constraint.ConstraintLayout>

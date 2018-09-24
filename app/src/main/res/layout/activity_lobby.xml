@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context="com.welop.mbank.activities.LobbyActivity">
 
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/lobby_coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </android.support.design.widget.CoordinatorLayout>
+
     <Button
         android:id="@+id/button"
         style="?attr/borderlessButtonStyle"
@@ -32,16 +43,6 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/lobby_account_status"
-                android:layout_width="104dp"
-                android:layout_height="104dp"
-                android:src="@color/colorOnline"
-                app:layout_constraintBottom_toBottomOf="@+id/circleImageView"
-                app:layout_constraintEnd_toEndOf="@+id/circleImageView"
-                app:layout_constraintStart_toStartOf="@+id/circleImageView"
-                app:layout_constraintTop_toTopOf="@+id/circleImageView" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/circleImageView"
@@ -118,6 +119,7 @@
                         android:layout_marginTop="8dp"
                         android:text="$"
                         android:textAppearance="@android:style/TextAppearance.Material.Large"
+                        android:textColor="@color/colorPrimaryDark"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/textView5"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -127,27 +129,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginTop="8dp"
                         android:text="100"
                         android:textAppearance="@android:style/TextAppearance.Material.Large"
+                        android:textColor="@color/colorPrimaryDark"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/circleImageView2"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/circleImageView2"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginEnd="8dp"
-                        android:src="@android:color/holo_orange_light"
-                        app:layout_constrainedWidth="false"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView5"
-                        app:layout_constraintDimensionRatio="1:1"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView5">
-
-                    </de.hdodenhof.circleimageview.CircleImageView>
                 </android.support.constraint.ConstraintLayout>
 
             </android.support.constraint.ConstraintLayout>
@@ -164,17 +153,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
-
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/lobby_coordinatorLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </android.support.design.widget.CoordinatorLayout>
 
     <include
         android:id="@+id/lobby_toolbar"
