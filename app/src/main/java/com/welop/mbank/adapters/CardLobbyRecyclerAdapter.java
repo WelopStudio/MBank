@@ -1,7 +1,6 @@
 package com.welop.mbank.adapters;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,13 +24,13 @@ public class CardLobbyRecyclerAdapter extends RecyclerView.Adapter<CardLobbyRecy
         public TextView walletBalance;
         public TextView lobbyName;
         public ImageView accountAvatar;
-        public ImageView walletColor;
+        //public ImageView walletColor;
 
         public ViewHolder(final View itemView) {
             super(itemView);
             walletName = itemView.findViewById(R.id.card_lobby_wallet_name);
             walletBalance = itemView.findViewById(R.id.card_lobby_wallet_balance);
-            walletColor = itemView.findViewById(R.id.card_lobby_wallet_color);
+            //walletColor = itemView.findViewById(R.id.card_lobby_wallet_color);
             lobbyName = itemView.findViewById(R.id.card_lobby_name);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -56,8 +55,8 @@ public class CardLobbyRecyclerAdapter extends RecyclerView.Adapter<CardLobbyRecy
         holder.lobbyName.setText(MBank.getWallets().get(position).get("lobby_name").toString());
         holder.walletName.setText(MBank.getWallets().get(position).get("name").toString());
         holder.walletBalance.setText(MBank.getWallets().get(position).get("balance").toString());
-        int color = Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
-        holder.walletColor.setColorFilter(color);
+        //int color = Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+        //holder.walletColor.setColorFilter(color);
     }
 
     @Override
