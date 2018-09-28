@@ -125,6 +125,7 @@ public class CreateWalletActivity extends AppCompatActivity {
         Bundle extras = new Bundle();
         extras.putBoolean("just_created", true);
         extras.putString("invite_code", mExtras.getString("invite_code"));
+        extras.putString("lobby_id", mExtras.getString("lobby_id"));
         lobbyIntent.putExtras(extras);
         startActivity(lobbyIntent);
         finish();
