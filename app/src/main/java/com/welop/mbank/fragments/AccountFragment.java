@@ -81,7 +81,7 @@ public class AccountFragment extends Fragment {
                         updateInfo();
                     }
                 } else {
-                    Snackbar.make(getActivity().findViewById(R.id.main_coordinatorLayout), "An error occured. Try to reload page.", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(getActivity().findViewById(R.id.main_coordinator_layout), "An error occured. Try to reload page.", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -116,7 +116,7 @@ public class AccountFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.account_menu_edit:
-                Snackbar.make(getActivity().findViewById(R.id.main_coordinatorLayout), "Imagine you're editing info", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(getActivity().findViewById(R.id.main_coordinator_layout), "Imagine you're editing info", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 break;
             case R.id.account_menu_logout:
                 //Snackbar.make(getActivity().findViewById(R.id.main_coordinatorLayout), "Imagine you have left", Snackbar.LENGTH_LONG).setAction("Action", null).show();

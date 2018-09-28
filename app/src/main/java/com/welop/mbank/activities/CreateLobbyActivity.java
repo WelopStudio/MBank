@@ -77,15 +77,15 @@ public class CreateLobbyActivity extends AppCompatActivity {
      * @return Extras bundle.
      */
     private Bundle getData() {
-        Bundle data = new Bundle();
-        data.putString("admin_id", FirebaseAuth.getInstance().getUid());
-        data.putString("lobby_id", UUID.randomUUID().toString());
-        data.putString("lobby_name", mLobbyName.getText().toString());
-        data.putString("init_balance", mStartBalance.getText().toString());
-        data.putString("go", mGoCost.getText().toString());
-        data.putString("income", mIncomeTaxCost.getText().toString());
-        data.putString("luxury", mLuxuryTaxCost.getText().toString());
-        data.putString("ActivityName", CreateLobbyActivity.class.getSimpleName());
-        return data;
+        Bundle extras = new Bundle();
+        extras.putString("admin_id", FirebaseAuth.getInstance().getUid());
+        extras.putString("lobby_id", UUID.randomUUID().toString());
+        extras.putString("lobby_name", mLobbyName.getText().toString());
+        extras.putString("init_balance", mStartBalance.getText().toString());
+        extras.putString("go", mGoCost.getText().toString());
+        extras.putString("income", mIncomeTaxCost.getText().toString());
+        extras.putString("luxury", mLuxuryTaxCost.getText().toString());
+        extras.putString("ActivityName", CreateLobbyActivity.class.getSimpleName());
+        return extras;
     }
 }

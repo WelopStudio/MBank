@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,15 +21,17 @@ public class CreateWalletActivity extends AppCompatActivity {
     private TextInputEditText mWalletName;
     private Button mCreateWallet;
     private Toolbar mToolbar;
-    private Bundle mIntentData;
+    private Bundle mExtras;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mIntentData = this.getIntent().getExtras();
+        mExtras = this.getIntent().getExtras();
         setContentView(R.layout.activity_create_wallet);
 
-
+        mProgressBar = findViewById(R.id.create_wallet_progress_bar);
+        mProgressBar.setVisibility(View.INVISIBLE);
         mToolbar = findViewById(R.id.create_wallet_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Wallet settings");
@@ -54,64 +57,82 @@ public class CreateWalletActivity extends AppCompatActivity {
     }
 
     private void uploadSettings() {
+        mProgressBar.setVisibility(View.VISIBLE);
         HashMap<String, String> settings = new HashMap<>();
-        settings.put("init_balance", mIntentData.getString("init_balance"));
-        settings.put("go", mIntentData.getString("go"));
-        settings.put("income", mIntentData.getString("income"));
-        settings.put("luxury", mIntentData.getString("luxury"));
+        settings.put("init_balance", mExtras.getString("init_balance"));
+        settings.put("go", mExtras.getString("go"));
+        settings.put("income", mExtras.getString("income"));
+        settings.put("luxury", mExtras.getString("luxury"));
         FirebaseFirestore.getInstance()
                 .collection("settings")
-                .document(mIntentData.getString("lobby_id"))
+                .document(mExtras.getString("lobby_id"))
                 .set(settings)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        mProgressBar.setVisibility(View.INVISIBLE);
                         uploadLobby();
                     }
         });
     }
 
     private void uploadLobby() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mExtras.putString("invite_code", generateInviteCode());
         HashMap<String, String> lobby = new HashMap<>();
-        lobby.put("admin_id", mIntentData.getString("admin_id"));
+        lobby.put("admin_id", mExtras.getString("admin_id"));
+        lobby.put("invite_code", mExtras.getString("invite_code"));
         FirebaseFirestore.getInstance()
                 .collection("lobbies")
-                .document(mIntentData.getString("lobby_id"))
+                .document(mExtras.getString("lobby_id"))
                 .set(lobby)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        mProgressBar.setVisibility(View.INVISIBLE);
                         uploadWallet();
                     }
                 });
     }
 
+    private String generateInviteCode() {
+        return mExtras.getString("lobby_id").substring(0, 5).toUpperCase();
+    }
+
     private void uploadWallet() {
+        mProgressBar.setVisibility(View.VISIBLE);
         HashMap<String, String> wallet = new HashMap<>();
-        wallet.put("balance", mIntentData.getString("init_balance"));
-        wallet.put("lobby_id", mIntentData.getString("lobby_id"));
-        wallet.put("lobby_name", mIntentData.getString("lobby_name"));
+        wallet.put("balance", mExtras.getString("init_balance"));
+        wallet.put("lobby_id", mExtras.getString("lobby_id"));
+        wallet.put("lobby_name", mExtras.getString("lobby_name"));
         wallet.put("name", mWalletName.getText().toString());
         wallet.put("owner_id", FirebaseAuth.getInstance().getUid());
         FirebaseFirestore.getInstance()
                 .collection("wallets")
-                .document(FirebaseAuth.getInstance().getUid() + "_" + mIntentData.getString("lobby_id"))
+                .document(FirebaseAuth.getInstance().getUid() + "_" + mExtras.getString("lobby_id"))
                 .set(wallet)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        mProgressBar.setVisibility(View.INVISIBLE);
                         startLobby();
                     }
                 });
     }
 
     private void startLobby() {
-        onSupportNavigateUp();
+        Intent lobbyIntent = new Intent(CreateWalletActivity.this, LobbyActivity.class);
+        Bundle extras = new Bundle();
+        extras.putBoolean("just_created", true);
+        extras.putString("invite_code", mExtras.getString("invite_code"));
+        lobbyIntent.putExtras(extras);
+        startActivity(lobbyIntent);
+        finish();
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        String activityName = mIntentData.getString("ActivityName");
+        String activityName = mExtras.getString("ActivityName");
         if (activityName.equals(JoinLobbyActivity.class.getSimpleName())){
             Intent intent1 = new Intent(CreateWalletActivity.this ,MainActivity.class);
             startActivity(intent1);

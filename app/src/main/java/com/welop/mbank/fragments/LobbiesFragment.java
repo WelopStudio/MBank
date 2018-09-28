@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,41 +37,56 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
     private FloatingActionButton mFab, mFabCreate, mFabJoin;
-    private boolean mIsFabOpen = false;
-    private View mFabBackGround;
+    private boolean mIsFabOpened = false;
+    private View mFabBackground;
     private ProgressBar mProgressBar;
+    private CoordinatorLayout mCoordinatorLayout;
+    private View mLoadingBackground;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_lobbies, container, false);
-        receiveAndShowLobbies(v);
+        initializeViews(v);
+        initializeListeners(v);
+        loading(false);
+        return v;
+    }
 
-        mProgressBar = v.findViewById(R.id.lobbies_progress_bar);
-        mProgressBar.setVisibility(View.VISIBLE);
-        mFabBackGround = v.findViewById(R.id.fab_background);
-        mFab = v.findViewById(R.id.lobbies_fab);
-        mFabCreate = v.findViewById(R.id.lobbies_create_lobby_fab);
-        mFabJoin = v.findViewById(R.id.lobbies_join_lobby_fab);
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 
-        mFabBackGround.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        downloadData();
+    }
+
+    private void loading(boolean loading) {
+        mLoadingBackground.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
+        mProgressBar.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
+        mFab.setEnabled(!loading);
+    }
+
+    private void initializeListeners(View v) {
+        mFabBackground.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                closeFABMenu();
+                closeFab();
             }
         });
-
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mIsFabOpen) {
-                    showFABMenu();
+                if (mIsFabOpened) {
+                    closeFab();
                 } else {
-                    closeFABMenu();
+                    openFab();
                 }
             }
         });
-
         mFabCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +94,6 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
                 startActivity(intent);
             }
         });
-
         mFabJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,12 +101,26 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
                 startActivity(intent);
             }
         });
-
-        return v;
     }
 
-    private void receiveAndShowLobbies(final View v) {
+    private void initializeViews(View v) {
+        mProgressBar = v.findViewById(R.id.lobbies_progress_bar);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mFabBackground = v.findViewById(R.id.fab_background);
+        mFab = v.findViewById(R.id.lobbies_fab);
+        mFabCreate = v.findViewById(R.id.lobbies_create_lobby_fab);
+        mFabJoin = v.findViewById(R.id.lobbies_join_lobby_fab);
+        mRecyclerView = v.findViewById(R.id.lobbies_recycler);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new CardLobbyRecyclerAdapter();
+        mRecyclerView.setAdapter(mAdapter);
+        mCoordinatorLayout = v.findViewById(R.id.lobbies_coordinator_layout);
+        mLoadingBackground = v.findViewById(R.id.lobbies_loading_background);
+    }
 
+    private void downloadData() {
+        loading(true);
         CollectionReference ref = FirebaseFirestore.getInstance().collection("wallets");
         ref.whereEqualTo("owner_id", FirebaseAuth.getInstance().getUid().toString())
                 .get()
@@ -110,53 +140,38 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
                                 );
                                 MBank.getUserWallets().add(w);
                             }
-                            adapt(v);
+                            updateCards();
                         } else {
-                            // Не получилось
+                            Snackbar
+                                    .make(mCoordinatorLayout, "Error while downloading data.", Snackbar.LENGTH_SHORT)
+                                    .show();
                         }
                     }
                 });
 
     }
 
-    private void adapt(View v) {
-        mRecyclerView = v.findViewById(R.id.lobbies_recycler);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new CardLobbyRecyclerAdapter();
-        mRecyclerView.setAdapter(mAdapter);
+    private void updateCards() {
         mAdapter.notifyDataSetChanged();
-
-        mProgressBar.setVisibility(View.INVISIBLE);
+        loading(false);
     }
 
-    private void showFABMenu(){
-        mIsFabOpen = true;
-
-        mFabBackGround.setVisibility(View.VISIBLE);
+    private void openFab(){
+        mIsFabOpened = true;
+        mFabBackground.setVisibility(View.VISIBLE);
+        mFabBackground.setAlpha(0);
         mFab.setVisibility(View.VISIBLE);
         mFabCreate.setVisibility(View.VISIBLE);
         mFabJoin.setVisibility(View.VISIBLE);
-
-        mFab.animate().rotationBy(-45);
-        mFabJoin.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-        mFabCreate.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
-
-    }
-
-    private void closeFABMenu(){
-        mIsFabOpen = false;
-
-        mFabBackGround.setVisibility(View.GONE);
-        mFab.animate().rotationBy(45);
-        mFabJoin.animate().translationY(0);
-        mFabCreate.animate().translationY(0).setListener(new Animator.AnimatorListener() {
+        mFabBackground.animate().alpha(1);
+        mFab.animate().rotationBy(-45).setListener(new Animator.AnimatorListener() {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                if (!mIsFabOpen) {
+                if (!mIsFabOpened) {
                     mFabCreate.setVisibility(View.GONE);
                     mFabJoin.setVisibility(View.GONE);
+                    mFabBackground.setVisibility(View.GONE);
                 }
             }
 
@@ -175,13 +190,21 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
 
             }
         });
+        mFabJoin.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        mFabCreate.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
+    }
 
-
+    private void closeFab(){
+        mIsFabOpened = false;
+        mFabBackground.animate().alpha(0);
+        mFab.animate().rotationBy(45);
+        mFabJoin.animate().translationY(0);
+        mFabCreate.animate().translationY(0);
     }
 
     @Override
     public boolean onBackPressed() {
-        closeFABMenu();
+        closeFab();
         return true;
     }
 }
