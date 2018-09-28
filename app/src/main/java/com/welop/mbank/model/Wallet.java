@@ -1,61 +1,61 @@
 package com.welop.mbank.model;
 
 public class Wallet {
-    private String name;
-    private String ownerId;
-    private String lobbyId;
-    private String lobbyName;
-    private int balance;
+    private String mName;
+    private String mOwnerId;
+    private String mLobbyId;
+    private String mLobbyName;
+    private int mBalance;
 
     public Wallet() {
         this ("", "", "", "", 0);
     }
 
     public Wallet(String name, String ownerId, String lobbyId, String lobbyName, int balance) {
-        this.name = name;
-        this.ownerId = ownerId;
-        this.lobbyId = lobbyId;
-        this.lobbyName = lobbyName;
-        this.balance = balance;
+        this.mName = name;
+        this.mOwnerId = ownerId;
+        this.mLobbyId = lobbyId;
+        this.mLobbyName = lobbyName;
+        this.mBalance = balance;
     }
 
     public String getLobbyName() {
-        return lobbyName;
+        return mLobbyName;
     }
 
     public void setLobbyName(String lobbyName) {
-        this.lobbyName = lobbyName;
+        this.mLobbyName = lobbyName;
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.mName = name;
     }
 
     public String getOwnerId() {
-        return ownerId;
+        return mOwnerId;
     }
 
     public void setOwnerId(String ownerId) {
-        this.ownerId = ownerId;
+        this.mOwnerId = ownerId;
     }
 
     public String getLobbyId() {
-        return lobbyId;
+        return mLobbyId;
     }
 
     public void setLobbyId(String lobbyId) {
-        this.lobbyId = lobbyId;
+        this.mLobbyId = lobbyId;
     }
 
     public int getBalance() {
-        return balance;
+        return mBalance;
     }
 
     public void setBalance(int balance) {
-        this.balance = balance;
+        this.mBalance = balance;
     }
 }

@@ -11,7 +11,6 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.welop.mbank.MBank;
 import com.welop.mbank.fragments.AccountFragment;
 import com.welop.mbank.fragments.FriendsFragment;
 import com.welop.mbank.fragments.LobbiesFragment;
@@ -20,7 +19,7 @@ import com.welop.svlit.mbank.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
+    private Toolbar mToolbar;
 
     @Override
     protected void onStart() {
@@ -36,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(mToolbar);
 
         BottomNavigationView navigation = findViewById(R.id.main_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);

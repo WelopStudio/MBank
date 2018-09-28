@@ -12,16 +12,16 @@ public class StartActivity extends AppCompatActivity {
 
     //justTest push in dev branch
 
-    private Button logIn;
-    private Button signUp;
+    private Button mSignIn;
+    private Button mSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        logIn = findViewById(R.id.start_button_already_have_account);
-        logIn.setOnClickListener(new View.OnClickListener() {
+        mSignIn = findViewById(R.id.start_button_already_have_account);
+        mSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(StartActivity.this, SignInActivity.class);
@@ -29,8 +29,8 @@ public class StartActivity extends AppCompatActivity {
             }
         });
 
-        signUp = findViewById(R.id.start_button_create_new_account);
-        signUp.setOnClickListener(new View.OnClickListener() {
+        mSignUp = findViewById(R.id.start_button_create_new_account);
+        mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(StartActivity.this, SignUpActivity.class);

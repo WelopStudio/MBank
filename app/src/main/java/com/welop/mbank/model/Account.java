@@ -1,16 +1,16 @@
 package com.welop.mbank.model;
 
 public class Account {
-    private String uid;
-    private String name;
-    private String email;
-    private String sex;
+    private String mUid;
+    private String mName;
+    private String mEmail;
+    private String mSex;
 
     public Account(String uid, String name, String email, String sex) {
-        this.uid = uid;
-        this.name = name;
-        this.email = email;
-        this.sex = sex;
+        this.mUid = uid;
+        this.mName = name;
+        this.mEmail = email;
+        this.mSex = sex;
     }
 
     public Account() {
@@ -18,34 +18,34 @@ public class Account {
     }
 
     public String getUid() {
-        return uid;
+        return mUid;
     }
 
     public void setUid(String uid) {
-        this.uid = uid;
+        this.mUid = uid;
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.mName = name;
     }
 
     public String getEmail() {
-        return email;
+        return mEmail;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.mEmail = email;
     }
 
     public String getSex() {
-        return sex;
+        return mSex;
     }
 
     public void setSex(String sex) {
-        this.sex = sex;
+        this.mSex = sex;
     }
 }

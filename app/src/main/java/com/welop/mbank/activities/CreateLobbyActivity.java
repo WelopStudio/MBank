@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public class CreateLobbyActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
+    private Toolbar mToolbar;
     private Button mCreateLobby;
     private TextInputEditText mLobbyName;
     private TextInputEditText mGoCost;
@@ -30,8 +30,8 @@ public class CreateLobbyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_lobby);
 
-        toolbar = findViewById(R.id.create_lobby_toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = findViewById(R.id.create_lobby_toolbar);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Create lobby");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);

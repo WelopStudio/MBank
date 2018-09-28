@@ -12,31 +12,29 @@ import android.view.MenuItem;
 import com.welop.mbank.adapters.CardPlayerLobbyRecyclerAdapter;
 import com.welop.svlit.mbank.R;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class LobbyActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
-    RecyclerView.Adapter adapter;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView.Adapter mAdapter;
 
-    private Toolbar toolbar;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
-        toolbar = findViewById(R.id.lobby_toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = findViewById(R.id.lobby_toolbar);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Test Lobby Name");
 
-        recyclerView = findViewById(R.id.lobby_recycler);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        mRecyclerView = findViewById(R.id.lobby_recycler);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
-        adapter = new CardPlayerLobbyRecyclerAdapter();
-        recyclerView.setAdapter(adapter);
+        mAdapter = new CardPlayerLobbyRecyclerAdapter();
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override

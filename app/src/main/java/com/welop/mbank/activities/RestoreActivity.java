@@ -14,7 +14,7 @@ import com.welop.svlit.mbank.R;
 
 public class RestoreActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
+    private Toolbar mToolbar;
     private TextInputEditText mEmail;
     private ImageView mClearAll;
     private Button mChangePassword;
@@ -68,8 +68,8 @@ public class RestoreActivity extends AppCompatActivity {
 
     private void setupToolBar() {
 
-        toolbar = findViewById(R.id.restore_toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = findViewById(R.id.restore_toolbar);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Restore");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);

@@ -28,13 +28,8 @@ public class SignInActivity extends AppCompatActivity {
     private Button mCancel;
     private Button mLogin;
     private TextView mForgot;
-
     private TextView mEmail;
     private TextView mPassword;
-
-    private String mHashPassword;
-
-    private FirebaseAuth mAuth;
     private ProgressBar progressBar;
 
     @Override
@@ -55,8 +50,6 @@ public class SignInActivity extends AppCompatActivity {
         mLogin = findViewById(R.id.login_button_login);
         mCancel = findViewById(R.id.login_button_cancel);
         mForgot = findViewById(R.id.login_forgot_text);
-
-        mAuth = FirebaseAuth.getInstance();
 
         //onClick
         mLogin.setOnClickListener(new View.OnClickListener() {
@@ -92,14 +85,14 @@ public class SignInActivity extends AppCompatActivity {
         progressBar.setVisibility(ProgressBar.VISIBLE);
 
         // [START sign_in_with_email]
-        mAuth.signInWithEmailAndPassword(email, password)
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.

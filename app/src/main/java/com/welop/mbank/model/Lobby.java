@@ -3,29 +3,29 @@ package com.welop.mbank.model;
 import java.util.ArrayList;
 
 public class Lobby {
-    private String name;
-    private ArrayList<Wallet> wallets;
-    private String adminId;
+    private String mName;
+    private ArrayList<Wallet> mWallets;
+    private String mAdminId;
 
     public Lobby(String name, String adminId) {
-        this.name = name;
-        this.adminId = adminId;
-        this.wallets = new ArrayList<>();
+        this.mName = name;
+        this.mAdminId = adminId;
+        this.mWallets = new ArrayList<>();
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.mName = name;
     }
 
     public ArrayList<Wallet> getWallets() {
-        return wallets;
+        return mWallets;
     }
 
     public String getAdminId() {
-        return adminId;
+        return mAdminId;
     }
 }

@@ -28,20 +28,17 @@ import com.welop.svlit.mbank.R;
 
 public class AccountFragment extends Fragment {
 
-    private FirebaseAuth mAuth;
     private FirebaseFirestore mStorage;
-
     private TextView mName;
     private TextView mEmail;
     private TextView mSex;
     private TextView mDescription;
     private ProgressBar mProgressbar;
-    private View mLoadingview;
+    private View mLoadingView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
         mStorage = FirebaseFirestore.getInstance();
     }
 
@@ -56,7 +53,7 @@ public class AccountFragment extends Fragment {
         mSex = v.findViewById(R.id.account_sex);
         mDescription = v.findViewById(R.id.account_description);
         mProgressbar = v.findViewById(R.id.account_progressbar);
-        mLoadingview = v.findViewById(R.id.account_loading_view);
+        mLoadingView = v.findViewById(R.id.account_loading_view);
 
         loadAccount();
         return v;
@@ -64,13 +61,13 @@ public class AccountFragment extends Fragment {
 
     private void loadAccount() {
         mProgressbar.setVisibility(View.VISIBLE);
-        mLoadingview.setVisibility(View.VISIBLE);
+        mLoadingView.setVisibility(View.VISIBLE);
         DocumentReference docRef = mStorage.collection("accounts").document(FirebaseAuth.getInstance().getUid().toString());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 mProgressbar.setVisibility(View.INVISIBLE);
-                mLoadingview.setVisibility(View.INVISIBLE);
+                mLoadingView.setVisibility(View.INVISIBLE);
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
@@ -126,7 +123,7 @@ public class AccountFragment extends Fragment {
                 Snackbar.make(getActivity().findViewById(R.id.account_constraintlayout), "Imagine you have left", Snackbar.LENGTH_LONG).show();
 
                 //TODO Create separate method for this
-                mAuth.signOut();
+                FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getActivity(), StartActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

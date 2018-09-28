@@ -5,33 +5,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.welop.mbank.MBank;
 import com.welop.mbank.activities.LobbyActivity;
 import com.welop.svlit.mbank.R;
 
-import java.util.Random;
-
 public class CardLobbyRecyclerAdapter extends RecyclerView.Adapter<CardLobbyRecyclerAdapter.ViewHolder> {
-
-    private Random random = new Random();
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView walletName;
-        public TextView walletBalance;
-        public TextView lobbyName;
-        public ImageView accountAvatar;
-        //public ImageView walletColor;
+        private TextView mWalletName;
+        private TextView mWalletBalance;
+        private TextView mLobbyName;
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            walletName = itemView.findViewById(R.id.card_lobby_wallet_name);
-            walletBalance = itemView.findViewById(R.id.card_lobby_wallet_balance);
-            //walletColor = itemView.findViewById(R.id.card_lobby_wallet_color);
-            lobbyName = itemView.findViewById(R.id.card_lobby_name);
+            mWalletName = itemView.findViewById(R.id.card_lobby_wallet_name);
+            mWalletBalance = itemView.findViewById(R.id.card_lobby_wallet_balance);
+            mLobbyName = itemView.findViewById(R.id.card_lobby_name);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -52,11 +44,9 @@ public class CardLobbyRecyclerAdapter extends RecyclerView.Adapter<CardLobbyRecy
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.lobbyName.setText(MBank.getUserWallets().get(position).getLobbyName());
-        holder.walletName.setText(MBank.getUserWallets().get(position).getName());
-        holder.walletBalance.setText(MBank.getUserWallets().get(position).getBalance());
-        //int color = Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
-        //holder.walletColor.setColorFilter(color);
+        holder.mLobbyName.setText(MBank.getUserWallets().get(position).getLobbyName());
+        holder.mWalletName.setText(MBank.getUserWallets().get(position).getName());
+        holder.mWalletBalance.setText(Integer.toString(MBank.getUserWallets().get(position).getBalance()));
     }
 
     @Override

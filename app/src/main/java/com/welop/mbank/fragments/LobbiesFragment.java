@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,17 +29,15 @@ import com.welop.mbank.interfaces.OnBackPressedListener;
 import com.welop.mbank.model.Wallet;
 import com.welop.svlit.mbank.R;
 
-import java.util.HashMap;
-
 public class LobbiesFragment extends Fragment implements OnBackPressedListener {
 
-    RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager mLayoutManager;
-    RecyclerView.Adapter mAdapter;
-
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView.Adapter mAdapter;
     private FloatingActionButton mFab, mFabCreate, mFabJoin;
-    boolean isFABOpen=false;
-    View mFabBackGround;
+    private boolean mIsFabOpen = false;
+    private View mFabBackGround;
+    private ProgressBar mProgressBar;
 
     @Nullable
     @Override
@@ -46,6 +45,8 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
         View v = inflater.inflate(R.layout.fragment_lobbies, container, false);
         receiveAndShowLobbies(v);
 
+        mProgressBar = v.findViewById(R.id.lobbies_progress_bar);
+        mProgressBar.setVisibility(View.VISIBLE);
         mFabBackGround = v.findViewById(R.id.fab_background);
         mFab = v.findViewById(R.id.lobbies_fab);
         mFabCreate = v.findViewById(R.id.lobbies_create_lobby_fab);
@@ -61,7 +62,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isFABOpen) {
+                if (!mIsFabOpen) {
                     showFABMenu();
                 } else {
                     closeFABMenu();
@@ -125,10 +126,12 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
         mAdapter = new CardLobbyRecyclerAdapter();
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
+
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
     private void showFABMenu(){
-        isFABOpen = true;
+        mIsFabOpen = true;
 
         mFabBackGround.setVisibility(View.VISIBLE);
         mFab.setVisibility(View.VISIBLE);
@@ -142,7 +145,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
     }
 
     private void closeFABMenu(){
-        isFABOpen = false;
+        mIsFabOpen = false;
 
         mFabBackGround.setVisibility(View.GONE);
         mFab.animate().rotationBy(45);
@@ -151,7 +154,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                if (!isFABOpen) {
+                if (!mIsFabOpen) {
                     mFabCreate.setVisibility(View.GONE);
                     mFabJoin.setVisibility(View.GONE);
                 }

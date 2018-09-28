@@ -27,8 +27,6 @@ import java.util.Map;
 public class SignUpActivity extends AppCompatActivity {
 
     public static final String TAG = "SignUp";
-
-    private FirebaseAuth mAuth;
     private FirebaseFirestore mStorage;
 
     private Button mSignUp;
@@ -36,19 +34,17 @@ public class SignUpActivity extends AppCompatActivity {
     private TextView mEmail;
     private TextView mPassword;
     private TextView mName;
-    private ProgressBar progressBar;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
-        mAuth = FirebaseAuth.getInstance();
         mStorage = FirebaseFirestore.getInstance();
         mEmail = findViewById(R.id.signup_email);
         mName = findViewById(R.id.signup_name);
         mPassword =findViewById(R.id.signup_password);
-        progressBar = findViewById(R.id.signup_progress_bar);
+        mProgressBar = findViewById(R.id.signup_progress_bar);
         mSignUp = findViewById(R.id.signup_button_signup);
         mCancel = findViewById(R.id.signup_button_cancel);
 
@@ -74,19 +70,19 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        progressBar.setVisibility(ProgressBar.VISIBLE);
-        mAuth.createUserWithEmailAndPassword(email, password)
+        mProgressBar.setVisibility(ProgressBar.VISIBLE);
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful() & storageAddAccount(mEmail.getText(), mName.getText())) {
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             updateUI(user);
                         } else {
                             Snackbar.make(findViewById(R.id.signup_constrainLayout), "Authentication failed.", Snackbar.LENGTH_SHORT).show();
                             updateUI(null);
                         }
-                        progressBar.setVisibility(ProgressBar.INVISIBLE);
+                        mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                     }
                 });
     }
@@ -105,7 +101,7 @@ public class SignUpActivity extends AppCompatActivity {
         data.put("email", email.toString());
         data.put("sex", "not stated");
         data.put("description", "To be filled");
-        mStorage.collection("accounts").document(mAuth.getUid()).set(data)
+        mStorage.collection("accounts").document(FirebaseAuth.getInstance().getUid()).set(data)
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {

@@ -12,8 +12,8 @@ import com.welop.svlit.mbank.R;
 
 public class JoinLobbyActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
-    private TextInputEditText mCodeOfLobby;
+    Toolbar mToolbar;
+    private TextInputEditText mInviteCode;
     private Button mConnect;
 
     @Override
@@ -21,13 +21,13 @@ public class JoinLobbyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_lobby);
 
-        toolbar = findViewById(R.id.join_toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = findViewById(R.id.join_toolbar);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Join");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        mCodeOfLobby = findViewById(R.id.join_code_of_lobby);
+        mInviteCode = findViewById(R.id.join_code_of_lobby);
         mConnect = findViewById(R.id.join_join_btn);
 
         mConnect.setOnClickListener(new View.OnClickListener() {
