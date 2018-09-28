@@ -23,6 +23,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.welop.mbank.MBank;
 import com.welop.mbank.activities.StartActivity;
+import com.welop.mbank.model.Account;
 import com.welop.svlit.mbank.R;
 
 public class AccountFragment extends Fragment {
@@ -64,7 +65,7 @@ public class AccountFragment extends Fragment {
     private void loadAccount() {
         mProgressbar.setVisibility(View.VISIBLE);
         mLoadingview.setVisibility(View.VISIBLE);
-        DocumentReference docRef = mStorage.collection("accounts").document(mAuth.getUid().toString());
+        DocumentReference docRef = mStorage.collection("accounts").document(FirebaseAuth.getInstance().getUid().toString());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -73,7 +74,13 @@ public class AccountFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        MBank.setAccount(document);
+                        Account a = new Account(
+                                FirebaseAuth.getInstance().getUid(),
+                                document.getString("name"),
+                                document.getString("email"),
+                                document.getString("sex")
+                        );
+                        MBank.setUser(a);
                         updateInfo();
                     }
                 } else {
@@ -84,9 +91,9 @@ public class AccountFragment extends Fragment {
     }
 
     private void updateInfo() {
-        mName.setText(MBank.getAccount().getName());
-        mEmail.setText(MBank.getAccount().getEmail());
-        switch (MBank.getAccount().getSex()) {
+        mName.setText(MBank.getUser().getName());
+        mEmail.setText(MBank.getUser().getEmail());
+        switch (MBank.getUser().getSex()) {
             case "male":
                 mSex.setText("Male");
                 break;

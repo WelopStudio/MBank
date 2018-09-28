@@ -52,15 +52,15 @@ public class CardLobbyRecyclerAdapter extends RecyclerView.Adapter<CardLobbyRecy
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.lobbyName.setText(MBank.getWallets().get(position).get("lobby_name").toString());
-        holder.walletName.setText(MBank.getWallets().get(position).get("name").toString());
-        holder.walletBalance.setText(MBank.getWallets().get(position).get("balance").toString());
+        holder.lobbyName.setText(MBank.getUserWallets().get(position).getLobbyName());
+        holder.walletName.setText(MBank.getUserWallets().get(position).getName());
+        holder.walletBalance.setText(MBank.getUserWallets().get(position).getBalance());
         //int color = Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
         //holder.walletColor.setColorFilter(color);
     }
 
     @Override
     public int getItemCount() {
-        return MBank.getWallets().size();
+        return MBank.getUserWallets().size();
     }
 }

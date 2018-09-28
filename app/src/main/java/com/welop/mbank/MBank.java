@@ -1,33 +1,28 @@
 package com.welop.mbank;
 
 import android.app.Application;
-import android.support.annotation.NonNull;
-import android.util.Log;
-import android.view.View;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.welop.mbank.model.Account;
-import com.welop.mbank.model.Lobby;
+import com.welop.mbank.model.Wallet;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import static android.support.constraint.Constraints.TAG;
 
 public class MBank extends Application {
+    private static ArrayList<Wallet> userWallets;
+    private static Account user;
 
-    static Account account;
-    static ArrayList<HashMap<String, Object>> wallets;
+    public static Account getUser() {
+        return user;
+    }
 
-    static {
-        account = new Account();
-        wallets = new ArrayList<>();
+    public static void setUser(Account user) {
+        MBank.user = user;
+    }
+
+    public static ArrayList<Wallet> getUserWallets() {
+        return userWallets;
     }
 
     @Override
@@ -38,20 +33,8 @@ public class MBank extends Application {
                 .setPersistenceEnabled(true)
                 .build();
         FirebaseFirestore.getInstance().setFirestoreSettings(settings);
-    }
 
-    public static Account getAccount() {
-        return account;
-    }
-
-    public static ArrayList<HashMap<String, Object>> getWallets() {
-        return wallets;
-    }
-
-    public static boolean setAccount(DocumentSnapshot document) {
-        MBank.getAccount().setName(document.getString("name"));
-        MBank.getAccount().setEmail(document.getString("email"));
-        MBank.getAccount().setSex(document.getString("sex"));
-        return true;
+        user = new Account();
+        userWallets = new ArrayList<>();
     }
 }

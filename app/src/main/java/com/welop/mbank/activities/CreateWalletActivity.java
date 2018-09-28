@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -38,13 +39,14 @@ public class CreateWalletActivity extends AppCompatActivity {
     private String lobbyId;
     private String lobbyName;
     private HashMap<String, Object> lobbySettings = new HashMap<>();
+    private Bundle data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        data = this.getIntent().getExtras();
         setContentView(R.layout.activity_create_wallet);
-        lobbyId = this.getIntent().getExtras().getString("lobbyId");
-        lobbyName = this.getIntent().getExtras().getString("lobbyName");
+
 
         toolbar = findViewById(R.id.create_wallet_toolbar);
         setSupportActionBar(toolbar);
@@ -59,70 +61,78 @@ public class CreateWalletActivity extends AppCompatActivity {
         mCreateWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSettings();
-            }
-        });
-
-    }
-
-    private void getSettings() {
-        DocumentReference docRef = FirebaseFirestore.getInstance()
-                .collection("settings")
-                .document(lobbyId);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        lobbySettings.put("lobby_id", document.get("lobby_id")); // В перспективе надо убрать, ID настроек совпадает с ID комнаты
-                        lobbySettings.put("balance", document.get("balance"));
-                        lobbySettings.put("go", document.get("go"));
-                        lobbySettings.put("income", document.get("income"));
-                        lobbySettings.put("luxury", document.get("luxury"));
-                        storageAddWallet();
-                    }
-                } else {
-                    // Не получилось
+                if (checkFields()) {
+                    uploadSettings();
                 }
             }
         });
+
     }
 
-    private boolean storageAddWallet() {
-        if (lobbySettings.size() == 0)
-            return false;
+    private boolean checkFields() {
+        return true;
+    }
 
-        final boolean[] success = new boolean[1];
-        success[0] = true;
-        Map<String, Object> data = new HashMap<>();
-        data.put("owner_id", FirebaseAuth.getInstance().getUid());
-        data.put("name", mWalletName.getText().toString());
-        data.put("balance", lobbySettings.get("balance"));
-        data.put("lobby_id", lobbySettings.get("lobby_id"));
-        data.put("lobby_name", lobbyName);
+    private void uploadSettings() {
+        HashMap<String, String> settings = new HashMap<>();
+        settings.put("init_balance", data.getString("init_balance"));
+        settings.put("go", data.getString("go"));
+        settings.put("income", data.getString("income"));
+        settings.put("luxury", data.getString("luxury"));
         FirebaseFirestore.getInstance()
-                .collection("wallets")
-                .document(FirebaseAuth.getInstance().getUid() + "_" + lobbySettings.get("lobby_id"))
-                .set(data)
-                .addOnFailureListener(new OnFailureListener() {
+                .collection("settings")
+                .document(data.getString("lobby_id"))
+                .set(settings)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        success[0] = false;
+                    public void onSuccess(Void aVoid) {
+                        uploadLobby();
+                    }
+        });
+    }
+
+    private void uploadLobby() {
+        HashMap<String, String> lobby = new HashMap<>();
+        lobby.put("admin_id", data.getString("admin_id"));
+        FirebaseFirestore.getInstance()
+                .collection("lobbies")
+                .document(data.getString("lobby_id"))
+                .set(lobby)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        uploadWallet();
                     }
                 });
-        return success[0];
+    }
+
+    private void uploadWallet() {
+        HashMap<String, String> wallet = new HashMap<>();
+        wallet.put("balance", data.getString("init_balance"));
+        wallet.put("lobby_id", data.getString("lobby_id"));
+        wallet.put("lobby_name", data.getString("lobby_name"));
+        wallet.put("name", data.getString("name"));
+        wallet.put("owner_id", data.getString("owner_id"));
+        FirebaseFirestore.getInstance()
+                .collection("wallets")
+                .document(FirebaseAuth.getInstance().getUid() + "_" + data.getString("lobby_id"))
+                .set(wallet)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        startLobby();
+                    }
+                });
+    }
+
+    private void startLobby() {
+
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        //Bundle extras = getIntent().getExtras();
         Intent intent = this.getIntent();
-        //String activityName = extras.getString("ActivityName");
         String activityName = intent.getExtras().getString("ActivityName");
-        /*Toast toast = Toast.makeText(getApplicationContext(),
-                activityName, Toast.LENGTH_SHORT);
-        toast.show();*/
         if (activityName.equals(JoinLobbyActivity.class.getSimpleName())){
             Intent intent1 = new Intent(CreateWalletActivity.this ,MainActivity.class);
             startActivity(intent1);

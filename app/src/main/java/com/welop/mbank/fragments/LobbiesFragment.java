@@ -25,6 +25,7 @@ import com.welop.mbank.activities.CreateLobbyActivity;
 import com.welop.mbank.activities.JoinLobbyActivity;
 import com.welop.mbank.adapters.CardLobbyRecyclerAdapter;
 import com.welop.mbank.interfaces.OnBackPressedListener;
+import com.welop.mbank.model.Wallet;
 import com.welop.svlit.mbank.R;
 
 import java.util.HashMap;
@@ -97,14 +98,16 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             QuerySnapshot snapshot = task.getResult();
-                            MBank.getWallets().clear();
+                            MBank.getUserWallets().clear();
                             for (DocumentSnapshot d : snapshot) {
-                                HashMap<String, Object> wallet = new HashMap<>();
-                                wallet.put("lobby_id", d.get("lobby_id"));
-                                wallet.put("name", d.get("name"));
-                                wallet.put("balance", d.get("balance"));
-                                wallet.put("lobby_name", d.get("lobby_name"));
-                                MBank.getWallets().add(wallet);
+                                Wallet w = new Wallet(
+                                        d.getString("name"),
+                                        d.getString("owner_id"),
+                                        d.getString("lobby_id"),
+                                        d.getString("lobby_name"),
+                                        Integer.parseInt(d.getString("balance"))
+                                );
+                                MBank.getUserWallets().add(w);
                             }
                             adapt(v);
                         } else {
@@ -116,7 +119,6 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
     }
 
     private void adapt(View v) {
-
         mRecyclerView = v.findViewById(R.id.lobbies_recycler);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
