@@ -44,14 +44,10 @@ public class LobbyActivity extends AppCompatActivity {
         downloadData();
         initializeViews();
         initializeListeners();
+        showInviteCodeIfFirstStartup();
+    }
 
-
-        mRecyclerView = findViewById(R.id.lobby_recycler);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new CardPlayerLobbyRecyclerAdapter();
-        mRecyclerView.setAdapter(mAdapter);
-
+    private void showInviteCodeIfFirstStartup() {
         if (mExtras != null)
             if (mExtras.getBoolean("just_created")) {
                 Snackbar
@@ -79,6 +75,11 @@ public class LobbyActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Test Lobby Name");
         mCoordinatorLayout = findViewById(R.id.lobby_coordinator_layout);
+        mRecyclerView = findViewById(R.id.lobby_recycler);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new CardPlayerLobbyRecyclerAdapter();
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     private void downloadData() {

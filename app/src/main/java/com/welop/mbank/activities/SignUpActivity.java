@@ -39,19 +39,15 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
-        mStorage = FirebaseFirestore.getInstance();
-        mEmail = findViewById(R.id.signup_email);
-        mName = findViewById(R.id.signup_name);
-        mPassword =findViewById(R.id.signup_password);
-        mProgressBar = findViewById(R.id.signup_progress_bar);
-        mSignUp = findViewById(R.id.signup_button_signup);
-        mCancel = findViewById(R.id.signup_button_cancel);
+        setContentView(R.layout.activity_signup);
+        initializeViews();
+        initializeListeners();
+    }
 
+    private void initializeListeners() {
         mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO Наверно тут как-то надо перадать имя?
                 signUp(mEmail.getText().toString(), mPassword.getText().toString());
             }
         });
@@ -61,6 +57,16 @@ public class SignUpActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void initializeViews() {
+        mStorage = FirebaseFirestore.getInstance();
+        mEmail = findViewById(R.id.signup_email);
+        mName = findViewById(R.id.signup_name);
+        mPassword =findViewById(R.id.signup_password);
+        mProgressBar = findViewById(R.id.signup_progress_bar);
+        mSignUp = findViewById(R.id.signup_button_signup);
+        mCancel = findViewById(R.id.signup_button_cancel);
     }
 
     private void signUp(String email, String password){

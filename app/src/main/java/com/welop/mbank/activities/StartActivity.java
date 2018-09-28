@@ -10,8 +10,6 @@ import com.welop.svlit.mbank.R;
 
 public class StartActivity extends AppCompatActivity {
 
-    //justTest push in dev branch
-
     private Button mSignIn;
     private Button mSignUp;
 
@@ -19,8 +17,12 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        initializeViews();
+        initializeListeners();
+    }
 
-        mSignIn = findViewById(R.id.start_button_already_have_account);
+    private void initializeListeners() {
+
         mSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -29,7 +31,6 @@ public class StartActivity extends AppCompatActivity {
             }
         });
 
-        mSignUp = findViewById(R.id.start_button_create_new_account);
         mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,7 +39,11 @@ public class StartActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
+    private void initializeViews() {
+        mSignIn = findViewById(R.id.start_button_signin);
+        mSignUp = findViewById(R.id.start_button_signup);
+
+    }
 }

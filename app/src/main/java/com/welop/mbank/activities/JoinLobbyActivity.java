@@ -20,16 +20,21 @@ public class JoinLobbyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_lobby);
+        initializeViews();
+        initializeListeners();
+    }
 
+    private void initializeListeners() {
         mToolbar = findViewById(R.id.join_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Join");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         mInviteCode = findViewById(R.id.join_code_of_lobby);
         mConnect = findViewById(R.id.join_join_btn);
+    }
 
+    private void initializeViews() {
         mConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

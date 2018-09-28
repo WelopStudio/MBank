@@ -22,40 +22,32 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        checkAuth();
+        setContentView(R.layout.activity_main);
+        initializeViews();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    private void checkAuth() {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Intent intent = new Intent(MainActivity.this, StartActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finishAffinity();
+        }
+    }
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        updateUI(currentUser);
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+    private void initializeViews() {
         mToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
-
         BottomNavigationView navigation = findViewById(R.id.main_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.main_navigetion_lobbies);
     }
 
-    private void updateUI(FirebaseUser user) {
-        if (user != null) {
-
-        } else {
-            Intent intent = new Intent(MainActivity.this, StartActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finishAffinity();
-            //
-        }
-    }
-
-    @Override public void onBackPressed() {
+    @Override
+    public void onBackPressed() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
         if (!(fragment instanceof OnBackPressedListener) || !((OnBackPressedListener) fragment).onBackPressed()) {
             super.onBackPressed();

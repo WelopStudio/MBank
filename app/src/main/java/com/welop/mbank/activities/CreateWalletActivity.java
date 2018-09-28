@@ -29,18 +29,11 @@ public class CreateWalletActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mExtras = this.getIntent().getExtras();
         setContentView(R.layout.activity_create_wallet);
+        initializeViews();
+        initializeListeners();
+    }
 
-        mProgressBar = findViewById(R.id.create_wallet_progress_bar);
-        mProgressBar.setVisibility(View.INVISIBLE);
-        mToolbar = findViewById(R.id.create_wallet_toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Wallet settings");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        mWalletName = findViewById(R.id.create_wallet_wallet_name);
-        mCreateWallet = findViewById(R.id.create_wallet_btn);
-        mCreateWallet = findViewById(R.id.create_wallet_btn);
+    private void initializeListeners() {
         mCreateWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +42,19 @@ public class CreateWalletActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    private void initializeViews() {
+        mProgressBar = findViewById(R.id.create_wallet_progress_bar);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mToolbar = findViewById(R.id.create_wallet_toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Wallet settings");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        mWalletName = findViewById(R.id.create_wallet_wallet_name);
+        mCreateWallet = findViewById(R.id.create_wallet_btn);
+        mCreateWallet = findViewById(R.id.create_wallet_btn);
     }
 
     private boolean checkFields() {

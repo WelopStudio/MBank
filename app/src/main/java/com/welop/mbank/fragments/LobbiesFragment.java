@@ -56,12 +56,12 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
     @Override
     public void onStart() {
         super.onStart();
+        downloadData();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        downloadData();
     }
 
     private void loading(boolean loading) {

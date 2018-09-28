@@ -23,16 +23,11 @@ public class RestoreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restore);
+        initializeViews();
+        initializeListeners();
+    }
 
-        setupToolBar();
-
-        //buttons
-        mClearAll = findViewById(R.id.restore_close_image_view);
-        mChangePassword = findViewById(R.id.restore_change_password_button);
-
-        //Views
-        mEmail = findViewById(R.id.restore_edit_text_email);
-
+    private void initializeListeners() {
         mClearAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,16 +58,17 @@ public class RestoreActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
-    private void setupToolBar() {
-
+    private void initializeViews() {
         mToolbar = findViewById(R.id.restore_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Restore");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+        mClearAll = findViewById(R.id.restore_close_image_view);
+        mChangePassword = findViewById(R.id.restore_change_password_button);
+        mEmail = findViewById(R.id.restore_edit_text_email);
     }
 
 

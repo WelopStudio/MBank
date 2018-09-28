@@ -8,7 +8,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -18,7 +17,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.welop.svlit.mbank.R;
 
 public class SignInActivity extends AppCompatActivity {
@@ -35,37 +33,24 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        setContentView(R.layout.activity_signin);
+        initializeViews();
+        initializeListeners();
+    }
 
-        //Views
-        mEmail = findViewById(R.id.login_email);
-        mPassword =findViewById(R.id.login_password);
-
-        progressBar = findViewById(R.id.signin_progress_bar);
-        progressBar.getIndeterminateDrawable()
-                .setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_IN);
-
-
-        //Buttons
-        mLogin = findViewById(R.id.login_button_login);
-        mCancel = findViewById(R.id.login_button_cancel);
-        mForgot = findViewById(R.id.login_forgot_text);
-
-        //onClick
+    private void initializeListeners() {
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn(mEmail.getText().toString(),mPassword.getText().toString());
             }
         });
-
         mCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
         mForgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,8 +60,20 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
+    private void initializeViews() {
+        mEmail = findViewById(R.id.signin_email);
+        mPassword =findViewById(R.id.signin_password);
+        progressBar = findViewById(R.id.signin_progress_bar);
+        // TODO: ???
+        progressBar
+                .getIndeterminateDrawable()
+                .setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_IN);
+        mLogin = findViewById(R.id.signin_button_sign_in);
+        mCancel = findViewById(R.id.signin_button_cancel);
+        mForgot = findViewById(R.id.signin_forgot_text);
+    }
+
     private void signIn(String email, String password){
-        Log.d(TAG, "signIn:" + email);
 
         if (!validateForm()) {
             return;
@@ -84,50 +81,22 @@ public class SignInActivity extends AppCompatActivity {
 
         progressBar.setVisibility(ProgressBar.VISIBLE);
 
-        // [START sign_in_with_email]
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            updateUI(user);
+                            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finishAffinity();
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-
-                            /*Toast.makeText(SignInActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();*/
                             Snackbar.make(findViewById(R.id.login_constraintlayout), "Authentication failed.", Snackbar.LENGTH_SHORT).show();
-
-                            updateUI(null);
-                        }
-
-                        // [START_EXCLUDE]
-                        if (!task.isSuccessful()) {
-                            //
                         }
 
                         progressBar.setVisibility(ProgressBar.INVISIBLE);
-                        // [END_EXCLUDE]
                     }
                 });
-        // [END sign_in_with_email]
-
-
-    }
-
-    private void updateUI(FirebaseUser user) {
-        if (user != null) {
-            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finishAffinity();
-        } else {
-            //
-        }
     }
 
     private boolean validateForm(){
@@ -142,7 +111,7 @@ public class SignInActivity extends AppCompatActivity {
         }
 
         String password = mPassword.getText().toString();
-        if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(password)) {
             mPassword.setError("Required.");
             valid = false;
         } else {

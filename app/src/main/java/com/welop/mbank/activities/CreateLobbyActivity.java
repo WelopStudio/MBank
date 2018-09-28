@@ -29,7 +29,22 @@ public class CreateLobbyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_lobby);
+        initializeViews();
+        initializeListeners();
+    }
 
+    private void initializeListeners() {
+        mCreateLobby.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkFields()) {
+                    startCreateWalletActivity(getData());
+                }
+            }
+        });
+    }
+
+    private void initializeViews() {
         mToolbar = findViewById(R.id.create_lobby_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Create lobby");
@@ -42,15 +57,6 @@ public class CreateLobbyActivity extends AppCompatActivity {
         mLuxuryTaxCost = findViewById(R.id.create_lobby_luxury_tax_come);
         mStartBalance = findViewById(R.id.create_lobby_start_balance);
         mCheckBoxShowOpponentsBalance = findViewById(R.id.create_lobby_checkBox_show_opponents_balance);
-
-        mCreateLobby.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkFields()) {
-                    startCreateWalletActivity(getData());
-                }
-            }
-        });
     }
 
     /**

@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/start_button_create_new_account"
+        app:layout_constraintBottom_toTopOf="@+id/start_button_signup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -42,7 +42,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <Button
-        android:id="@+id/start_button_already_have_account"
+        android:id="@+id/start_button_signin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
@@ -57,7 +57,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/start_button_create_new_account"
+        android:id="@+id/start_button_signup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -66,7 +66,7 @@
         android:backgroundTint="@android:color/white"
         android:text="@string/create_new_account"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/start_button_already_have_account"
+        app:layout_constraintBottom_toTopOf="@+id/start_button_signin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />

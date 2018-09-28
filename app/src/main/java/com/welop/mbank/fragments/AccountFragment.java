@@ -47,27 +47,26 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_account, container, false);
         setHasOptionsMenu(true);
+        initializeViews(v);
+        downloadData();
+        return v;
+    }
 
+    private void initializeViews(View v) {
         mName = v.findViewById(R.id.account_name);
         mEmail = v.findViewById(R.id.account_email);
         mSex = v.findViewById(R.id.account_sex);
         mDescription = v.findViewById(R.id.account_description);
         mProgressbar = v.findViewById(R.id.account_progressbar);
         mLoadingView = v.findViewById(R.id.account_loading_view);
-
-        loadAccount();
-        return v;
     }
 
-    private void loadAccount() {
-        mProgressbar.setVisibility(View.VISIBLE);
-        mLoadingView.setVisibility(View.VISIBLE);
+    private void downloadData() {
+        loading(true);
         DocumentReference docRef = mStorage.collection("accounts").document(FirebaseAuth.getInstance().getUid().toString());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                mProgressbar.setVisibility(View.INVISIBLE);
-                mLoadingView.setVisibility(View.INVISIBLE);
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
@@ -101,6 +100,13 @@ public class AccountFragment extends Fragment {
                 mSex.setText("Not stated");
                 break;
         }
+        loading(false);
+    }
+
+    private void loading(boolean loading) {
+        mProgressbar.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
+        mLoadingView.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
+
     }
 
     @Override
