@@ -28,18 +28,14 @@ import com.welop.svlit.mbank.R;
 
 public class AccountFragment extends Fragment {
 
-    private FirebaseFirestore mStorage;
     private TextView mName;
     private TextView mEmail;
     private TextView mSex;
     private TextView mDescription;
-    private ProgressBar mProgressbar;
-    private View mLoadingView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mStorage = FirebaseFirestore.getInstance();
     }
 
     @Nullable
@@ -48,7 +44,7 @@ public class AccountFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_account, container, false);
         setHasOptionsMenu(true);
         initializeViews(v);
-        downloadData();
+        updateInfo();
         return v;
     }
 
@@ -57,33 +53,6 @@ public class AccountFragment extends Fragment {
         mEmail = v.findViewById(R.id.account_email);
         mSex = v.findViewById(R.id.account_sex);
         mDescription = v.findViewById(R.id.account_description);
-        mProgressbar = v.findViewById(R.id.account_progressbar);
-        mLoadingView = v.findViewById(R.id.account_loading_view);
-    }
-
-    private void downloadData() {
-        loading(true);
-        DocumentReference docRef = mStorage.collection("accounts").document(FirebaseAuth.getInstance().getUid().toString());
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Account a = new Account(
-                                FirebaseAuth.getInstance().getUid(),
-                                document.getString("name"),
-                                document.getString("email"),
-                                document.getString("sex")
-                        );
-                        MBank.setUser(a);
-                        updateInfo();
-                    }
-                } else {
-                    Snackbar.make(getActivity().findViewById(R.id.main_coordinator_layout), "An error occured. Try to reload page.", Snackbar.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
     private void updateInfo() {
@@ -100,13 +69,6 @@ public class AccountFragment extends Fragment {
                 mSex.setText("Not stated");
                 break;
         }
-        loading(false);
-    }
-
-    private void loading(boolean loading) {
-        mProgressbar.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
-        mLoadingView.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
-
     }
 
     @Override
@@ -125,7 +87,6 @@ public class AccountFragment extends Fragment {
                 Snackbar.make(getActivity().findViewById(R.id.main_coordinator_layout), "Imagine you're editing info", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 break;
             case R.id.account_menu_logout:
-                //Snackbar.make(getActivity().findViewById(R.id.main_coordinatorLayout), "Imagine you have left", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 Snackbar.make(getActivity().findViewById(R.id.account_constraintlayout), "Imagine you have left", Snackbar.LENGTH_LONG).show();
 
                 //TODO Create separate method for this

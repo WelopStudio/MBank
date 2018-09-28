@@ -66,22 +66,20 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/lobby_account_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="John Galt"
                         android:textAppearance="@android:style/TextAppearance.Material.Large"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/lobby_wallet_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="The Dollar"
                         android:textAppearance="@android:style/TextAppearance.Material.Medium"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+                        app:layout_constraintTop_toBottomOf="@+id/lobby_account_name" />
                 </LinearLayout>
 
                 <android.support.constraint.ConstraintLayout
@@ -105,16 +103,15 @@
                         android:textAppearance="@android:style/TextAppearance.Material.Large"
                         android:textColor="@color/colorPrimaryDark"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/textView5"
+                        app:layout_constraintEnd_toStartOf="@+id/lobby_wallet_balance"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView5"
+                        android:id="@+id/lobby_wallet_balance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:layout_marginTop="8dp"
-                        android:text="100"
                         android:textAppearance="@android:style/TextAppearance.Material.Large"
                         android:textColor="@color/colorPrimaryDark"
                         app:layout_constraintBottom_toBottomOf="parent"

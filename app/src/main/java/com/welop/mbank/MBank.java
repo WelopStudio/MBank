@@ -8,10 +8,16 @@ import com.welop.mbank.model.Account;
 import com.welop.mbank.model.Wallet;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MBank extends Application {
     private static ArrayList<Wallet> userWallets;
     private static Account user;
+    private static ArrayList<Wallet> lobbyWallets;
+
+    public static ArrayList<Wallet> getLobbyWallets() {
+        return lobbyWallets;
+    }
 
     public static Account getUser() {
         return user;
@@ -36,5 +42,6 @@ public class MBank extends Application {
 
         user = new Account();
         userWallets = new ArrayList<>();
+        lobbyWallets = new ArrayList<>();
     }
 }

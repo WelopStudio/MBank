@@ -4,38 +4,89 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.welop.mbank.MBank;
 import com.welop.mbank.fragments.AccountFragment;
 import com.welop.mbank.fragments.FriendsFragment;
 import com.welop.mbank.fragments.LobbiesFragment;
 import com.welop.mbank.interfaces.OnBackPressedListener;
+import com.welop.mbank.model.Account;
 import com.welop.svlit.mbank.R;
 
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
+    private CoordinatorLayout mCoordinatorLayout;
+    private ProgressBar mProgressBar;
+    private View mLoadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        checkAuth();
-        setContentView(R.layout.activity_main);
-        initializeViews();
+        if (checkAuth()) {
+            setContentView(R.layout.activity_main);
+            initializeViews();
+            downloadData();
+        }
     }
 
-    private void checkAuth() {
+    private void downloadData() {
+        loading(true);
+        DocumentReference docRef = FirebaseFirestore.getInstance()
+                .collection("accounts")
+                .document(FirebaseAuth.getInstance().getUid().toString());
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        MBank.setUser(new Account(
+                                FirebaseAuth.getInstance().getUid(),
+                                document.getString("name"),
+                                document.getString("email"),
+                                document.getString("sex")
+                        ));
+                    }
+                    loading(false);
+                } else {
+                    Snackbar.make(mCoordinatorLayout, "An error occured. Try to reload page.", Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void loading(boolean loading) {
+        mProgressBar.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
+        mLoadingView.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
+
+    }
+
+    private boolean checkAuth() {
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             Intent intent = new Intent(MainActivity.this, StartActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finishAffinity();
+            return false;
         }
+        return true;
     }
 
     private void initializeViews() {
@@ -44,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.main_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.main_navigetion_lobbies);
+        mCoordinatorLayout = findViewById(R.id.main_coordinator_layout);
+        mProgressBar = findViewById(R.id.main_progress_bar);
+        mLoadingView = findViewById(R.id.main_loading_view);
     }
 
     @Override

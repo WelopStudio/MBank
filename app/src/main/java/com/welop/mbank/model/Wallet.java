@@ -2,21 +2,31 @@ package com.welop.mbank.model;
 
 public class Wallet {
     private String mName;
+    private String mOwnerName;
     private String mOwnerId;
     private String mLobbyId;
     private String mLobbyName;
     private int mBalance;
 
     public Wallet() {
-        this ("", "", "", "", 0);
+        this ("", "", "", "", "", 0);
     }
 
-    public Wallet(String name, String ownerId, String lobbyId, String lobbyName, int balance) {
+    public Wallet(String name, String ownerName, String ownerId, String lobbyId, String lobbyName, int balance) {
         this.mName = name;
+        this.mOwnerName = ownerName;
         this.mOwnerId = ownerId;
         this.mLobbyId = lobbyId;
         this.mLobbyName = lobbyName;
         this.mBalance = balance;
+    }
+
+    public String getOwnerName() {
+        return mOwnerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        mOwnerName = ownerName;
     }
 
     public String getLobbyName() {

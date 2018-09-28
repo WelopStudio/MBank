@@ -56,12 +56,12 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
     @Override
     public void onStart() {
         super.onStart();
-        downloadData();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        downloadData();
     }
 
     private void loading(boolean loading) {
@@ -133,6 +133,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
                             for (DocumentSnapshot d : snapshot) {
                                 Wallet w = new Wallet(
                                         d.getString("name"),
+                                        MBank.getUser().getName(),
                                         d.getString("owner_id"),
                                         d.getString("lobby_id"),
                                         d.getString("lobby_name"),

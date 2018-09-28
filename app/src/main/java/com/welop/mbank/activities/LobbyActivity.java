@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,16 +36,24 @@ public class LobbyActivity extends AppCompatActivity {
     private Bundle mExtras;
     private CoordinatorLayout mCoordinatorLayout;
     private Toolbar mToolbar;
+    private TextView mAccountName;
+    private TextView mWalletName;
+    private TextView mWalletBalance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
         mExtras = getIntent().getExtras();
-        downloadData();
         initializeViews();
         initializeListeners();
         showInviteCodeIfFirstStartup();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        downloadData();
     }
 
     private void showInviteCodeIfFirstStartup() {
@@ -73,8 +82,11 @@ public class LobbyActivity extends AppCompatActivity {
     private void initializeViews() {
         mToolbar = findViewById(R.id.lobby_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Test Lobby Name");
+        getSupportActionBar().setTitle("Lobby \"" + mExtras.getString("lobby_name") + "\"");
         mCoordinatorLayout = findViewById(R.id.lobby_coordinator_layout);
+        mAccountName = findViewById(R.id.lobby_account_name);
+        mWalletName = findViewById(R.id.lobby_wallet_name);
+        mWalletBalance = findViewById(R.id.lobby_wallet_balance);
         mRecyclerView = findViewById(R.id.lobby_recycler);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -84,25 +96,29 @@ public class LobbyActivity extends AppCompatActivity {
 
     private void downloadData() {
         CollectionReference ref = FirebaseFirestore.getInstance().collection("wallets");
-        ref.whereEqualTo("owner_id", FirebaseAuth.getInstance().getUid().toString())
+        ref.whereEqualTo("lobby_id", mExtras.getString("lobby_id"))
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             QuerySnapshot snapshot = task.getResult();
-                            MBank.getUserWallets().clear();
+                            MBank.getLobbyWallets().clear();
                             for (DocumentSnapshot d : snapshot) {
                                 Wallet w = new Wallet(
                                         d.getString("name"),
+                                        d.getString("owner_name"),
                                         d.getString("owner_id"),
                                         d.getString("lobby_id"),
                                         d.getString("lobby_name"),
                                         Integer.parseInt(d.getString("balance"))
                                 );
-                                MBank.getUserWallets().add(w);
+                                if (w.getOwnerId().equals(FirebaseAuth.getInstance().getUid()))
+                                    initializeMainCard(w);
+                                //else
+                                    MBank.getLobbyWallets().add(w);
                             }
-                            adapt();
+                            updateCards();
                         } else {
                             Snackbar
                                     .make(mCoordinatorLayout, "Error while downloading data.", Snackbar.LENGTH_SHORT)
@@ -112,8 +128,14 @@ public class LobbyActivity extends AppCompatActivity {
                 });
     }
 
-    private void adapt() {
+    private void initializeMainCard(Wallet w) {
+        mAccountName.setText(MBank.getUser().getName());
+        mWalletName.setText(w.getName());
+        mWalletBalance.setText(Integer.toString(w.getBalance()));
+    }
 
+    private void updateCards() {
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

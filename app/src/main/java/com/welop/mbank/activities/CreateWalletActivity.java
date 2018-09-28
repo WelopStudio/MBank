@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.welop.mbank.MBank;
 import com.welop.svlit.mbank.R;
 
 import java.util.HashMap;
@@ -112,6 +113,7 @@ public class CreateWalletActivity extends AppCompatActivity {
         wallet.put("lobby_name", mExtras.getString("lobby_name"));
         wallet.put("name", mWalletName.getText().toString());
         wallet.put("owner_id", FirebaseAuth.getInstance().getUid());
+        wallet.put("owner_name", MBank.getUser().getName());
         FirebaseFirestore.getInstance()
                 .collection("wallets")
                 .document(FirebaseAuth.getInstance().getUid() + "_" + mExtras.getString("lobby_id"))
@@ -131,6 +133,7 @@ public class CreateWalletActivity extends AppCompatActivity {
         extras.putBoolean("just_created", true);
         extras.putString("invite_code", mExtras.getString("invite_code"));
         extras.putString("lobby_id", mExtras.getString("lobby_id"));
+        extras.putString("lobby_name", mExtras.getString("lobby_name"));
         lobbyIntent.putExtras(extras);
         startActivity(lobbyIntent);
         finish();

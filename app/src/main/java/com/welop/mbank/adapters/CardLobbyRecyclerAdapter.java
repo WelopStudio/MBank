@@ -33,6 +33,7 @@ public class CardLobbyRecyclerAdapter extends RecyclerView.Adapter<CardLobbyRecy
                     Intent lobbyIntent = new Intent(view.getContext(), LobbyActivity.class);
                     Bundle extras = new Bundle();
                     extras.putString("lobby_id", mLobbyId);
+                    extras.putString("lobby_name", mLobbyName.getText().toString());
                     lobbyIntent.putExtras(extras);
                     view.getContext().startActivity(lobbyIntent);
                 }
