@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lobbies_recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <View
         android:id="@+id/fab_background"
@@ -41,11 +41,11 @@
         app:layout_constraintStart_toStartOf="@+id/lobbies_recycler"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/lobbies_coordinator_layout">
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/lobbies_create_lobby_fab"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -58,7 +58,7 @@
             android:layout_gravity="bottom|right"
             app:srcCompat="@drawable/baseline_create_white_24dp" />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/lobbies_join_lobby_fab"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -71,7 +71,7 @@
             android:layout_gravity="bottom|right"
             app:srcCompat="@drawable/baseline_group_add_white_24dp" />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/lobbies_fab"
             android:layout_width="56dp"
             android:layout_height="56dp"
@@ -82,6 +82,6 @@
             app:fab_size="normal"
             android:layout_gravity="bottom|right"
             app:srcCompat="@drawable/baseline_add_white_24dp" />
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
