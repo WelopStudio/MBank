@@ -49,7 +49,7 @@ public class CreateLobbyActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Create lobby");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_24dp);
         mCreateLobby = findViewById(R.id.create_lobby_button);
         mLobbyName = findViewById(R.id.create_lobby_lobby_name);
         mGoCost = findViewById(R.id.create_lobby_go_cost);

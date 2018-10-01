@@ -117,15 +117,16 @@
 
         <Button
             android:id="@+id/signup_button_cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
             android:text="@string/cancel"
             android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/signup_button_signup"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

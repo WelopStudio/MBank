@@ -35,12 +35,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/main_loading_view"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
     <ProgressBar
         android:id="@+id/main_progress_bar"
         style="?android:attr/progressBarStyle"

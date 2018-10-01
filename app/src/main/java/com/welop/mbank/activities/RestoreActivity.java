@@ -16,7 +16,6 @@ public class RestoreActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private TextInputEditText mEmail;
-    private ImageView mClearAll;
     private Button mChangePassword;
 
     @Override
@@ -28,12 +27,6 @@ public class RestoreActivity extends AppCompatActivity {
     }
 
     private void initializeListeners() {
-        mClearAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mEmail.getText().clear();
-            }
-        });
 
         mEmail.addTextChangedListener(new TextWatcher() {
             @Override
@@ -43,14 +36,7 @@ public class RestoreActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() != 0){
-
-                    mClearAll.setVisibility(View.VISIBLE);
-                    mChangePassword.setVisibility(View.VISIBLE);
-                } else {
-                    mClearAll.setVisibility(View.INVISIBLE);
-                    mChangePassword.setVisibility(View.INVISIBLE);
-                }
+                mChangePassword.setEnabled(s.length() > 0);
             }
 
             @Override
@@ -65,8 +51,7 @@ public class RestoreActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Restore");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
-        mClearAll = findViewById(R.id.restore_close_image_view);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_24dp);
         mChangePassword = findViewById(R.id.restore_change_password_button);
         mEmail = findViewById(R.id.restore_edit_text_email);
     }

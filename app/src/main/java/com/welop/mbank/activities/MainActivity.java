@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private CoordinatorLayout mCoordinatorLayout;
     private ProgressBar mProgressBar;
-    private View mLoadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void loading(boolean loading) {
         mProgressBar.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
-        mLoadingView.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
 
     }
 
@@ -96,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
         navigation.setSelectedItemId(R.id.main_navigetion_lobbies);
         mCoordinatorLayout = findViewById(R.id.main_coordinator_layout);
         mProgressBar = findViewById(R.id.main_progress_bar);
-        mLoadingView = findViewById(R.id.main_loading_view);
     }
 
     @Override

@@ -116,6 +116,7 @@
 
         <Button
             android:id="@+id/signin_button_cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -127,6 +128,7 @@
 
         <Button
             android:id="@+id/signin_button_sign_in"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -138,12 +140,12 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/login_forgot_text"
+        android:id="@+id/signin_forgot_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
         android:text="Forgot password?"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

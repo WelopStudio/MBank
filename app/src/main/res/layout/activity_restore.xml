@@ -19,82 +19,46 @@
         android:id="@+id/restore_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/please_enter_the_email_that_you_used_to_sign_in"
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
-
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:text="@string/restore_hint"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/restore_toolbar">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/restore_edit_text_email"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:drawableRight="@drawable/restore_invisible_close_24x24"
-                android:hint="Your email"
-                android:inputType="textEmailAddress" />
-                <!--android:drawableRight="@drawable/close_grey_24x24"-->
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!--<Button
-            android:id="@+id/forgot_close_button"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/close_grey_24x24"
-            android:visibility="invisible" />-->
-
-        <ImageView
-            android:id="@+id/restore_close_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="24dp"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="4dp"
-            android:layout_marginTop="4dp"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/close_grey_24x24" />
-
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@+id/restore_toolbar" />
 
     <Button
         android:id="@+id/restore_change_password_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="Change password"
-        android:textColor="@android:color/white"
-        android:visibility="invisible"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/change_password"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/restore_text">
 
-
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/restore_edit_text_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:selectAllOnFocus="true"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

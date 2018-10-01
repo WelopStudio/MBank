@@ -10,9 +10,8 @@
     <string name="sign_in">Sign in</string>
     <string name="password">Password</string>
     <string name="sign_up">Sign up</string>
-    <string name="email">Email</string>
     <string name="forgot">Forgot?</string>
-    <string name="please_enter_the_email_that_you_used_to_sign_in">Please enter the email that you used to sign in</string>
+    <string name="restore_hint">Enter email address used to sign up</string>
     <string name="cancel">Cancel</string>
     <string name="sign_up_to_continue">Sign up to continue</string>
     <string name="sign_in_to_continue">Sign in to continue</string>
@@ -94,4 +93,6 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="email">Email</string>
+    <string name="change_password">Change password</string>
 </resources>

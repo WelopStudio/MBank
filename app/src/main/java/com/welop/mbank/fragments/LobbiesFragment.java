@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,9 +38,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
     private FloatingActionButton mFab, mFabCreate, mFabJoin;
     private boolean mIsFabOpened = false;
     private View mFabBackground;
-    private ProgressBar mProgressBar;
     private CoordinatorLayout mCoordinatorLayout;
-    private View mLoadingBackground;
 
     @Nullable
     @Override
@@ -65,8 +62,6 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
     }
 
     private void loading(boolean loading) {
-        mLoadingBackground.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
-        mProgressBar.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
         mFab.setEnabled(!loading);
     }
 
@@ -104,8 +99,6 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
     }
 
     private void initializeViews(View v) {
-        mProgressBar = v.findViewById(R.id.lobbies_progress_bar);
-        mProgressBar.setVisibility(View.VISIBLE);
         mFabBackground = v.findViewById(R.id.fab_background);
         mFab = v.findViewById(R.id.lobbies_fab);
         mFabCreate = v.findViewById(R.id.lobbies_create_lobby_fab);
@@ -116,7 +109,6 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
         mAdapter = new CardLobbyRecyclerAdapter();
         mRecyclerView.setAdapter(mAdapter);
         mCoordinatorLayout = v.findViewById(R.id.lobbies_coordinator_layout);
-        mLoadingBackground = v.findViewById(R.id.lobbies_loading_background);
     }
 
     private void downloadData() {
@@ -170,8 +162,6 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
             @Override
             public void onAnimationEnd(Animator animation) {
                 if (!mIsFabOpened) {
-                    mFabCreate.setVisibility(View.GONE);
-                    mFabJoin.setVisibility(View.GONE);
                     mFabBackground.setVisibility(View.GONE);
                 }
             }
