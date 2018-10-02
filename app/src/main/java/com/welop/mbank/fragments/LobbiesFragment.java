@@ -63,6 +63,8 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
 
     private void loading(boolean loading) {
         mFab.setEnabled(!loading);
+        mFabJoin.setEnabled(!loading);
+        mFabCreate.setEnabled(!loading);
     }
 
     private void initializeListeners(View v) {
@@ -114,7 +116,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
     private void downloadData() {
         loading(true);
         CollectionReference ref = FirebaseFirestore.getInstance().collection("wallets");
-        ref.whereEqualTo("owner_id", FirebaseAuth.getInstance().getUid().toString())
+        ref.whereEqualTo("owner_id", FirebaseAuth.getInstance().getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
