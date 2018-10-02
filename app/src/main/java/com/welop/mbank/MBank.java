@@ -8,7 +8,6 @@ import com.welop.mbank.model.Account;
 import com.welop.mbank.model.Wallet;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MBank extends Application {
     private static ArrayList<Wallet> userWallets;

@@ -1,12 +1,31 @@
 package com.welop.mbank.model;
 
+import com.google.firebase.Timestamp;
+
+import java.util.Comparator;
+
 public class Wallet {
+    public static Comparator<Wallet> DateComparator = new Comparator<Wallet>() {
+        @Override
+        public int compare(Wallet o1, Wallet o2) {
+            return o1.mCreatedAt.compareTo(o2.mCreatedAt);
+        }
+    };
+
+    public static Comparator<Wallet> BalanceComparator = new Comparator<Wallet>() {
+        @Override
+        public int compare(Wallet o1, Wallet o2) {
+            return o1.mBalance > o2.mBalance ? 1 : (o1.mBalance == o2.mBalance ? 0 : -1);
+        }
+    };
+
     private String mName;
     private String mOwnerName;
     private String mOwnerId;
     private String mLobbyId;
     private String mLobbyName;
     private int mBalance;
+    private Timestamp mCreatedAt;
 
     public Wallet() {
         this ("", "", "", "", "", 0);
@@ -67,5 +86,13 @@ public class Wallet {
 
     public void setBalance(int balance) {
         this.mBalance = balance;
+    }
+
+    public Timestamp getCreatedAt() {
+        return mCreatedAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        mCreatedAt = createdAt;
     }
 }

@@ -37,7 +37,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
     private RecyclerView.Adapter mAdapter;
     private FloatingActionButton mFab, mFabCreate, mFabJoin;
     private boolean mIsFabOpened = false;
-    private View mFabBackground;
+    private View mFabBackground, mLoadingBackground;
     private CoordinatorLayout mCoordinatorLayout;
 
     @Nullable
@@ -46,7 +46,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
         View v = inflater.inflate(R.layout.fragment_lobbies, container, false);
         initializeViews(v);
         initializeListeners(v);
-        loading(false);
+        loading(true);
         return v;
     }
 
@@ -63,6 +63,9 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
 
     private void loading(boolean loading) {
         mFab.setEnabled(!loading);
+        mFabCreate.setEnabled(!loading);
+        mFabJoin.setEnabled(!loading);
+        mLoadingBackground.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
     }
 
     private void initializeListeners(View v) {
@@ -85,6 +88,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
         mFabCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                closeFab();
                 Intent intent = new Intent(getActivity(), CreateLobbyActivity.class);
                 startActivity(intent);
             }
@@ -92,6 +96,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
         mFabJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                closeFab();
                 Intent intent = new Intent(getActivity(), JoinLobbyActivity.class);
                 startActivity(intent);
             }
@@ -100,6 +105,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
 
     private void initializeViews(View v) {
         mFabBackground = v.findViewById(R.id.fab_background);
+        mLoadingBackground = v.findViewById(R.id.lobbies_loading_background);
         mFab = v.findViewById(R.id.lobbies_fab);
         mFabCreate = v.findViewById(R.id.lobbies_create_lobby_fab);
         mFabJoin = v.findViewById(R.id.lobbies_join_lobby_fab);
@@ -114,7 +120,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
     private void downloadData() {
         loading(true);
         CollectionReference ref = FirebaseFirestore.getInstance().collection("wallets");
-        ref.whereEqualTo("owner_id", FirebaseAuth.getInstance().getUid().toString())
+        ref.whereEqualTo("owner_id", FirebaseAuth.getInstance().getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -131,6 +137,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
                                         d.getString("lobby_name"),
                                         Integer.parseInt(d.getString("balance"))
                                 );
+                                w.setCreatedAt(d.getTimestamp("created_at"));
                                 MBank.getUserWallets().add(w);
                             }
                             updateCards();
@@ -145,6 +152,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
     }
 
     private void updateCards() {
+        MBank.getUserWallets().sort(Wallet.DateComparator);
         mAdapter.notifyDataSetChanged();
         loading(false);
     }
@@ -153,9 +161,9 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
         mIsFabOpened = true;
         mFabBackground.setVisibility(View.VISIBLE);
         mFabBackground.setAlpha(0);
-        mFab.setVisibility(View.VISIBLE);
-        mFabCreate.setVisibility(View.VISIBLE);
-        mFabJoin.setVisibility(View.VISIBLE);
+        mFab.setEnabled(true);
+        mFabCreate.setEnabled(true);
+        mFabJoin.setEnabled(true);
         mFabBackground.animate().alpha(1);
         mFab.animate().rotationBy(-45).setListener(new Animator.AnimatorListener() {
 

@@ -24,17 +24,17 @@ public class JoinLobbyActivity extends AppCompatActivity {
         initializeListeners();
     }
 
-    private void initializeListeners() {
+    private void initializeViews() {
         mToolbar = findViewById(R.id.join_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Join");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        mInviteCode = findViewById(R.id.join_code_of_lobby);
+        mInviteCode = findViewById(R.id.join_invite_code);
         mConnect = findViewById(R.id.join_join_btn);
     }
 
-    private void initializeViews() {
+    private void initializeListeners() {
         mConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

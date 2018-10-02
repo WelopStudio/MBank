@@ -34,17 +34,6 @@ public class CreateWalletActivity extends AppCompatActivity {
         initializeListeners();
     }
 
-    private void initializeListeners() {
-        mCreateWallet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkFields()) {
-                    uploadSettings();
-                }
-            }
-        });
-    }
-
     private void initializeViews() {
         mProgressBar = findViewById(R.id.create_wallet_progress_bar);
         mProgressBar.setVisibility(View.INVISIBLE);
@@ -58,86 +47,14 @@ public class CreateWalletActivity extends AppCompatActivity {
         mCreateWallet = findViewById(R.id.create_wallet_btn);
     }
 
+    private void initializeListeners() {
+    }
+
     private boolean checkFields() {
         return true;
     }
 
-    private void uploadSettings() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        HashMap<String, String> settings = new HashMap<>();
-        settings.put("init_balance", mExtras.getString("init_balance"));
-        settings.put("go", mExtras.getString("go"));
-        settings.put("income", mExtras.getString("income"));
-        settings.put("luxury", mExtras.getString("luxury"));
-        FirebaseFirestore.getInstance()
-                .collection("settings")
-                .document(mExtras.getString("lobby_id"))
-                .set(settings)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        mProgressBar.setVisibility(View.INVISIBLE);
-                        uploadLobby();
-                    }
-        });
-    }
 
-    private void uploadLobby() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        mExtras.putString("invite_code", generateInviteCode());
-        HashMap<String, String> lobby = new HashMap<>();
-        lobby.put("admin_id", mExtras.getString("admin_id"));
-        lobby.put("invite_code", mExtras.getString("invite_code"));
-        FirebaseFirestore.getInstance()
-                .collection("lobbies")
-                .document(mExtras.getString("lobby_id"))
-                .set(lobby)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        mProgressBar.setVisibility(View.INVISIBLE);
-                        uploadWallet();
-                    }
-                });
-    }
-
-    private String generateInviteCode() {
-        return mExtras.getString("lobby_id").substring(0, 5).toUpperCase();
-    }
-
-    private void uploadWallet() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        HashMap<String, String> wallet = new HashMap<>();
-        wallet.put("balance", mExtras.getString("init_balance"));
-        wallet.put("lobby_id", mExtras.getString("lobby_id"));
-        wallet.put("lobby_name", mExtras.getString("lobby_name"));
-        wallet.put("name", mWalletName.getText().toString());
-        wallet.put("owner_id", FirebaseAuth.getInstance().getUid());
-        wallet.put("owner_name", MBank.getUser().getName());
-        FirebaseFirestore.getInstance()
-                .collection("wallets")
-                .document(FirebaseAuth.getInstance().getUid() + "_" + mExtras.getString("lobby_id"))
-                .set(wallet)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        mProgressBar.setVisibility(View.INVISIBLE);
-                        startLobby();
-                    }
-                });
-    }
-
-    private void startLobby() {
-        Intent lobbyIntent = new Intent(CreateWalletActivity.this, LobbyActivity.class);
-        Bundle extras = new Bundle();
-        extras.putBoolean("just_created", true);
-        extras.putString("invite_code", mExtras.getString("invite_code"));
-        extras.putString("lobby_id", mExtras.getString("lobby_id"));
-        extras.putString("lobby_name", mExtras.getString("lobby_name"));
-        lobbyIntent.putExtras(extras);
-        startActivity(lobbyIntent);
-        finish();
-    }
 
     @Override
     public boolean onSupportNavigateUp() {
