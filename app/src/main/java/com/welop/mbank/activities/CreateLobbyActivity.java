@@ -96,14 +96,15 @@ public class CreateLobbyActivity extends AppCompatActivity {
         loading(true);
         lobbyId = UUID.randomUUID().toString();
         inviteCode = lobbyId.substring(0, 5).toUpperCase();
-        HashMap<String, String> values = new HashMap<>();
+        HashMap<String, Object> values = new HashMap<>();
         values.put("admin_id", FirebaseAuth.getInstance().getUid());
+        values.put("name", mLobbyName.getText().toString());
         values.put("invite_code", inviteCode);
         values.put("init_balance", mStartBalance.getText().toString());
         values.put("go", mGoCost.getText().toString());
         values.put("income", mIncomeTaxCost.getText().toString());
         values.put("luxury", mLuxuryTaxCost.getText().toString());
-        values.put("created_at", new Date().toString());
+        values.put("created_at", new com.google.firebase.Timestamp(new Timestamp(new Date().getTime())));
         FirebaseFirestore.getInstance()
                 .collection("lobbies")
                 .document(lobbyId)
@@ -134,7 +135,7 @@ public class CreateLobbyActivity extends AppCompatActivity {
         values.put("name", mWalletName.getText().toString());
         values.put("owner_id", FirebaseAuth.getInstance().getUid());
         values.put("owner_name", MBank.getUser().getName());
-        values.put("created_at", new Timestamp(new Date().getTime()));
+        values.put("created_at", new com.google.firebase.Timestamp(new Timestamp(new Date().getTime())));
         FirebaseFirestore.getInstance()
                 .collection("wallets")
                 .document(FirebaseAuth.getInstance().getUid() + "_" + lobbyId)

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.welop.mbank.MBank;
 import com.welop.mbank.model.Wallet;
 import com.welop.svlit.mbank.R;
@@ -49,11 +50,13 @@ public class CardPlayerLobbyRecyclerAdapter extends RecyclerView.Adapter<CardPla
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Wallet wallet = MBank.getLobbyWallets().get(position);
-        holder.accountName.setText(wallet.getOwnerName());
-        holder.walletName.setText(wallet.getName());
-        holder.walletBalance.setText(Integer.toString(wallet.getBalance()));
-        holder.accountAvatar.setImageResource(position % 2 == 0 ? R.drawable.person2 : R.drawable.person1);
+        Wallet wallet = MBank.getLobby().getWallets().get(position);
+        if (!wallet.getOwnerId().equals(FirebaseAuth.getInstance().getUid())) {
+            holder.accountName.setText(wallet.getOwnerName());
+            holder.walletName.setText(wallet.getName());
+            holder.walletBalance.setText(Integer.toString(wallet.getBalance()));
+            holder.accountAvatar.setImageResource(position % 2 == 0 ? R.drawable.person2 : R.drawable.person1);
+        }
     }
 
     @Override

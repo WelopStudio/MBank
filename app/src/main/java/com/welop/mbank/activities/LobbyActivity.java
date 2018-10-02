@@ -3,7 +3,6 @@ package com.welop.mbank.activities;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import androidx.annotation.NonNull;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,11 +19,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.welop.mbank.MBank;
 import com.welop.mbank.adapters.CardPlayerLobbyRecyclerAdapter;
+import com.welop.mbank.model.Lobby;
 import com.welop.mbank.model.Wallet;
 import com.welop.svlit.mbank.R;
 
@@ -53,7 +54,7 @@ public class LobbyActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        downloadData();
+        downloadLobby();
     }
 
     private void showInviteCodeIfFirstStartup() {
@@ -65,10 +66,9 @@ public class LobbyActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 ClipboardManager manager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                                ClipData data = ClipData.newPlainText("Invite code", "ABCDE");
+                                ClipData data = ClipData.newPlainText("Invite code", mExtras.getString("invite_code"));
                                 manager.setPrimaryClip(data);
-                                Snackbar
-                                        .make(mCoordinatorLayout, "Invite code copied to clipboard.", BaseTransientBottomBar.LENGTH_SHORT);
+                                Snackbar.make(mCoordinatorLayout, "Invite code copied to clipboard.", Snackbar.LENGTH_SHORT).show();
                             }
                         })
                         .show();
@@ -94,7 +94,34 @@ public class LobbyActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void downloadData() {
+    private void downloadLobby() {
+        DocumentReference ref = FirebaseFirestore.getInstance()
+                .collection("lobbies")
+                .document(mExtras.getString("lobby_id"));
+        ref.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            Lobby lobby = new Lobby();
+                            lobby.setAdminId(document.getString("admin_id"));
+                            lobby.setCreatedAt(document.getTimestamp("created_at"));
+                            lobby.setGo(Integer.parseInt(document.getString("go")));
+                            lobby.setIncome(Integer.parseInt(document.getString("income")));
+                            lobby.setLuxury(Integer.parseInt(document.getString("luxury")));
+                            lobby.setName(document.getString("name"));
+                            lobby.setInitBalance(Integer.parseInt(document.getString("init_balance")));
+                            lobby.setInviteCode(document.getString("invite_code"));
+                            lobby.setAdminId(document.getString("admin_id"));
+                            MBank.setLobby(lobby);
+                            downloadWallets();
+                        }
+                    }
+                });
+    }
+
+    private void downloadWallets() {
         CollectionReference ref = FirebaseFirestore.getInstance().collection("wallets");
         ref.whereEqualTo("lobby_id", mExtras.getString("lobby_id"))
                 .get()
@@ -115,8 +142,7 @@ public class LobbyActivity extends AppCompatActivity {
                                 );
                                 if (w.getOwnerId().equals(FirebaseAuth.getInstance().getUid()))
                                     initializeMainCard(w);
-                                //else
-                                    MBank.getLobbyWallets().add(w);
+                                MBank.getLobby().getWallets().add(w);
                             }
                             updateCards();
                         } else {
@@ -135,6 +161,7 @@ public class LobbyActivity extends AppCompatActivity {
     }
 
     private void updateCards() {
+        MBank.getLobby().getWallets().sort(Wallet.BalanceComparator);
         mAdapter.notifyDataSetChanged();
     }
 

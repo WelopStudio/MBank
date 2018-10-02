@@ -8,13 +8,10 @@
 
     <Button
         android:id="@+id/button"
-        style="?attr/borderlessButtonStyle"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:backgroundTint="@android:color/white"
         android:text="View payment history"
-        android:textColor="?attr/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

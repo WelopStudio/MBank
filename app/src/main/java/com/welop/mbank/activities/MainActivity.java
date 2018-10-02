@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         loading(true);
         DocumentReference docRef = FirebaseFirestore.getInstance()
                 .collection("accounts")
-                .document(FirebaseAuth.getInstance().getUid().toString());
+                .document(FirebaseAuth.getInstance().getUid());
 
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

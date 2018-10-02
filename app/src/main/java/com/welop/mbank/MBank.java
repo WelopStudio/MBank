@@ -5,6 +5,7 @@ import android.app.Application;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.welop.mbank.model.Account;
+import com.welop.mbank.model.Lobby;
 import com.welop.mbank.model.Wallet;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 public class MBank extends Application {
     private static ArrayList<Wallet> userWallets;
     private static Account user;
+    private static Lobby lobby;
     private static ArrayList<Wallet> lobbyWallets;
 
     public static ArrayList<Wallet> getLobbyWallets() {
@@ -30,6 +32,14 @@ public class MBank extends Application {
         return userWallets;
     }
 
+    public static Lobby getLobby() {
+        return lobby;
+    }
+
+    public static void setLobby(Lobby lobby) {
+        MBank.lobby = lobby;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -40,6 +50,7 @@ public class MBank extends Application {
         FirebaseFirestore.getInstance().setFirestoreSettings(settings);
 
         user = new Account();
+        lobby = new Lobby();
         userWallets = new ArrayList<>();
         lobbyWallets = new ArrayList<>();
     }
