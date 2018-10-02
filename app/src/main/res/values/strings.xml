@@ -105,4 +105,5 @@
     <string name="specify_some_game_settings_to_simplify_game_management">Specify some game settings to simplify game management</string>
     <string name="wallet_name">Wallet name</string>
     <string name="don_t_forget_to_name_your_own_wallet">Don\'t forget to name your own wallet</string>
+    <string name="invite_code">Invite code</string>
 </resources>

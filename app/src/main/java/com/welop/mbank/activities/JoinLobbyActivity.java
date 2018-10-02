@@ -38,9 +38,7 @@ public class JoinLobbyActivity extends AppCompatActivity {
         mConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(JoinLobbyActivity.this, CreateWalletActivity.class);
-                intent.putExtra("ActivityName",JoinLobbyActivity.class.getSimpleName());
-                startActivity(intent);
+
             }
         });
     }
