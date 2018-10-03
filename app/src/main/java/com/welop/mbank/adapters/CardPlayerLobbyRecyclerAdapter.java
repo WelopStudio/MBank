@@ -59,6 +59,6 @@ public class CardPlayerLobbyRecyclerAdapter extends RecyclerView.Adapter<CardPla
 
     @Override
     public int getItemCount() {
-        return MBank.getLobby().getWallets().size() - 1;
+        return MBank.getLobby().getWallets().size();
     }
 }
