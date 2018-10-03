@@ -51,16 +51,14 @@ public class CardPlayerLobbyRecyclerAdapter extends RecyclerView.Adapter<CardPla
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Wallet wallet = MBank.getLobby().getWallets().get(position);
-        if (!wallet.getOwnerId().equals(FirebaseAuth.getInstance().getUid())) {
-            holder.accountName.setText(wallet.getOwnerName());
-            holder.walletName.setText(wallet.getName());
-            holder.walletBalance.setText(Integer.toString(wallet.getBalance()));
-            holder.accountAvatar.setImageResource(position % 2 == 0 ? R.drawable.person2 : R.drawable.person1);
-        }
+        holder.accountName.setText(wallet.getOwnerName());
+        holder.walletName.setText(wallet.getName());
+        holder.walletBalance.setText(Integer.toString(wallet.getBalance()));
+        holder.accountAvatar.setImageResource(position % 2 == 0 ? R.drawable.person2 : R.drawable.person1);
     }
 
     @Override
     public int getItemCount() {
-        return MBank.getLobbyWallets().size();
+        return MBank.getLobby().getWallets().size() - 1;
     }
 }

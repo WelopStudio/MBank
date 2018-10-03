@@ -14,11 +14,6 @@ public class MBank extends Application {
     private static ArrayList<Wallet> userWallets;
     private static Account user;
     private static Lobby lobby;
-    private static ArrayList<Wallet> lobbyWallets;
-
-    public static ArrayList<Wallet> getLobbyWallets() {
-        return lobbyWallets;
-    }
 
     public static Account getUser() {
         return user;
@@ -52,6 +47,5 @@ public class MBank extends Application {
         user = new Account();
         lobby = new Lobby();
         userWallets = new ArrayList<>();
-        lobbyWallets = new ArrayList<>();
     }
 }

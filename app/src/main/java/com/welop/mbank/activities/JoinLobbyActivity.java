@@ -30,7 +30,7 @@ public class JoinLobbyActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Join");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        mInviteCode = findViewById(R.id.join_invite_code);
+        mInviteCode = findViewById(R.id.join_lobby_invite_code);
         mConnect = findViewById(R.id.join_join_btn);
     }
 

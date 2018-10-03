@@ -130,7 +130,7 @@ public class LobbyActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             QuerySnapshot snapshot = task.getResult();
-                            MBank.getLobbyWallets().clear();
+                            MBank.getLobby().getWallets().clear();
                             for (DocumentSnapshot d : snapshot) {
                                 Wallet w = new Wallet(
                                         d.getString("name"),
@@ -142,7 +142,8 @@ public class LobbyActivity extends AppCompatActivity {
                                 );
                                 if (w.getOwnerId().equals(FirebaseAuth.getInstance().getUid()))
                                     initializeMainCard(w);
-                                MBank.getLobby().getWallets().add(w);
+                                else
+                                    MBank.getLobby().getWallets().add(w);
                             }
                             updateCards();
                         } else {
