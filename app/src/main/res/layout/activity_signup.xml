@@ -5,7 +5,7 @@
     android:id="@+id/signup_constrainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorPrimaryDark"
     tools:context="com.welop.mbank.activities.SignUpActivity">
 
     <androidx.cardview.widget.CardView

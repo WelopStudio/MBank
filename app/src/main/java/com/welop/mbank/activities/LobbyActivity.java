@@ -98,6 +98,8 @@ public class LobbyActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.lobby_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Lobby \"" + mExtras.getString("lobby_name") + "\"");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         mCoordinatorLayout = findViewById(R.id.lobby_coordinator_layout);
         mAccountName = findViewById(R.id.lobby_account_name);
         mWalletName = findViewById(R.id.lobby_wallet_name);
@@ -199,7 +201,7 @@ public class LobbyActivity extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.lobby_menu, menu);
 
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -231,4 +233,12 @@ public class LobbyActivity extends AppCompatActivity {
 
         return true;
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
+
+
 }

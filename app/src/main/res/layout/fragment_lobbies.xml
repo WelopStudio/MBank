@@ -37,41 +37,41 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/lobbies_create_lobby_fab"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="24dp"
             android:clickable="true"
             android:focusable="true"
             android:scaleType="center"
-            app:fab_size="mini"
+            app:fabSize="mini"
             app:srcCompat="@drawable/baseline_create_white_24dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/lobbies_join_lobby_fab"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="24dp"
             android:clickable="true"
             android:focusable="true"
             android:scaleType="center"
-            app:fab_size="mini"
+            app:fabSize="mini"
             app:srcCompat="@drawable/baseline_group_add_white_24dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/lobbies_fab"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
             android:scaleType="center"
-            app:fab_size="normal"
+            app:fabSize="normal"
             app:srcCompat="@drawable/baseline_add_white_24dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
