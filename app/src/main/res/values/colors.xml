@@ -27,4 +27,5 @@
     <color name="blue_grey">#5E7C8B</color>
     <color name="white">#ffffff</color>
     <color name="colorTransBg">#ccffffff</color>
+    <color name="transparent">#00000000</color>
 </resources>

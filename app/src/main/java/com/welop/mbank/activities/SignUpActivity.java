@@ -2,8 +2,12 @@ package com.welop.mbank.activities;
 
 import android.content.Intent;
 import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,15 +30,13 @@ import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    public static final String TAG = "SignUp";
-    private FirebaseFirestore mStorage;
-
     private Button mSignUp;
     private Button mCancel;
     private TextView mEmail;
     private TextView mPassword;
     private TextView mName;
     private ProgressBar mProgressBar;
+    private CoordinatorLayout mCoordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
         mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signUp(mEmail.getText().toString(), mPassword.getText().toString());
+                signUp();
             }
         });
         mCancel.setOnClickListener(new View.OnClickListener() {
@@ -60,61 +62,71 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
-        mStorage = FirebaseFirestore.getInstance();
         mEmail = findViewById(R.id.signup_email);
         mName = findViewById(R.id.signup_name);
         mPassword =findViewById(R.id.signup_password);
         mProgressBar = findViewById(R.id.signup_progress_bar);
         mSignUp = findViewById(R.id.signup_button_signup);
         mCancel = findViewById(R.id.signup_button_cancel);
+        mCoordinatorLayout = findViewById(R.id.signup_coordinator_layout);
     }
 
-    private void signUp(String email, String password){
-        Log.d(TAG, "signUp: " + mEmail);
-
+    private void signUp(){
         if (!validateForm()) {
             return;
         }
 
-        mProgressBar.setVisibility(ProgressBar.VISIBLE);
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+        loading(true);
+
+        FirebaseAuth.getInstance()
+                .createUserWithEmailAndPassword(mEmail.getText().toString(), mPassword.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful() & storageAddAccount(mEmail.getText(), mName.getText())) {
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            updateUI(user);
+                        if (task.isSuccessful()) {
+                            uploadAccount();
+
                         } else {
-                            Snackbar.make(findViewById(R.id.signup_constrainLayout), "Authentication failed.", Snackbar.LENGTH_SHORT).show();
-                            updateUI(null);
+                            loading(false);
+                            Snackbar.make(mCoordinatorLayout, "Authentication failed.", Snackbar.LENGTH_LONG).show();
                         }
-                        mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                     }
                 });
     }
 
-    /**
-     * Создать документ аккаунта в Firestore
-     * @param email
-     * @param name
-     * @return Выполнено ли добавление успешно
-     */
-    private boolean storageAddAccount(CharSequence email, CharSequence name) {
-        final boolean[] success = new boolean[1];
-        success[0] = true;
+    private void uploadAccount() {
         Map<String, Object> data = new HashMap<>();
-        data.put("name", name.toString());
-        data.put("email", email.toString());
+        data.put("name", mName.getText().toString());
+        data.put("email", mEmail.getText().toString());
         data.put("sex", "not stated");
         data.put("description", "To be filled");
-        mStorage.collection("accounts").document(FirebaseAuth.getInstance().getUid()).set(data)
-                .addOnFailureListener(new OnFailureListener() {
+        FirebaseFirestore.getInstance()
+                .collection("accounts")
+                .document(FirebaseAuth.getInstance().getUid())
+                .set(data)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        success[0] = false;
+                    public void onComplete(Task<Void> task) {
+                        loading(false);
+                        if (task.isSuccessful()) {
+                            proceedToMainActivity();
+                        }
+                        else {
+                            Snackbar.make(mCoordinatorLayout, "Authentication failed.", Snackbar.LENGTH_LONG).show();
+                        }
                     }
                 });
-        return success[0];
+    }
+
+    private void loading(boolean loading) {
+        mProgressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
+    }
+
+    private void proceedToMainActivity() {
+        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finishAffinity();
     }
 
     private boolean validateForm(){
@@ -140,16 +152,5 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         return valid;
-    }
-
-    private void updateUI(FirebaseUser user) {
-        if (user != null) {
-            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finishAffinity();
-        } else {
-            //TODO что тут? Где еще используется этот метод => нужен ли он?
-        }
     }
 }

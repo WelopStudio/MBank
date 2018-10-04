@@ -4,8 +4,12 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,6 +45,8 @@ public class LobbyActivity extends AppCompatActivity {
     private TextView mAccountName;
     private TextView mWalletName;
     private TextView mWalletBalance;
+    private FloatingActionButton mHistoryButton;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +83,13 @@ public class LobbyActivity extends AppCompatActivity {
     }
 
     private void initializeListeners() {
-
+        mHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent transactionsIntent = new Intent(LobbyActivity.this, TransactionsActivity.class);
+                startActivity(transactionsIntent);
+            }
+        });
     }
 
     private void initializeViews() {
@@ -91,10 +104,12 @@ public class LobbyActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new CardPlayerLobbyRecyclerAdapter();
-        mRecyclerView.setAdapter(mAdapter);
+        mHistoryButton = findViewById(R.id.lobby_history_button);
+        mProgressBar = findViewById(R.id.lobby_progress_bar);
     }
 
     private void downloadLobby() {
+        loading(true);
         DocumentReference ref = FirebaseFirestore.getInstance()
                 .collection("lobbies")
                 .document(mExtras.getString("lobby_id"));
@@ -119,6 +134,12 @@ public class LobbyActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void loading(boolean loading) {
+        mCoordinatorLayout.setBackground(getDrawable(loading ? R.color.white : R.color.transparent));
+        mHistoryButton.setEnabled(!loading);
+        mProgressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
     }
 
     private void downloadWallets() {
@@ -164,6 +185,7 @@ public class LobbyActivity extends AppCompatActivity {
     private void updateCards() {
         MBank.getLobby().getWallets().sort(Wallet.BalanceComparator);
         mAdapter.notifyDataSetChanged();
+        loading(false);
     }
 
     @Override

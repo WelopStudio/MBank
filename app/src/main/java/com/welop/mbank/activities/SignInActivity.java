@@ -1,10 +1,11 @@
 package com.welop.mbank.activities;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
+
 import androidx.annotation.NonNull;
 import com.google.android.material.snackbar.Snackbar;
-import androidx.core.content.ContextCompat;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -20,15 +21,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.welop.svlit.mbank.R;
 
 public class SignInActivity extends AppCompatActivity {
-
-    public static final String TAG = "SignIn";
-
     private Button mCancel;
-    private Button mLogin;
+    private Button mSignIn;
     private TextView mForgot;
     private TextView mEmail;
     private TextView mPassword;
-    private ProgressBar progressBar;
+    private ProgressBar mProgressBar;
+    private CoordinatorLayout mCoordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +38,10 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void initializeListeners() {
-        mLogin.setOnClickListener(new View.OnClickListener() {
+        mSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signIn(mEmail.getText().toString(),mPassword.getText().toString());
+                signIn();
             }
         });
         mCancel.setOnClickListener(new View.OnClickListener() {
@@ -63,40 +62,41 @@ public class SignInActivity extends AppCompatActivity {
     private void initializeViews() {
         mEmail = findViewById(R.id.signin_email);
         mPassword =findViewById(R.id.signin_password);
-        progressBar = findViewById(R.id.signin_progress_bar);
-        // TODO: ???
-        progressBar
-                .getIndeterminateDrawable()
-                .setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_IN);
-        mLogin = findViewById(R.id.signin_button_sign_in);
+        mProgressBar = findViewById(R.id.signin_progress_bar);
+        mSignIn = findViewById(R.id.signin_button_sign_in);
         mCancel = findViewById(R.id.signin_button_cancel);
         mForgot = findViewById(R.id.signin_forgot_text);
+        mCoordinatorLayout = findViewById(R.id.signin_coordinator_layout);
     }
 
-    private void signIn(String email, String password){
+    private void signIn(){
 
         if (!validateForm()) {
             return;
         }
 
-        progressBar.setVisibility(ProgressBar.VISIBLE);
+        loading(true);
 
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+        FirebaseAuth.getInstance()
+                .signInWithEmailAndPassword(mEmail.getText().toString(), mPassword.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        loading(false);
                         if (task.isSuccessful()) {
                             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                             finishAffinity();
                         } else {
-                            Snackbar.make(findViewById(R.id.login_constraintlayout), "Authentication failed.", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(mCoordinatorLayout, "Authentication failed.", Snackbar.LENGTH_LONG).show();
                         }
-
-                        progressBar.setVisibility(ProgressBar.INVISIBLE);
                     }
                 });
+    }
+
+    private void loading(boolean loading) {
+        mProgressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
     }
 
     private boolean validateForm(){

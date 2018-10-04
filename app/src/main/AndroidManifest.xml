@@ -31,7 +31,8 @@
             android:name="com.welop.mbank.activities.StartActivity"
             android:exported="true" />
         <activity android:name="com.welop.mbank.activities.RestoreActivity" />
-        <activity android:name="com.welop.mbank.activities.JoinLobbyActivity"></activity>
+        <activity android:name="com.welop.mbank.activities.JoinLobbyActivity" />
+        <activity android:name="com.welop.mbank.activities.TransactionsActivity"></activity>
     </application>
 
 </manifest>

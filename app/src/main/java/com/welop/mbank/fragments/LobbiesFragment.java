@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,6 +40,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
     private boolean mIsFabOpened = false;
     private View mFabBackground, mLoadingBackground;
     private CoordinatorLayout mCoordinatorLayout;
+    private ProgressBar mProgressBar;
 
     @Nullable
     @Override
@@ -65,7 +67,8 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
         mFab.setEnabled(!loading);
         mFabCreate.setEnabled(!loading);
         mFabJoin.setEnabled(!loading);
-        mLoadingBackground.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
+        mLoadingBackground.setVisibility(loading ? View.VISIBLE : View.GONE);
+        mProgressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
     }
 
     private void initializeListeners(View v) {
@@ -115,6 +118,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
         mAdapter = new CardLobbyRecyclerAdapter();
         mRecyclerView.setAdapter(mAdapter);
         mCoordinatorLayout = v.findViewById(R.id.lobbies_coordinator_layout);
+        mProgressBar = v.findViewById(R.id.lobbies_progress_bar);
     }
 
     private void downloadData() {

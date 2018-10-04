@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private CoordinatorLayout mCoordinatorLayout;
-    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void downloadData() {
-        loading(true);
         DocumentReference docRef = FirebaseFirestore.getInstance()
                 .collection("accounts")
                 .document(FirebaseAuth.getInstance().getUid());
@@ -62,17 +60,11 @@ public class MainActivity extends AppCompatActivity {
                                 document.getString("sex")
                         ));
                     }
-                    loading(false);
                 } else {
                     Snackbar.make(mCoordinatorLayout, "An error occured. Try to reload page.", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
-    }
-
-    private void loading(boolean loading) {
-        mProgressBar.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
-
     }
 
     private boolean checkAuth() {
@@ -93,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.main_navigetion_lobbies);
         mCoordinatorLayout = findViewById(R.id.main_coordinator_layout);
-        mProgressBar = findViewById(R.id.main_progress_bar);
     }
 
     @Override
