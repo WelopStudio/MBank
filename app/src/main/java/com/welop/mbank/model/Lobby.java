@@ -3,10 +3,12 @@ package com.welop.mbank.model;
 import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Lobby {
     private String mName;
     private ArrayList<Wallet> mWallets;
+    private ArrayList<Transaction> mTransactions;
     private String mAdminId;
     private Timestamp mCreatedAt;
     private int go;
@@ -16,8 +18,13 @@ public class Lobby {
     private String adminId;
     private String mInviteCode;
 
+    public ArrayList<Transaction> getTransactions() {
+        return mTransactions;
+    }
+
     public Lobby() {
         mWallets = new ArrayList<>();
+        fillWithTestValues();
     }
 
     public String getName() {
@@ -90,5 +97,14 @@ public class Lobby {
 
     public String getInviteCode() {
         return mInviteCode;
+    }
+
+    @Deprecated
+    public void fillWithTestValues() {
+        Random random = new Random();
+        mTransactions = new ArrayList<>();
+        for (int i = 0; i < 100; ++i) {
+            mTransactions.add(new Transaction("Person #" + (i + 1), "Person #" + (i + 2), (((i % 10) + 1) * 100) * random.nextInt(10)));
+        }
     }
 }

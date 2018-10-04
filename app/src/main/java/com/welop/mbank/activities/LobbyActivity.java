@@ -30,7 +30,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.welop.mbank.MBank;
-import com.welop.mbank.adapters.CardPlayerLobbyRecyclerAdapter;
+import com.welop.mbank.adapters.PlayerLobbyRecyclerAdapter;
 import com.welop.mbank.model.Lobby;
 import com.welop.mbank.model.Wallet;
 import com.welop.svlit.mbank.R;
@@ -105,7 +105,7 @@ public class LobbyActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.lobby_recycler);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new CardPlayerLobbyRecyclerAdapter();
+        mAdapter = new PlayerLobbyRecyclerAdapter();
         mRecyclerView.setAdapter(mAdapter);
         mAdmin = findViewById(R.id.lobby_admin);
         mHistoryButton = findViewById(R.id.lobby_history_button);

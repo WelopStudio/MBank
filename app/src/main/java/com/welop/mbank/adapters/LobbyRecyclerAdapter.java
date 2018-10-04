@@ -12,7 +12,7 @@ import com.welop.mbank.MBank;
 import com.welop.mbank.activities.LobbyActivity;
 import com.welop.svlit.mbank.R;
 
-public class CardLobbyRecyclerAdapter extends RecyclerView.Adapter<CardLobbyRecyclerAdapter.ViewHolder> {
+public class LobbyRecyclerAdapter extends RecyclerView.Adapter<LobbyRecyclerAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -44,7 +44,7 @@ public class CardLobbyRecyclerAdapter extends RecyclerView.Adapter<CardLobbyRecy
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_lobby, parent, false);
-        CardLobbyRecyclerAdapter.ViewHolder viewHolder = new ViewHolder(v);
+        LobbyRecyclerAdapter.ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
 

@@ -54,7 +54,7 @@ public class CreateLobbyActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Create lobby");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_24dp);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         mCreateLobby = findViewById(R.id.create_lobby_button);
         mLobbyName = findViewById(R.id.create_lobby_lobby_name);
         mWalletName = findViewById(R.id.create_lobby_wallet_name);
@@ -167,5 +167,11 @@ public class CreateLobbyActivity extends AppCompatActivity {
         lobbyIntent.putExtras(extras);
         startActivity(lobbyIntent);
         finish();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

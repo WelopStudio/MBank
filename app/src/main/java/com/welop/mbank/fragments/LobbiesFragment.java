@@ -26,7 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.welop.mbank.MBank;
 import com.welop.mbank.activities.CreateLobbyActivity;
 import com.welop.mbank.activities.JoinLobbyActivity;
-import com.welop.mbank.adapters.CardLobbyRecyclerAdapter;
+import com.welop.mbank.adapters.LobbyRecyclerAdapter;
 import com.welop.mbank.interfaces.OnBackPressedListener;
 import com.welop.mbank.model.Wallet;
 import com.welop.svlit.mbank.R;
@@ -115,7 +115,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
         mRecyclerView = v.findViewById(R.id.lobbies_recycler);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new CardLobbyRecyclerAdapter();
+        mAdapter = new LobbyRecyclerAdapter();
         mRecyclerView.setAdapter(mAdapter);
         mCoordinatorLayout = v.findViewById(R.id.lobbies_coordinator_layout);
         mProgressBar = v.findViewById(R.id.lobbies_progress_bar);
