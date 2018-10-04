@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_player_lobby"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="8dp"
@@ -16,17 +15,6 @@
         android:layout_height="match_parent">
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/card_lobby_wallet_color"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:src="?attr/colorAccent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
@@ -39,36 +27,39 @@
             app:layout_constraintStart_toEndOf="@+id/card_player_lobby_account_avatar"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/card_player_lobby_account_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Christian"
-                android:textAppearance="@android:style/TextAppearance.Material.Large"
-                app:layout_constraintBottom_toBottomOf="@+id/card_player_lobby_account_avatar"
-                app:layout_constraintStart_toEndOf="@+id/card_player_lobby_account_avatar"
-                app:layout_constraintTop_toTopOf="@+id/card_player_lobby_account_avatar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/card_player_lobby_account_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Christian"
+                    android:textAppearance="@android:style/TextAppearance.Material.Large"
+                    app:layout_constraintBottom_toBottomOf="@+id/card_player_lobby_account_avatar"
+                    app:layout_constraintStart_toEndOf="@+id/card_player_lobby_account_avatar"
+                    app:layout_constraintTop_toTopOf="@+id/card_player_lobby_account_avatar" />
+
+                <ImageView
+                    android:id="@+id/card_player_lobby_admin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_stars_24dp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/card_player_lobby_wallet_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:text="The Hat"
                 android:textAppearance="@android:style/TextAppearance.Material.Medium"
                 app:layout_constraintStart_toStartOf="@+id/card_player_lobby_account_name"
                 app:layout_constraintTop_toBottomOf="@+id/card_player_lobby_account_name" />
 
         </LinearLayout>
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/item_online"
-            android:layout_width="84dp"
-            android:layout_height="84dp"
-            android:src="@android:color/holo_green_light"
-            app:layout_constraintBottom_toBottomOf="@+id/card_player_lobby_account_avatar"
-            app:layout_constraintEnd_toEndOf="@+id/card_player_lobby_account_avatar"
-            app:layout_constraintStart_toStartOf="@+id/card_player_lobby_account_avatar"
-            app:layout_constraintTop_toTopOf="@+id/card_player_lobby_account_avatar" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/card_player_lobby_account_avatar"
@@ -88,11 +79,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/textView4"

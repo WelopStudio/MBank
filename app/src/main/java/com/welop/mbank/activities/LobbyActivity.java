@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,6 +48,7 @@ public class LobbyActivity extends AppCompatActivity {
     private TextView mWalletBalance;
     private FloatingActionButton mHistoryButton;
     private ProgressBar mProgressBar;
+    private ImageView mAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,8 @@ public class LobbyActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new CardPlayerLobbyRecyclerAdapter();
+        mRecyclerView.setAdapter(mAdapter);
+        mAdmin = findViewById(R.id.lobby_admin);
         mHistoryButton = findViewById(R.id.lobby_history_button);
         mProgressBar = findViewById(R.id.lobby_progress_bar);
     }
@@ -180,6 +184,7 @@ public class LobbyActivity extends AppCompatActivity {
         mAccountName.setText(MBank.getUser().getName());
         mWalletName.setText(w.getName());
         mWalletBalance.setText(Integer.toString(w.getBalance()));
+        mAdmin.setVisibility(MBank.getLobby().getAdminId().equals(w.getOwnerId()) ? View.VISIBLE : View.INVISIBLE);
     }
 
     private void updateCards() {

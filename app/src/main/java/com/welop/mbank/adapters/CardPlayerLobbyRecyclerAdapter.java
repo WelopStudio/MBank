@@ -22,6 +22,7 @@ public class CardPlayerLobbyRecyclerAdapter extends RecyclerView.Adapter<CardPla
         private TextView walletName;
         private TextView walletBalance;
         private ImageView accountAvatar;
+        private ImageView mAdmin;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -29,6 +30,7 @@ public class CardPlayerLobbyRecyclerAdapter extends RecyclerView.Adapter<CardPla
             walletName = itemView.findViewById(R.id.card_player_lobby_wallet_name);
             walletBalance = itemView.findViewById(R.id.card_lobby_wallet_balance);
             accountAvatar = itemView.findViewById(R.id.card_player_lobby_account_avatar);
+            mAdmin = itemView.findViewById(R.id.card_player_lobby_admin);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -51,6 +53,7 @@ public class CardPlayerLobbyRecyclerAdapter extends RecyclerView.Adapter<CardPla
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Wallet wallet = MBank.getLobby().getWallets().get(position);
+        holder.mAdmin.setVisibility(MBank.getLobby().getAdminId().equals(wallet.getOwnerId()) ? View.VISIBLE : View.INVISIBLE);
         holder.accountName.setText(wallet.getOwnerName());
         holder.walletName.setText(wallet.getName());
         holder.walletBalance.setText(Integer.toString(wallet.getBalance()));
@@ -59,6 +62,6 @@ public class CardPlayerLobbyRecyclerAdapter extends RecyclerView.Adapter<CardPla
 
     @Override
     public int getItemCount() {
-        return MBank.getLobby().getWallets().size() - 1;
+        return MBank.getLobby().getWallets().size();
     }
 }
