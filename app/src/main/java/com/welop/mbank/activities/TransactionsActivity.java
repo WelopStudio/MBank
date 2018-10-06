@@ -53,4 +53,5 @@ public class TransactionsActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
 }
