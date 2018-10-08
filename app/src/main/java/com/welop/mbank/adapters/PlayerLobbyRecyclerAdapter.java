@@ -1,7 +1,14 @@
 package com.welop.mbank.adapters;
 
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +16,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.welop.mbank.MBank;
+import com.welop.mbank.TransactionDialog;
+import com.welop.mbank.activities.LobbyActivity;
 import com.welop.mbank.model.Wallet;
 import com.welop.svlit.mbank.R;
 
 public class PlayerLobbyRecyclerAdapter extends RecyclerView.Adapter<PlayerLobbyRecyclerAdapter.ViewHolder> {
+    AppCompatActivity mContext;
 
+    public PlayerLobbyRecyclerAdapter(AppCompatActivity context) {
+        this.mContext = context;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -23,7 +36,7 @@ public class PlayerLobbyRecyclerAdapter extends RecyclerView.Adapter<PlayerLobby
         private ImageView mAccountAvatar;
         private ImageView mAdmin;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
             mAccountName = itemView.findViewById(R.id.card_player_lobby_account_name);
             mWalletName = itemView.findViewById(R.id.card_player_lobby_wallet_name);
@@ -34,9 +47,10 @@ public class PlayerLobbyRecyclerAdapter extends RecyclerView.Adapter<PlayerLobby
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int position = getAdapterPosition();
-
-                    Snackbar.make(view, "Clicked item " + (position + 1), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    TransactionDialog transactionDialog = new TransactionDialog();
+                    transactionDialog.show(mContext.getSupportFragmentManager(), "TAG");
+                    //View v = mContext.findViewById(R.id.lobby_coordinator_layout);
+                    //Snackbar.make(v, "Test", Snackbar.LENGTH_SHORT).show();
                 }
             });
         }

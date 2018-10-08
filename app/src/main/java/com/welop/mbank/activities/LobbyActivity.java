@@ -107,7 +107,7 @@ public class LobbyActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.lobby_recycler);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new PlayerLobbyRecyclerAdapter();
+        mAdapter = new PlayerLobbyRecyclerAdapter(LobbyActivity.this);
         mRecyclerView.setAdapter(mAdapter);
         mAdmin = findViewById(R.id.lobby_admin);
         mHistoryButton = findViewById(R.id.lobby_history_button);
