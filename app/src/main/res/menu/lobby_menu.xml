@@ -5,10 +5,4 @@
     <item
         android:id="@+id/lobby_menu_leave"
         android:title="Bankrupt and leave" />
-    <item
-        android:id="@+id/lobby_menu_ready"
-        android:checked="true"
-        android:title="Ready to play"
-        app:actionLayout="@layout/switch_item"
-        app:showAsAction="always" />
 </menu>
