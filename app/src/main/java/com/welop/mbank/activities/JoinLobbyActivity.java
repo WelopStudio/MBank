@@ -102,6 +102,7 @@ public class JoinLobbyActivity extends AppCompatActivity {
         values.put("name", mWalletName.getText().toString());
         values.put("owner_id", FirebaseAuth.getInstance().getUid());
         values.put("owner_name", MBank.getUser().getName());
+        values.put("admin", false);
         values.put("created_at", new com.google.firebase.Timestamp(new Timestamp(new Date().getTime())));
         FirebaseFirestore.getInstance()
                 .collection("wallets")

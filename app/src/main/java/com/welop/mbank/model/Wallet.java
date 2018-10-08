@@ -26,6 +26,7 @@ public class Wallet {
     private String mLobbyName;
     private int mBalance;
     private Timestamp mCreatedAt;
+    private boolean mIsAdmin;
 
     public Wallet() {
         this ("", "", "", "", "", 0);
@@ -38,6 +39,14 @@ public class Wallet {
         this.mLobbyId = lobbyId;
         this.mLobbyName = lobbyName;
         this.mBalance = balance;
+    }
+
+    public boolean ismIsAdmin() {
+        return mIsAdmin;
+    }
+
+    public void setmIsAdmin(boolean mIsAdmin) {
+        this.mIsAdmin = mIsAdmin;
     }
 
     public String getOwnerName() {

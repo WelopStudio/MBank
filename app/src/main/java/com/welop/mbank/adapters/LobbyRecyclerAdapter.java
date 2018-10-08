@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.welop.mbank.MBank;
@@ -20,13 +21,14 @@ public class LobbyRecyclerAdapter extends RecyclerView.Adapter<LobbyRecyclerAdap
         private TextView mWalletBalance;
         private TextView mLobbyName;
         private String mLobbyId;
+        private ImageView mAdmin;
 
         public ViewHolder(final View itemView) {
             super(itemView);
             mWalletName = itemView.findViewById(R.id.card_lobby_wallet_name);
             mWalletBalance = itemView.findViewById(R.id.card_lobby_wallet_balance);
             mLobbyName = itemView.findViewById(R.id.card_lobby_name);
-
+            mAdmin = itemView.findViewById(R.id.card_lobby_admin);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -50,6 +52,7 @@ public class LobbyRecyclerAdapter extends RecyclerView.Adapter<LobbyRecyclerAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.mAdmin.setVisibility(MBank.getUserWallets().get(position).ismIsAdmin() ? View.VISIBLE : View.INVISIBLE);
         holder.mLobbyName.setText(MBank.getUserWallets().get(position).getLobbyName());
         holder.mWalletName.setText(MBank.getUserWallets().get(position).getName());
         holder.mWalletBalance.setText(Integer.toString(MBank.getUserWallets().get(position).getBalance()));

@@ -141,6 +141,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
                                         d.getString("lobby_name"),
                                         Integer.parseInt(d.getString("balance"))
                                 );
+                                w.setmIsAdmin(d.getBoolean("admin"));
                                 w.setCreatedAt(d.getTimestamp("created_at"));
                                 MBank.getUserWallets().add(w);
                             }

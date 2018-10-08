@@ -49,8 +49,8 @@ public class PlayerLobbyRecyclerAdapter extends RecyclerView.Adapter<PlayerLobby
                 public void onClick(View view) {
                     TransactionDialog transactionDialog = new TransactionDialog();
                     transactionDialog.show(mContext.getSupportFragmentManager(), "TAG");
-                    //View v = mContext.findViewById(R.id.lobby_coordinator_layout);
-                    //Snackbar.make(v, "Test", Snackbar.LENGTH_SHORT).show();
+                    View v = mContext.findViewById(R.id.lobby_coordinator_layout);
+                    Snackbar.make(v, "Test", Snackbar.LENGTH_SHORT).show();
                 }
             });
         }
