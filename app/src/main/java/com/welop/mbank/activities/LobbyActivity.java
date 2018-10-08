@@ -3,6 +3,7 @@ package com.welop.mbank.activities;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -17,8 +18,10 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -49,6 +52,7 @@ public class LobbyActivity extends AppCompatActivity {
     private FloatingActionButton mHistoryButton;
     private ProgressBar mProgressBar;
     private ImageView mAdmin;
+    private Switch mToolbarSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,7 @@ public class LobbyActivity extends AppCompatActivity {
         initializeViews();
         initializeListeners();
         showInviteCodeIfFirstStartup();
+
     }
 
     @Override
@@ -100,6 +105,7 @@ public class LobbyActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Lobby \"" + mExtras.getString("lobby_name") + "\"");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         mCoordinatorLayout = findViewById(R.id.lobby_coordinator_layout);
         mAccountName = findViewById(R.id.lobby_account_name);
         mWalletName = findViewById(R.id.lobby_wallet_name);
@@ -113,6 +119,7 @@ public class LobbyActivity extends AppCompatActivity {
         mHistoryButton = findViewById(R.id.lobby_history_button);
         mProgressBar = findViewById(R.id.lobby_progress_bar);
     }
+
 
     private void downloadLobby() {
         loading(true);
@@ -200,14 +207,12 @@ public class LobbyActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
 
         getMenuInflater().inflate(R.menu.lobby_menu, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.lobby_menu_ready).setChecked(true);
         return true;
     }
 
@@ -216,29 +221,13 @@ public class LobbyActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()) {
-            case R.id.lobby_menu_ready:
-                if (item.isChecked()) {
-                    item.setChecked(false);
-                    // TODO: Этот код не работает
-                    Snackbar.make(findViewById(R.id.lobby_coordinator_layout), "Checked", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
-                }
-                else {
-                    item.setChecked(true);
-                    Snackbar.make(findViewById(R.id.lobby_coordinator_layout), "Unchecked", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
-                }
-                break;
             case R.id.lobby_menu_leave:
                 Snackbar.make(findViewById(R.id.lobby_coordinator_layout), "Imagine you have left", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                break;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
         }
-
         return true;
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return super.onSupportNavigateUp();
-    }
-
-
 }

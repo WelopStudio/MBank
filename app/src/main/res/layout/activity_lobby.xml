@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.welop.mbank.activities.LobbyActivity">
+    tools:context="com.welop.mbank.activities.LobbyActivity"
+    android:id="@+id/activity_lobby">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lobby_recycler"
