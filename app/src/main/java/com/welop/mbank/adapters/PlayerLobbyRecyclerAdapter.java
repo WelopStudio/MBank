@@ -3,12 +3,8 @@ package com.welop.mbank.adapters;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.welop.mbank.MBank;
-import com.welop.mbank.TransactionDialog;
-import com.welop.mbank.activities.LobbyActivity;
+import com.welop.mbank.dialogs.TransactionDialog;
 import com.welop.mbank.model.Wallet;
 import com.welop.svlit.mbank.R;
 

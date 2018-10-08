@@ -1,6 +1,5 @@
-package com.welop.mbank;
+package com.welop.mbank.dialogs;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -10,6 +9,7 @@ import com.welop.svlit.mbank.R;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class TransactionDialog extends AppCompatDialogFragment {
