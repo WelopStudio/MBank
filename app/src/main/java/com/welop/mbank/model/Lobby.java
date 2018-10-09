@@ -104,7 +104,7 @@ public class Lobby {
         Random random = new Random();
         mTransactions = new ArrayList<>();
         for (int i = 0; i < 100; ++i) {
-            mTransactions.add(new Transaction("Person #" + (i + 1), "Person #" + (i + 2), (((i % 10) + 1) * 100) * random.nextInt(10)));
+            mTransactions.add(new Transaction("Person #" + (i + 1), "Person #" + (i + 1), "Person #" + (i + 2), "Person #" + (i + 2), (((i % 10) + 1) * 100) * random.nextInt(10)));
         }
     }
 }

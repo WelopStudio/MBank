@@ -16,21 +16,25 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView mPayer;
-        private TextView mReceiver;
+        private TextView mPayerWalletName;
+        private TextView mPayerAccountName;
+        private TextView mReceiverWalletName;
+        private TextView mReceiverAccountName;
         private TextView mAmount;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mPayer = itemView.findViewById(R.id.transaction_payer);
-            mReceiver = itemView.findViewById(R.id.transaction_receiver);
+            mPayerWalletName = itemView.findViewById(R.id.transaction_payer_wallet_name);
+            mPayerAccountName = itemView.findViewById(R.id.transaction_payer_account_name);
+            mReceiverWalletName = itemView.findViewById(R.id.transaction_receiver_wallet_name);
+            mReceiverAccountName = itemView.findViewById(R.id.transaction_receiver_account_name);
             mAmount = itemView.findViewById(R.id.transaction_amount);
         }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_trancastion, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_transaction, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
@@ -39,8 +43,10 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
     public void onBindViewHolder(ViewHolder holder, int position) {
         Transaction transaction = MBank.getLobby().getTransactions().get(position);
         holder.mAmount.setText(Integer.toString(transaction.getAmount()));
-        holder.mPayer.setText(transaction.getPayer());
-        holder.mReceiver.setText(transaction.getReceiver());
+        holder.mPayerWalletName.setText(transaction.getPayerWalletName());
+        holder.mPayerAccountName.setText(transaction.getPayerAccountName());
+        holder.mReceiverWalletName.setText(transaction.getReceiverWalletName());
+        holder.mReceiverAccountName.setText(transaction.getReceiverAccountName());
     }
 
     @Override

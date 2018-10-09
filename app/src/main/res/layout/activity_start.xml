@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorPrimary"
     tools:context="com.welop.mbank.activities.StartActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,7 +49,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
         android:text="@string/already_have_account"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
