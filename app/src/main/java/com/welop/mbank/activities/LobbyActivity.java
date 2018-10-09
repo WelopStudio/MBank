@@ -30,13 +30,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.welop.mbank.MBank;
 import com.welop.mbank.adapters.PlayerLobbyRecyclerAdapter;
 import com.welop.mbank.model.Lobby;
 import com.welop.mbank.model.Wallet;
 import com.welop.svlit.mbank.R;
+
+import javax.annotation.Nullable;
 
 public class LobbyActivity extends AppCompatActivity {
 
@@ -158,14 +162,12 @@ public class LobbyActivity extends AppCompatActivity {
     private void downloadWallets() {
         CollectionReference ref = FirebaseFirestore.getInstance().collection("wallets");
         ref.whereEqualTo("lobby_id", mExtras.getString("lobby_id"))
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            QuerySnapshot snapshot = task.getResult();
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (queryDocumentSnapshots != null) {
                             MBank.getLobby().getWallets().clear();
-                            for (DocumentSnapshot d : snapshot) {
+                            for (DocumentSnapshot d : queryDocumentSnapshots.getDocuments()) {
                                 Wallet w = new Wallet(
                                         d.getString("name"),
                                         d.getString("owner_name"),
@@ -180,10 +182,6 @@ public class LobbyActivity extends AppCompatActivity {
                                     MBank.getLobby().getWallets().add(w);
                             }
                             updateCards();
-                        } else {
-                            Snackbar
-                                    .make(mCoordinatorLayout, "Error while downloading data.", Snackbar.LENGTH_SHORT)
-                                    .show();
                         }
                     }
                 });

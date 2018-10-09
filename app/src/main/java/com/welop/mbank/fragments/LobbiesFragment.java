@@ -21,7 +21,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.welop.mbank.MBank;
 import com.welop.mbank.activities.CreateLobbyActivity;
@@ -125,14 +127,12 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
         loading(true);
         CollectionReference ref = FirebaseFirestore.getInstance().collection("wallets");
         ref.whereEqualTo("owner_id", FirebaseAuth.getInstance().getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            QuerySnapshot snapshot = task.getResult();
+                    public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                        if (queryDocumentSnapshots != null) {
                             MBank.getUserWallets().clear();
-                            for (DocumentSnapshot d : snapshot) {
+                            for (DocumentSnapshot d : queryDocumentSnapshots) {
                                 Wallet w = new Wallet(
                                         d.getString("name"),
                                         MBank.getUser().getName(),
@@ -146,10 +146,6 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
                                 MBank.getUserWallets().add(w);
                             }
                             updateCards();
-                        } else {
-                            Snackbar
-                                    .make(mCoordinatorLayout, "Error while downloading data.", Snackbar.LENGTH_SHORT)
-                                    .show();
                         }
                     }
                 });

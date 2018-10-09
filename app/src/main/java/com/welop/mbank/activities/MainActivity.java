@@ -18,7 +18,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.welop.mbank.MBank;
 import com.welop.mbank.fragments.AccountFragment;
 import com.welop.mbank.fragments.FriendsFragment;
@@ -26,6 +28,8 @@ import com.welop.mbank.fragments.LobbiesFragment;
 import com.welop.mbank.interfaces.OnBackPressedListener;
 import com.welop.mbank.model.Account;
 import com.welop.svlit.mbank.R;
+
+import javax.annotation.Nullable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,25 +47,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void downloadData() {
-        DocumentReference docRef = FirebaseFirestore.getInstance()
+        final DocumentReference docRef = FirebaseFirestore.getInstance()
                 .collection("accounts")
                 .document(FirebaseAuth.getInstance().getUid());
 
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        MBank.setUser(new Account(
-                                FirebaseAuth.getInstance().getUid(),
-                                document.getString("name"),
-                                document.getString("email"),
-                                document.getString("sex")
-                        ));
-                    }
-                } else {
-                    Snackbar.make(mCoordinatorLayout, "An error occured. Try to reload page.", Snackbar.LENGTH_SHORT).show();
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    MBank.setUser(new Account(
+                            FirebaseAuth.getInstance().getUid(),
+                            documentSnapshot.getString("name"),
+                            documentSnapshot.getString("email"),
+                            documentSnapshot.getString("sex")
+                    ));
                 }
             }
         });
