@@ -106,4 +106,5 @@
     <string name="wallet_name">Wallet name</string>
     <string name="don_t_forget_to_name_your_own_wallet">Don\'t forget to name your own wallet</string>
     <string name="invite_code">Invite code</string>
+    <string name="title_activity_bottom_sheet_test">BottomSheetTest</string>
 </resources>

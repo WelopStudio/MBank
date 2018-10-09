@@ -3,25 +3,24 @@ package com.welop.mbank.activities;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SwitchCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.welop.mbank.MBank;
 import com.welop.mbank.adapters.PlayerLobbyRecyclerAdapter;
+import com.welop.mbank.adapters.TransactionRecyclerAdapter;
 import com.welop.mbank.model.Lobby;
 import com.welop.mbank.model.Wallet;
 import com.welop.svlit.mbank.R;
@@ -53,10 +53,17 @@ public class LobbyActivity extends AppCompatActivity {
     private TextView mAccountName;
     private TextView mWalletName;
     private TextView mWalletBalance;
-    private FloatingActionButton mHistoryButton;
+    //private FloatingActionButton mHistoryButton;
     private ProgressBar mProgressBar;
     private ImageView mAdmin;
-    private Switch mToolbarSwitch;
+
+    private RecyclerView mRecyclerViewBottobSheet;
+    private RecyclerView.LayoutManager mLayoutManagerBottobSheet;
+    private RecyclerView.Adapter mAdapterBottomSheet;
+
+    private BottomSheetBehavior mSheetBehavior;
+    private ConstraintLayout mLayoutBottomSheet;
+    private Button mBtnBottomSheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +86,7 @@ public class LobbyActivity extends AppCompatActivity {
         if (mExtras != null)
             if (mExtras.getBoolean("just_created")) {
                 Snackbar
-                        .make(mCoordinatorLayout, "Use " + mExtras.getString("invite_code") + " as invite code.", Snackbar.LENGTH_LONG)
+                        .make(mLayoutBottomSheet, "Use " + mExtras.getString("invite_code") + " as invite code.", Snackbar.LENGTH_LONG)
                         .setAction("COPY", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -94,11 +101,53 @@ public class LobbyActivity extends AppCompatActivity {
     }
 
     private void initializeListeners() {
-        mHistoryButton.setOnClickListener(new View.OnClickListener() {
+        /*mHistoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent transactionsIntent = new Intent(LobbyActivity.this, TransactionsActivity.class);
                 startActivity(transactionsIntent);
+            }
+        });*/
+
+        mSheetBehavior = BottomSheetBehavior.from(mLayoutBottomSheet);
+
+        mSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch (newState) {
+                    case BottomSheetBehavior.STATE_HIDDEN:
+                        break;
+                    case BottomSheetBehavior.STATE_EXPANDED: {
+                        mBtnBottomSheet.setText("Close history transactions");
+                    }
+                    break;
+                    case BottomSheetBehavior.STATE_COLLAPSED: {
+                        mBtnBottomSheet.setText("History transactions");
+                    }
+                    break;
+                    case BottomSheetBehavior.STATE_DRAGGING:
+                        break;
+                    case BottomSheetBehavior.STATE_SETTLING:
+                        break;
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View view, float v) {
+
+            }
+        });
+
+        mBtnBottomSheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+                    mSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    mBtnBottomSheet.setText("Close history transactions");
+                } else {
+                    mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    mBtnBottomSheet.setText("History transactions");
+                }
             }
         });
     }
@@ -110,7 +159,7 @@ public class LobbyActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        mCoordinatorLayout = findViewById(R.id.lobby_coordinator_layout);
+        mCoordinatorLayout = findViewById(R.id.lobby_coordinator_layout_bottom_sheet);
         mAccountName = findViewById(R.id.lobby_account_name);
         mWalletName = findViewById(R.id.lobby_wallet_name);
         mWalletBalance = findViewById(R.id.lobby_wallet_balance);
@@ -120,8 +169,19 @@ public class LobbyActivity extends AppCompatActivity {
         mAdapter = new PlayerLobbyRecyclerAdapter(LobbyActivity.this);
         mRecyclerView.setAdapter(mAdapter);
         mAdmin = findViewById(R.id.lobby_admin);
-        mHistoryButton = findViewById(R.id.lobby_history_button);
+        //mHistoryButton = findViewById(R.id.lobby_history_button);
         mProgressBar = findViewById(R.id.lobby_progress_bar);
+
+        //BottomSheet
+
+
+        mLayoutBottomSheet = findViewById(R.id.bottom_sheet);
+        mBtnBottomSheet = findViewById(R.id.btn_bottom_sheet);
+        mRecyclerViewBottobSheet = findViewById(R.id.transactions_recycler_view_1);
+        mLayoutManagerBottobSheet = new LinearLayoutManager(this);
+        mRecyclerViewBottobSheet.setLayoutManager(mLayoutManagerBottobSheet);
+        mAdapterBottomSheet = new TransactionRecyclerAdapter();
+        mRecyclerViewBottobSheet.setAdapter(mAdapterBottomSheet);
     }
 
 
@@ -155,7 +215,7 @@ public class LobbyActivity extends AppCompatActivity {
 
     private void loading(boolean loading) {
         mCoordinatorLayout.setBackground(getDrawable(loading ? R.color.white : R.color.transparent));
-        mHistoryButton.setEnabled(!loading);
+        mBtnBottomSheet.setEnabled(!loading);
         mProgressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
     }
 
@@ -220,7 +280,7 @@ public class LobbyActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.lobby_menu_leave:
-                Snackbar.make(findViewById(R.id.lobby_coordinator_layout), "Imagine you have left", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(findViewById(R.id.lobby_coordinator_layout_bottom_sheet), "Imagine you have left", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 break;
             case android.R.id.home:
                 onBackPressed();
