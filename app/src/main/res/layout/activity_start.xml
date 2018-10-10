@@ -32,7 +32,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="sans-serif"
-            android:text="@string/name_subtitle"
+            android:text="Mr. Banker welcomes you!"
             android:textAlignment="center"
             android:textAppearance="@android:style/TextAppearance.Material.Large"
             android:textColor="@android:color/white"

@@ -24,7 +24,6 @@
         android:text="Connect to lobby"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
@@ -57,7 +56,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="@string/invite_code" />
+                android:hint="@string/invite_code"
+                android:inputType="textCapCharacters" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -78,7 +78,8 @@
                 android:id="@+id/join_lobby_wallet_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/wallet_name" />
+                android:hint="@string/wallet_name"
+                android:inputType="textCapWords|textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
