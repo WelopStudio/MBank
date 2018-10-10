@@ -3,6 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/lobby_pay_bank"
+        android:checkable="false"
+        android:enabled="true"
+        android:title="Pay to bank"
+        android:visible="true"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_bank_24dp"/>
+
+    <item
         android:id="@+id/lobby_menu_leave"
-        android:title="Bankrupt and leave" />
+        android:title="Declare bankruptcy" />
 </menu>

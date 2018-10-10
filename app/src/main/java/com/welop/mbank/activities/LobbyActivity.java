@@ -3,6 +3,7 @@ package com.welop.mbank.activities;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
@@ -36,6 +37,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.welop.mbank.MBank;
 import com.welop.mbank.adapters.PlayerLobbyRecyclerAdapter;
 import com.welop.mbank.adapters.TransactionRecyclerAdapter;
+import com.welop.mbank.dialogs.BankruptcyDialogFragment;
 import com.welop.mbank.model.Lobby;
 import com.welop.mbank.model.Transaction;
 import com.welop.mbank.model.Wallet;
@@ -315,7 +317,11 @@ public class LobbyActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.lobby_menu_leave:
-                Snackbar.make(findViewById(R.id.lobby_coordinator_layout_bottom_sheet), "Imagine you have left", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                BankruptcyDialogFragment dialogFragment = new BankruptcyDialogFragment();
+                dialogFragment.show(getSupportFragmentManager(), "BankruptcyDialogFragment");
+                break;
+            case R.id.lobby_pay_bank:
+
                 break;
             case android.R.id.home:
                 onBackPressed();
