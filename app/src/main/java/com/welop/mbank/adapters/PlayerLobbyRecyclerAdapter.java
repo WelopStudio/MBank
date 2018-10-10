@@ -30,6 +30,7 @@ public class PlayerLobbyRecyclerAdapter extends RecyclerView.Adapter<PlayerLobby
         private TextView mWalletBalance;
         private ImageView mAccountAvatar;
         private ImageView mAdmin;
+        private int mPosition;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -42,10 +43,12 @@ public class PlayerLobbyRecyclerAdapter extends RecyclerView.Adapter<PlayerLobby
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    TransactionDialog transactionDialog = new TransactionDialog();
-                    transactionDialog.show(mContext.getSupportFragmentManager(), "TAG");
                     View v = mContext.findViewById(R.id.lobby_coordinator_layout_bottom_sheet);
-                    Snackbar.make(v, "Test", Snackbar.LENGTH_SHORT).show();
+                    TransactionDialog transactionDialog = new TransactionDialog();
+                    transactionDialog.setCoordinatorLayout(v);
+                    transactionDialog.setPayerWallet(MBank.getWallet());
+                    transactionDialog.setReceiverWallet(MBank.getLobby().getWallets().get(mPosition));
+                    transactionDialog.show(mContext.getSupportFragmentManager(), "TAG");
                 }
             });
         }
@@ -63,8 +66,9 @@ public class PlayerLobbyRecyclerAdapter extends RecyclerView.Adapter<PlayerLobby
         holder.mAdmin.setVisibility(MBank.getLobby().getAdminId().equals(wallet.getOwnerId()) ? View.VISIBLE : View.INVISIBLE);
         holder.mAccountName.setText(wallet.getOwnerName());
         holder.mWalletName.setText(wallet.getName());
-        holder.mWalletBalance.setText(Integer.toString(wallet.getBalance()));
+        holder.mWalletBalance.setText(Long.toString(wallet.getBalance()));
         holder.mAccountAvatar.setImageResource(position % 2 == 0 ? R.drawable.person2 : R.drawable.person1);
+        holder.mPosition = position;
     }
 
     @Override

@@ -11,12 +11,20 @@ public class Lobby {
     private ArrayList<Transaction> mTransactions;
     private String mAdminId;
     private Timestamp mCreatedAt;
-    private int go;
-    private int income;
-    private int initBalance;
-    private int luxury;
-    private String adminId;
+    private Long go;
+    private Long income;
+    private Long initBalance;
+    private Long luxury;
     private String mInviteCode;
+    private String mId;
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String id) {
+        mId = id;
+    }
 
     public ArrayList<Transaction> getTransactions() {
         return mTransactions;
@@ -24,7 +32,8 @@ public class Lobby {
 
     public Lobby() {
         mWallets = new ArrayList<>();
-        fillWithTestValues();
+        mTransactions = new ArrayList<>();
+        //fillWithTestValues();
     }
 
     public String getName() {
@@ -59,35 +68,35 @@ public class Lobby {
         mCreatedAt = createdAt;
     }
 
-    public int getGo() {
+    public Long getGo() {
         return go;
     }
 
-    public void setGo(int go) {
+    public void setGo(Long go) {
         this.go = go;
     }
 
-    public int getIncome() {
+    public Long getIncome() {
         return income;
     }
 
-    public void setIncome(int income) {
+    public void setIncome(Long income) {
         this.income = income;
     }
 
-    public int getInitBalance() {
+    public Long getInitBalance() {
         return initBalance;
     }
 
-    public void setInitBalance(int initBalance) {
+    public void setInitBalance(Long initBalance) {
         this.initBalance = initBalance;
     }
 
-    public int getLuxury() {
+    public Long getLuxury() {
         return luxury;
     }
 
-    public void setLuxury(int luxury) {
+    public void setLuxury(Long luxury) {
         this.luxury = luxury;
     }
 
@@ -97,14 +106,5 @@ public class Lobby {
 
     public String getInviteCode() {
         return mInviteCode;
-    }
-
-    @Deprecated
-    public void fillWithTestValues() {
-        Random random = new Random();
-        mTransactions = new ArrayList<>();
-        for (int i = 0; i < 100; ++i) {
-            mTransactions.add(new Transaction("Person #" + (i + 1), "Person #" + (i + 1), "Person #" + (i + 2), "Person #" + (i + 2), (((i % 10) + 1) * 100) * random.nextInt(10)));
-        }
     }
 }

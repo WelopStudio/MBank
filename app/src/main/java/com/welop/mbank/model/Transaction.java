@@ -1,11 +1,31 @@
 package com.welop.mbank.model;
 
+import com.google.firebase.Timestamp;
+
+import java.util.Comparator;
+
 public class Transaction {
+    public static Comparator<Transaction> DateComparator = new Comparator<Transaction>() {
+        @Override
+        public int compare(Transaction o1, Transaction o2) {
+            return -o1.mCreatedAt.compareTo(o2.mCreatedAt);
+        }
+    };
+
     private String mPayerWalletName;
     private String mReceiverWalletName;
     private String mPayerAccountName;
     private String mReceiverAccountName;
-    private int mAmount;
+    private Long mAmount;
+    private Timestamp mCreatedAt;
+
+    public Timestamp getCreatedAt() {
+        return mCreatedAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        mCreatedAt = createdAt;
+    }
 
     public String getPayerAccountName() {
         return mPayerAccountName;
@@ -39,22 +59,14 @@ public class Transaction {
         mReceiverWalletName = receiverWalletName;
     }
 
-    public int getAmount() {
+    public Long getAmount() {
         return mAmount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Long amount) {
         mAmount = amount;
     }
 
     public Transaction() {
-    }
-
-    public Transaction(String payerWalletName, String receiverWalletName, String payerAccountName, String receiverAccountName, int amount) {
-        mPayerWalletName = payerWalletName;
-        mReceiverWalletName = receiverWalletName;
-        mPayerAccountName = payerAccountName;
-        mReceiverAccountName = receiverAccountName;
-        mAmount = amount;
     }
 }

@@ -19,33 +19,33 @@ public class Wallet {
         }
     };
 
+    private String mId;
     private String mName;
     private String mOwnerName;
     private String mOwnerId;
     private String mLobbyId;
     private String mLobbyName;
-    private int mBalance;
+    private Long mBalance;
     private Timestamp mCreatedAt;
     private boolean mIsAdmin;
 
-    public Wallet() {
-        this ("", "", "", "", "", 0);
+    public Wallet(){
     }
 
-    public Wallet(String name, String ownerName, String ownerId, String lobbyId, String lobbyName, int balance) {
-        this.mName = name;
-        this.mOwnerName = ownerName;
-        this.mOwnerId = ownerId;
-        this.mLobbyId = lobbyId;
-        this.mLobbyName = lobbyName;
-        this.mBalance = balance;
+
+    public String getId() {
+        return mId;
     }
 
-    public boolean ismIsAdmin() {
+    public void setId(String id) {
+        mId = id;
+    }
+
+    public boolean isIsAdmin() {
         return mIsAdmin;
     }
 
-    public void setmIsAdmin(boolean mIsAdmin) {
+    public void setIsAdmin(boolean mIsAdmin) {
         this.mIsAdmin = mIsAdmin;
     }
 
@@ -89,11 +89,11 @@ public class Wallet {
         this.mLobbyId = lobbyId;
     }
 
-    public int getBalance() {
+    public Long getBalance() {
         return mBalance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(Long balance) {
         this.mBalance = balance;
     }
 

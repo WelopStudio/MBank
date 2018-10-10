@@ -21,6 +21,7 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
         private TextView mReceiverWalletName;
         private TextView mReceiverAccountName;
         private TextView mAmount;
+        private TextView mTime;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -29,6 +30,7 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
             mReceiverWalletName = itemView.findViewById(R.id.transaction_receiver_wallet_name);
             mReceiverAccountName = itemView.findViewById(R.id.transaction_receiver_account_name);
             mAmount = itemView.findViewById(R.id.transaction_amount);
+            mTime = itemView.findViewById(R.id.transaction_time);
         }
     }
 
@@ -42,11 +44,12 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Transaction transaction = MBank.getLobby().getTransactions().get(position);
-        holder.mAmount.setText(Integer.toString(transaction.getAmount()));
+        holder.mAmount.setText(Long.toString(transaction.getAmount()));
         holder.mPayerWalletName.setText(transaction.getPayerWalletName());
         holder.mPayerAccountName.setText(transaction.getPayerAccountName());
         holder.mReceiverWalletName.setText(transaction.getReceiverWalletName());
         holder.mReceiverAccountName.setText(transaction.getReceiverAccountName());
+        holder.mTime.setText(transaction.getCreatedAt().toDate().toString());
     }
 
     @Override

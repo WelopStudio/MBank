@@ -28,6 +28,15 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Overline" />
 
         <TextView
+            android:id="@+id/transaction_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="Oct 10, 10:30 PM"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline" />
+
+        <TextView
             android:id="@+id/textView14"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

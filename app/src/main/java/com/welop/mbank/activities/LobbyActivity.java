@@ -37,16 +37,19 @@ import com.welop.mbank.MBank;
 import com.welop.mbank.adapters.PlayerLobbyRecyclerAdapter;
 import com.welop.mbank.adapters.TransactionRecyclerAdapter;
 import com.welop.mbank.model.Lobby;
+import com.welop.mbank.model.Transaction;
 import com.welop.mbank.model.Wallet;
 import com.welop.svlit.mbank.R;
+
+import java.util.Collections;
 
 import javax.annotation.Nullable;
 
 public class LobbyActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private RecyclerView.Adapter mAdapter;
+    private RecyclerView mPlayersRecyclerView;
+    private RecyclerView.LayoutManager mPlayersLayoutManager;
+    private RecyclerView.Adapter mPlayersAdapter;
     private Bundle mExtras;
     private CoordinatorLayout mCoordinatorLayout;
     private Toolbar mToolbar;
@@ -57,8 +60,8 @@ public class LobbyActivity extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private ImageView mAdmin;
 
-    private RecyclerView mRecyclerViewBottobSheet;
-    private RecyclerView.LayoutManager mLayoutManagerBottobSheet;
+    private RecyclerView mRecyclerViewBottomSheet;
+    private RecyclerView.LayoutManager mLayoutManagerBottomSheet;
     private RecyclerView.Adapter mAdapterBottomSheet;
 
     private BottomSheetBehavior mSheetBehavior;
@@ -163,11 +166,11 @@ public class LobbyActivity extends AppCompatActivity {
         mAccountName = findViewById(R.id.lobby_account_name);
         mWalletName = findViewById(R.id.lobby_wallet_name);
         mWalletBalance = findViewById(R.id.lobby_wallet_balance);
-        mRecyclerView = findViewById(R.id.lobby_recycler);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new PlayerLobbyRecyclerAdapter(LobbyActivity.this);
-        mRecyclerView.setAdapter(mAdapter);
+        mPlayersRecyclerView = findViewById(R.id.lobby_recycler);
+        mPlayersLayoutManager = new LinearLayoutManager(this);
+        mPlayersRecyclerView.setLayoutManager(mPlayersLayoutManager);
+        mPlayersAdapter = new PlayerLobbyRecyclerAdapter(LobbyActivity.this);
+        mPlayersRecyclerView.setAdapter(mPlayersAdapter);
         mAdmin = findViewById(R.id.lobby_admin);
         //mHistoryButton = findViewById(R.id.lobby_history_button);
         mProgressBar = findViewById(R.id.lobby_progress_bar);
@@ -177,11 +180,11 @@ public class LobbyActivity extends AppCompatActivity {
 
         mLayoutBottomSheet = findViewById(R.id.bottom_sheet);
         mBtnBottomSheet = findViewById(R.id.btn_bottom_sheet);
-        mRecyclerViewBottobSheet = findViewById(R.id.transactions_recycler_view_1);
-        mLayoutManagerBottobSheet = new LinearLayoutManager(this);
-        mRecyclerViewBottobSheet.setLayoutManager(mLayoutManagerBottobSheet);
+        mRecyclerViewBottomSheet = findViewById(R.id.transactions_recycler_view_1);
+        mLayoutManagerBottomSheet = new LinearLayoutManager(this);
+        mRecyclerViewBottomSheet.setLayoutManager(mLayoutManagerBottomSheet);
         mAdapterBottomSheet = new TransactionRecyclerAdapter();
-        mRecyclerViewBottobSheet.setAdapter(mAdapterBottomSheet);
+        mRecyclerViewBottomSheet.setAdapter(mAdapterBottomSheet);
     }
 
 
@@ -199,13 +202,14 @@ public class LobbyActivity extends AppCompatActivity {
                             Lobby lobby = new Lobby();
                             lobby.setAdminId(document.getString("admin_id"));
                             lobby.setCreatedAt(document.getTimestamp("created_at"));
-                            lobby.setGo(Integer.parseInt(document.getString("go")));
-                            lobby.setIncome(Integer.parseInt(document.getString("income")));
-                            lobby.setLuxury(Integer.parseInt(document.getString("luxury")));
+                            lobby.setGo(document.getLong("go"));
+                            lobby.setIncome(document.getLong("income"));
+                            lobby.setLuxury(document.getLong("luxury"));
                             lobby.setName(document.getString("name"));
-                            lobby.setInitBalance(Integer.parseInt(document.getString("init_balance")));
+                            lobby.setInitBalance(document.getLong("init_balance"));
                             lobby.setInviteCode(document.getString("invite_code"));
                             lobby.setAdminId(document.getString("admin_id"));
+                            lobby.setId(document.getId());
                             MBank.setLobby(lobby);
                             downloadWallets();
                         }
@@ -228,35 +232,66 @@ public class LobbyActivity extends AppCompatActivity {
                         if (queryDocumentSnapshots != null) {
                             MBank.getLobby().getWallets().clear();
                             for (DocumentSnapshot d : queryDocumentSnapshots.getDocuments()) {
-                                Wallet w = new Wallet(
-                                        d.getString("name"),
-                                        d.getString("owner_name"),
-                                        d.getString("owner_id"),
-                                        d.getString("lobby_id"),
-                                        d.getString("lobby_name"),
-                                        Integer.parseInt(d.getString("balance"))
-                                );
+                                Wallet w = new Wallet();
+                                w.setId(d.getId());
+                                w.setName(d.getString("name"));
+                                w.setOwnerName(d.getString("owner_name"));
+                                w.setOwnerId(d.getString("owner_id"));
+                                w.setLobbyId(d.getString("lobby_id"));
+                                w.setLobbyName(d.getString("lobby_name"));
+                                w.setBalance(d.getLong("balance"));
+                                w.setCreatedAt(d.getTimestamp("created_at"));
+                                w.setIsAdmin(d.getBoolean("admin"));
                                 if (w.getOwnerId().equals(FirebaseAuth.getInstance().getUid()))
                                     initializeMainCard(w);
                                 else
                                     MBank.getLobby().getWallets().add(w);
                             }
                             updateCards();
+                            downloadTransactions();
                         }
                     }
                 });
     }
 
+    private void downloadTransactions() {
+        CollectionReference ref = FirebaseFirestore.getInstance()
+                .collection("lobbies")
+                .document(mExtras.getString("lobby_id"))
+                .collection("transactions");
+        ref.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot q, @Nullable FirebaseFirestoreException e) {
+                MBank.getLobby().getTransactions().clear();
+                if (q != null) {
+                    for (DocumentSnapshot d : q.getDocuments()) {
+                        Transaction t = new Transaction();
+                        t.setAmount(d.getLong("amount"));
+                        t.setPayerWalletName(d.getString("payer_wallet_name"));
+                        t.setPayerAccountName(d.getString("payer_account_name"));
+                        t.setReceiverWalletName(d.getString("receiver_wallet_name"));
+                        t.setReceiverAccountName(d.getString("receiver_account_name"));
+                        t.setCreatedAt(d.getTimestamp("created_at"));
+                        MBank.getLobby().getTransactions().add(t);
+                    }
+                    Collections.sort(MBank.getLobby().getTransactions(), Transaction.DateComparator);
+                }
+                mAdapterBottomSheet.notifyDataSetChanged();
+            }
+        });
+    }
+
     private void initializeMainCard(Wallet w) {
+        MBank.setWallet(w);
         mAccountName.setText(MBank.getUser().getName());
         mWalletName.setText(w.getName());
-        mWalletBalance.setText(Integer.toString(w.getBalance()));
+        mWalletBalance.setText(Long.toString(w.getBalance()));
         mAdmin.setVisibility(MBank.getLobby().getAdminId().equals(w.getOwnerId()) ? View.VISIBLE : View.INVISIBLE);
     }
 
     private void updateCards() {
-        MBank.getLobby().getWallets().sort(Wallet.BalanceComparator);
-        mAdapter.notifyDataSetChanged();
+        Collections.sort(MBank.getLobby().getWallets(), Wallet.BalanceComparator);
+        mPlayersAdapter.notifyDataSetChanged();
         loading(false);
     }
 

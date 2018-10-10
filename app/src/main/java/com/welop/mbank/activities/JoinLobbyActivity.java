@@ -96,7 +96,7 @@ public class JoinLobbyActivity extends AppCompatActivity {
 
     private void uploadWallet(final DocumentSnapshot lobby) {
         HashMap<String, Object> values = new HashMap<>();
-        values.put("balance", lobby.getString("init_balance"));
+        values.put("balance", lobby.getLong("init_balance"));
         values.put("lobby_id", lobby.getId());
         values.put("lobby_name", lobby.getString("name"));
         values.put("name", mWalletName.getText().toString());

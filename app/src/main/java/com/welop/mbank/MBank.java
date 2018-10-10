@@ -14,6 +14,15 @@ public class MBank extends Application {
     private static ArrayList<Wallet> userWallets;
     private static Account user;
     private static Lobby lobby;
+    private static Wallet wallet;
+
+    public static Wallet getWallet() {
+        return wallet;
+    }
+
+    public static void setWallet(Wallet wallet) {
+        MBank.wallet = wallet;
+    }
 
     public static Account getUser() {
         return user;

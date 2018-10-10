@@ -52,10 +52,10 @@ public class LobbyRecyclerAdapter extends RecyclerView.Adapter<LobbyRecyclerAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mAdmin.setVisibility(MBank.getUserWallets().get(position).ismIsAdmin() ? View.VISIBLE : View.INVISIBLE);
+        holder.mAdmin.setVisibility(MBank.getUserWallets().get(position).isIsAdmin() ? View.VISIBLE : View.INVISIBLE);
         holder.mLobbyName.setText(MBank.getUserWallets().get(position).getLobbyName());
         holder.mWalletName.setText(MBank.getUserWallets().get(position).getName());
-        holder.mWalletBalance.setText(Integer.toString(MBank.getUserWallets().get(position).getBalance()));
+        holder.mWalletBalance.setText(Long.toString(MBank.getUserWallets().get(position).getBalance()));
         holder.mLobbyId = MBank.getUserWallets().get(position).getLobbyId();
     }
 

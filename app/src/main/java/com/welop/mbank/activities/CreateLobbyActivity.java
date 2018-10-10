@@ -100,10 +100,10 @@ public class CreateLobbyActivity extends AppCompatActivity {
         values.put("admin_id", FirebaseAuth.getInstance().getUid());
         values.put("name", mLobbyName.getText().toString());
         values.put("invite_code", inviteCode);
-        values.put("init_balance", mStartBalance.getText().toString());
-        values.put("go", mGoCost.getText().toString());
-        values.put("income", mIncomeTaxCost.getText().toString());
-        values.put("luxury", mLuxuryTaxCost.getText().toString());
+        values.put("init_balance", Long.parseLong(mStartBalance.getText().toString()));
+        values.put("go", Long.parseLong(mGoCost.getText().toString()));
+        values.put("income", Long.parseLong(mIncomeTaxCost.getText().toString()));
+        values.put("luxury", Long.parseLong(mLuxuryTaxCost.getText().toString()));
         values.put("created_at", new com.google.firebase.Timestamp(new Timestamp(new Date().getTime())));
         FirebaseFirestore.getInstance()
                 .collection("lobbies")
@@ -129,7 +129,7 @@ public class CreateLobbyActivity extends AppCompatActivity {
     private void uploadWallet() {
         mProgressBar.setVisibility(View.VISIBLE);
         HashMap<String, Object> values = new HashMap<>();
-        values.put("balance", mStartBalance.getText().toString());
+        values.put("balance", Long.parseLong(mStartBalance.getText().toString()));
         values.put("lobby_id", lobbyId);
         values.put("lobby_name", mLobbyName.getText().toString());
         values.put("name", mWalletName.getText().toString());

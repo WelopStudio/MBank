@@ -3,11 +3,11 @@ package com.welop.mbank.fragments;
 import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -32,6 +30,8 @@ import com.welop.mbank.adapters.LobbyRecyclerAdapter;
 import com.welop.mbank.interfaces.OnBackPressedListener;
 import com.welop.mbank.model.Wallet;
 import com.welop.svlit.mbank.R;
+
+import java.util.Collections;
 
 public class LobbiesFragment extends Fragment implements OnBackPressedListener {
 
@@ -133,15 +133,15 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
                         if (queryDocumentSnapshots != null) {
                             MBank.getUserWallets().clear();
                             for (DocumentSnapshot d : queryDocumentSnapshots) {
-                                Wallet w = new Wallet(
-                                        d.getString("name"),
-                                        MBank.getUser().getName(),
-                                        d.getString("owner_id"),
-                                        d.getString("lobby_id"),
-                                        d.getString("lobby_name"),
-                                        Integer.parseInt(d.getString("balance"))
-                                );
-                                w.setmIsAdmin(d.getBoolean("admin"));
+                                Wallet w = new Wallet();
+                                w.setId(d.getId());
+                                w.setName(d.getString("name"));
+                                w.setOwnerName(MBank.getUser().getName());
+                                w.setOwnerId(d.getString("owner_id"));
+                                w.setIsAdmin(d.getBoolean("admin"));
+                                w.setLobbyId(d.getString("lobby_id"));
+                                w.setLobbyName(d.getString("lobby_name"));
+                                w.setBalance(d.getLong("balance"));
                                 w.setCreatedAt(d.getTimestamp("created_at"));
                                 MBank.getUserWallets().add(w);
                             }
@@ -153,7 +153,7 @@ public class LobbiesFragment extends Fragment implements OnBackPressedListener {
     }
 
     private void updateCards() {
-        MBank.getUserWallets().sort(Wallet.DateComparator);
+        Collections.sort(MBank.getUserWallets(), Wallet.DateComparator);
         mAdapter.notifyDataSetChanged();
         loading(false);
     }
